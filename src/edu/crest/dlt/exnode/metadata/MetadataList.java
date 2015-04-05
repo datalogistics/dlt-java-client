@@ -116,7 +116,7 @@ public class MetadataList extends Metadata
 
         Metadata child;
         NodeList children = e.getElementsByTagNameNS(
-            Configuration.exnode_namespace, "metadata" );
+            Configuration.dlt_exnode_namespace, "metadata" );
         for ( int i = 0; i < children.getLength(); i++ )
         {
             child = Metadata.xml( (Element) children.item( i ) );

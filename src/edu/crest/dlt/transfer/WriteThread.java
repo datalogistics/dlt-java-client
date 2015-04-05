@@ -119,7 +119,7 @@ public class WriteThread extends TransferThread
 
 				/* if no more retrials possible, cancel the write operation */
 				case failed:
-					if (write_job.count_tried() >= Configuration.bd_exnode_read_retries_max) {
+					if (write_job.count_tried() >= Configuration.dlt_exnode_read_retries_max) {
 						log.severe(this + " [FAILED-TERMINATING] " + write_job.status());
 
 						/* notify the exnode to cancel the write operation */

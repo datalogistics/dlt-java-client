@@ -114,7 +114,7 @@ public class WriteJob extends ConcurrentJob
 
 			case failed:
 				return this + " [FAILED " + count_failed() + "/"
-						+ Configuration.bd_exnode_write_retries_max + "] [" + offset_to_write + " - "
+						+ Configuration.dlt_exnode_write_retries_max + "] [" + offset_to_write + " - "
 						+ (offset_to_write + bytes_to_write - 1) + "](" + bytes_to_write + "B) of "
 						+ exnode_to_write.filename();
 
@@ -197,7 +197,7 @@ public class WriteJob extends ConcurrentJob
 		/*
 		 * If tried enough number of times, fail permanently/irreparably
 		 */
-		if (count_tried() >= Configuration.bd_exnode_write_retries_max) {
+		if (count_tried() >= Configuration.dlt_exnode_write_retries_max) {
 			log.warning(this + ": ran out of tries.");
 			state = state_writejob.failed;
 			log.severe(status());
@@ -313,6 +313,6 @@ public class WriteJob extends ConcurrentJob
 	public String toString()
 	{
 		return exnode_to_write.filename() + " Write" + super.toString() + "/"
-				+ Configuration.bd_exnode_write_retries_max;
+				+ Configuration.dlt_exnode_write_retries_max;
 	}
 }

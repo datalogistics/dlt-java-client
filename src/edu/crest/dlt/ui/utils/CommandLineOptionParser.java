@@ -60,7 +60,7 @@ public class CommandLineOptionParser {
 		try {
 			ret = Integer.parseInt(line.getOptionValue("transfer_size"));
 		} catch (NumberFormatException e) {
-			ret = Configuration.bd_exnode_transfer_size_default;
+			ret = Configuration.dlt_exnode_transfer_size_default;
 		}
 		return ret;
 	}
@@ -70,7 +70,7 @@ public class CommandLineOptionParser {
 		try {
 			ret = Integer.parseInt(line.getOptionValue("num_connections"));
 		} catch (NumberFormatException e) {
-			ret = Configuration.bd_exnode_transfer_connections_default;
+			ret = Configuration.dlt_exnode_transfer_connections_default;
 		}
 		return ret;
 	}

@@ -263,7 +263,7 @@ public class DownloadPanel extends javax.swing.JPanel
 
 	private void button_map_view_clicked(java.awt.event.MouseEvent evt)
 	{// GEN-FIRST:event_button_map_view_clicked
-		String url_map = Configuration.bd_ui_progress_map_view_url;
+		String url_map = Configuration.dlt_ui_progress_map_view_url;
 		try {
 			Desktop.getDesktop().browse(new URI(url_map));
 		} catch (IOException | URISyntaxException e) {
@@ -357,8 +357,8 @@ public class DownloadPanel extends javax.swing.JPanel
 
 	private Map<String, ArrayList<URL>> obtain_local_exnodes_get_urls()
 	{
-		Map<String, ArrayList<URL>> hostNRefIdDict = new HashMap<>();
-		for (String file_path : Configuration.bd_file_paths) {
+		Map<String, ArrayList<URL>> hostNRefIdDict = new HashMap<String, ArrayList<URL>>();
+		for (String file_path : Configuration.dlt_file_paths) {
 			/* if the path is an http url */
 			if (file_path.startsWith("http://") || file_path.startsWith("https://")) {
 				try {
@@ -516,7 +516,7 @@ public class DownloadPanel extends javax.swing.JPanel
 				if (!entry.getValue().accessible(service_exnode.read)) {
 					try {
 						/* wait for connection-setup timeout */
-						Thread.sleep(Configuration.bd_depot_connect_timeout);
+						Thread.sleep(Configuration.dlt_depot_connect_timeout);
 					} catch (InterruptedException e) {
 						e.printStackTrace();
 					}

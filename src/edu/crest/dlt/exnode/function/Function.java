@@ -92,7 +92,7 @@ public abstract class Function extends MetadataContainer
 
 	public static Function xml(Element xml) throws DeserializeException
 	{
-		String namespace = Configuration.exnode_namespace;
+		String namespace = Configuration.dlt_exnode_namespace;
 		Function function;
 		try {
 			function = FunctionFactory.function(xml.getAttribute("name"));

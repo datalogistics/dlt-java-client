@@ -108,7 +108,7 @@ public class Mapping extends MetadataContainer
 
 	public static Mapping xml(Element xml) throws DeserializeException
 	{
-		String namespace = Configuration.exnode_namespace;
+		String namespace = Configuration.dlt_exnode_namespace;
 		Mapping mapping = new Mapping();
 
 		try {

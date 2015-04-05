@@ -25,7 +25,7 @@ public class FileWriteThread extends Thread
 	private RandomAccessFile file_access;
 	private JobQueue write_jobs;
 
-	private int count_fail_max = Configuration.bd_file_write_retries_max;
+	private int count_fail_max = Configuration.dlt_file_write_retries_max;
 
 	public FileWriteThread(String file_name) throws FileNotFoundException
 	{

@@ -27,7 +27,7 @@ public class UploadDownloadFrame extends javax.swing.JFrame
 	 */
 	public UploadDownloadFrame()
 	{
-		setTitle(Configuration.bd_ui_title);
+		setTitle(Configuration.dlt_ui_title);
 
 		initComponents();
 		setLocationRelativeTo(null); // for centering
@@ -71,19 +71,19 @@ public class UploadDownloadFrame extends javax.swing.JFrame
 	public static void loadCommandLineConfiguration(String args[]) throws ParseException
 	{
 		CommandLineOptionParser parser = new CommandLineOptionParser(args);
-		Configuration.bd_username = parser.getUsername();
-		log.info("Username      : " + Configuration.bd_username);
+		Configuration.dlt_username = parser.getUsername();
+		log.info("Username      : " + Configuration.dlt_username);
 
-		Configuration.bd_password = parser.getPassword();
-		log.info("Password      : " + Configuration.bd_password);
+		Configuration.dlt_password = parser.getPassword();
+		log.info("Password      : " + Configuration.dlt_password);
 
-		Configuration.bd_file_paths = parser.getFiles();
-		log.info("Files         : " + Configuration.bd_file_paths.toString());
+		Configuration.dlt_file_paths = parser.getFiles();
+		log.info("Files         : " + Configuration.dlt_file_paths.toString());
 
-		Configuration.bd_exnode_transfer_size_default = parser.getTransferSize();
+		Configuration.dlt_exnode_transfer_size_default = parser.getTransferSize();
 		log.info("Transfer Size : " + parser.getTransferSize());
 
-		Configuration.bd_exnode_transfer_connections_default = parser.getNumOfConnections();
+		Configuration.dlt_exnode_transfer_connections_default = parser.getNumOfConnections();
 		log.info("Threads       : " + parser.getNumOfConnections());
 	}
 

@@ -188,14 +188,14 @@ public class TransferSettingsPanel extends javax.swing.JPanel
 			size = block_size * multiplier;
 		} catch (NumberFormatException e) {
 			log.warning("failed to read input block size; defaulting to "
-					+ Configuration.bd_exnode_transfer_size_default);
-			size = Configuration.bd_exnode_transfer_size_default;
+					+ Configuration.dlt_exnode_transfer_size_default);
+			size = Configuration.dlt_exnode_transfer_size_default;
 		}
 
 		if (size > 10 * 1024 * 1024 || size <= 0) {
 			log.warning("unsupported transfer size of " + size + " bytes; defaulting to "
-					+ Configuration.bd_exnode_transfer_size_default);
-			size = Configuration.bd_exnode_transfer_size_default;
+					+ Configuration.dlt_exnode_transfer_size_default);
+			size = Configuration.dlt_exnode_transfer_size_default;
 		}
 
 		if (size / 1024 > 1) {

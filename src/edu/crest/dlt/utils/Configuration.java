@@ -3,7 +3,6 @@ package edu.crest.dlt.utils;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.Properties;
 import java.util.StringTokenizer;
 import java.util.logging.ConsoleHandler;
@@ -20,48 +19,48 @@ public class Configuration
 {
 	private static final Logger log = Logger.getLogger(Configuration.class.getClass().getName());
 	private static final String bd_configuration_file = "config.properties";
-	private static Level bd_log_console_level;
+	private static Level dlt_log_console_level;
 
 	/* Define all your application-required properties here */
-	public static String bd_ui_title;
-	public static String bd_ui_progress_map_send_url;
-	public static String bd_ui_progress_map_view_url;
+	public static String dlt_ui_title;
+	public static String dlt_ui_progress_map_send_url;
+	public static String dlt_ui_progress_map_view_url;
 
-	public static int bd_exnode_transfer_connections_default;
-	public static long bd_exnode_transfer_size_default;
-	public static long bd_transfer_exhaust_timeout;
+	public static int dlt_exnode_transfer_connections_default;
+	public static long dlt_exnode_transfer_size_default;
+	public static long dlt_transfer_exhaust_timeout;
 
-	public static String exnode_namespace;
-	public static String exnode_version;
+	public static String dlt_exnode_namespace;
+	public static String dlt_exnode_version;
 
-	public static int bd_exnode_read_retry_interval;
-	public static long bd_exnode_transfer_log_interval;
-	public static int bd_exnode_read_retries_max;
-	public static int bd_exnode_write_retries_max;
+	public static int dlt_exnode_read_retry_interval;
+	public static long dlt_exnode_transfer_log_interval;
+	public static int dlt_exnode_read_retries_max;
+	public static int dlt_exnode_write_retries_max;
 
-	public static int bd_depot_transfer_sockets_max;
-	public static int bd_depot_transfer_tries_for_comparison;
-	public static boolean bd_depot_transfer_shuffle;
-	public static int bd_depot_connect_timeout;
-	public static int bd_depot_request_timeout;
-	public static boolean bd_depot_transfer_sockets_reuse;
-	public static List<DepotLocatorLbone> bd_depot_locators_lbone;
-	public static List<String> bd_depot_locations;
+	public static int dlt_depot_transfer_sockets_max;
+	public static int dlt_depot_transfer_tries_for_comparison;
+	public static boolean dlt_depot_transfer_shuffle;
+	public static int dlt_depot_connect_timeout;
+	public static int dlt_depot_request_timeout;
+	public static boolean dlt_depot_transfer_sockets_reuse;
+	public static List<DepotLocatorLbone> dlt_depot_locators_lbone;
+	public static List<String> dlt_depot_locations;
 
-	public static int bd_file_write_retries_max;
-	public static int bd_file_read_buffer_size;
+	public static int dlt_file_write_retries_max;
+	public static int dlt_file_read_buffer_size;
 
-	public static String bd_username;
-	public static String bd_password;
-	public static List<String> bd_file_paths;
+	public static String dlt_username;
+	public static String dlt_password;
+	public static List<String> dlt_file_paths;
 
 	/*
 	 * static block for NetBeans to access Configuration objects for building its
 	 * components
 	 */
 	static {
-		bd_depot_locations = new ArrayList<String>();
-		bd_depot_locations.add("");
+		dlt_depot_locations = new ArrayList<String>();
+		dlt_depot_locations.add("");
 	}
 
 	public static boolean load()
@@ -86,62 +85,62 @@ public class Configuration
 		try {
 			configuration.load(Configuration.class.getResourceAsStream(bd_configuration_file));
 
-			bd_log_console_level = console_log_level(configuration, "bd.log.console");
+			dlt_log_console_level = console_log_level(configuration, "dlt.log.console");
 
 			for (Handler handler : handlers) {
 				if (handler instanceof ConsoleHandler) {
-					handler.setLevel(bd_log_console_level);
+					handler.setLevel(dlt_log_console_level);
 				}
 			}
 
-			bd_ui_title = property(configuration, "bd.title");
-			bd_ui_progress_map_send_url = property(configuration, "bd.progress.map.send.url");
-			bd_ui_progress_map_view_url = property(configuration, "bd.progress.map.view.url");
-			bd_exnode_transfer_connections_default = Integer.parseInt(property(configuration,
-					"bd.transfer.connections.default"));
-			bd_exnode_transfer_size_default = Long.parseLong(property(configuration,
-					"bd.transfer.size.default"));
-			bd_transfer_exhaust_timeout = Long.parseLong(property(configuration,
-					"bd.transfer.exhaust.timeout"));
+			dlt_ui_title = property(configuration, "dlt.title");
+			dlt_ui_progress_map_send_url = property(configuration, "dlt.progress.map.send.url");
+			dlt_ui_progress_map_view_url = property(configuration, "dlt.progress.map.view.url");
+			dlt_exnode_transfer_connections_default = Integer.parseInt(property(configuration,
+					"dlt.transfer.connections.default"));
+			dlt_exnode_transfer_size_default = Long.parseLong(property(configuration,
+					"dlt.transfer.size.default"));
+			dlt_transfer_exhaust_timeout = Long.parseLong(property(configuration,
+					"dlt.transfer.exhaust.timeout"));
 
-			exnode_namespace = property(configuration, "exnode.namespace");
-			exnode_version = property(configuration, "exnode.version");
+			dlt_exnode_namespace = property(configuration, "dlt.exnode.namespace");
+			dlt_exnode_version = property(configuration, "dlt.exnode.version");
 
-			bd_exnode_read_retry_interval = Integer.parseInt(property(configuration,
-					"bd.exnode.read.retry.cycletime"));
-			bd_exnode_read_retries_max = Integer.parseInt(property(configuration,
-					"bd.exnode.read.retries"));
-			bd_exnode_transfer_log_interval = Long.parseLong(property(configuration,
-					"bd.exnode.transfer.log.interval"));
-			bd_exnode_write_retries_max = Integer.parseInt(property(configuration,
-					"bd.exnode.write.retries"));
+			dlt_exnode_read_retry_interval = Integer.parseInt(property(configuration,
+					"dlt.exnode.read.retry.cycletime"));
+			dlt_exnode_read_retries_max = Integer.parseInt(property(configuration,
+					"dlt.exnode.read.retries"));
+			dlt_exnode_transfer_log_interval = Long.parseLong(property(configuration,
+					"dlt.exnode.transfer.log.interval"));
+			dlt_exnode_write_retries_max = Integer.parseInt(property(configuration,
+					"dlt.exnode.write.retries"));
 
-			bd_depot_transfer_sockets_max = Integer.parseInt(property(configuration,
-					"bd.depot.transfer.sockets.max"));
-			bd_depot_transfer_tries_for_comparison = Integer.parseInt(property(configuration,
-					"bd.depot.comparison.transfer_tries.min"));
-			bd_depot_transfer_shuffle = Boolean.parseBoolean(property(configuration,
-					"bd.depot.transfer.shuffle"));
-			bd_depot_connect_timeout = Integer.parseInt(property(configuration,
-					"bd.depot.connect.timeout"));
-			bd_depot_request_timeout = Integer.parseInt(property(configuration,
-					"bd.depot.request.timeout"));
-			bd_depot_transfer_sockets_reuse = Boolean.parseBoolean(property(configuration,
-					"bd.depot.transfer.sockets.reuse"));
-			List<String> lbone_servers = properties(configuration, "bd.depot.locator.lbone");
-			bd_depot_locators_lbone = new ArrayList<DepotLocatorLbone>();
+			dlt_depot_transfer_sockets_max = Integer.parseInt(property(configuration,
+					"dlt.depot.transfer.sockets.max"));
+			dlt_depot_transfer_tries_for_comparison = Integer.parseInt(property(configuration,
+					"dlt.depot.comparison.transfer_tries.min"));
+			dlt_depot_transfer_shuffle = Boolean.parseBoolean(property(configuration,
+					"dlt.depot.transfer.shuffle"));
+			dlt_depot_connect_timeout = Integer.parseInt(property(configuration,
+					"dlt.depot.connect.timeout"));
+			dlt_depot_request_timeout = Integer.parseInt(property(configuration,
+					"dlt.depot.request.timeout"));
+			dlt_depot_transfer_sockets_reuse = Boolean.parseBoolean(property(configuration,
+					"dlt.depot.transfer.sockets.reuse"));
+			List<String> lbone_servers = properties(configuration, "dlt.depot.locator.lbone");
+			dlt_depot_locators_lbone = new ArrayList<DepotLocatorLbone>();
 			for (String lbone_server : lbone_servers) {
 				List<String> host_port = host_port_verified(lbone_server);
 				if (host_port != null) {
-					bd_depot_locators_lbone.add(new DepotLocatorLbone(host_port.get(0), host_port.get(1)));
+					dlt_depot_locators_lbone.add(new DepotLocatorLbone(host_port.get(0), host_port.get(1)));
 				}
 			}
-			bd_depot_locations = properties(configuration, "bd.depot.locations");
+			dlt_depot_locations = properties(configuration, "dlt.depot.locations");
 
-			bd_file_write_retries_max = Integer
-					.parseInt(property(configuration, "bd.file.write.retries"));
-			bd_file_read_buffer_size = Integer.parseInt(property(configuration,
-					"bd.file.read.buffer.size.default"));
+			dlt_file_write_retries_max = Integer
+					.parseInt(property(configuration, "dlt.file.write.retries"));
+			dlt_file_read_buffer_size = Integer.parseInt(property(configuration,
+					"dlt.file.read.buffer.size.default"));
 		} catch (Exception e) {
 			log.severe("failed to load initial configuration. " + e);
 			return false;

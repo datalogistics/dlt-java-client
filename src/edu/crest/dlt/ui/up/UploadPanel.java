@@ -15,7 +15,6 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
 import java.util.logging.Logger;
 
@@ -181,7 +180,7 @@ public class UploadPanel extends javax.swing.JPanel
 
 	private void button_map_view_clicked(java.awt.event.MouseEvent evt)
 	{// GEN-FIRST:event_button_map_view_clicked
-		String url_map = Configuration.bd_ui_progress_map_view_url;
+		String url_map = Configuration.dlt_ui_progress_map_view_url;
 		try {
 			Desktop.getDesktop().browse(new URI(url_map));
 		} catch (IOException | URISyntaxException e) {
@@ -253,7 +252,7 @@ public class UploadPanel extends javax.swing.JPanel
 				if (!entry.getValue().accessible(service_exnode.write)) {
 					try {
 						/* wait for connection-setup timeout */
-						Thread.sleep(Configuration.bd_depot_connect_timeout);
+						Thread.sleep(Configuration.dlt_depot_connect_timeout);
 					} catch (InterruptedException e) {
 						e.printStackTrace();
 					}

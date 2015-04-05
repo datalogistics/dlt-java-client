@@ -41,9 +41,9 @@ public class TransferSettingsPanel extends javax.swing.JPanel
 		{
 			public void run()
 			{
-				for (DepotLocatorLbone lbone_server : Configuration.bd_depot_locators_lbone) {
+				for (DepotLocatorLbone lbone_server : Configuration.dlt_depot_locators_lbone) {
 					/* fetch location-wise depots */
-					for (String location : Configuration.bd_depot_locations) {
+					for (String location : Configuration.dlt_depot_locations) {
 						for (int count_depots = 10; count_depots > 0; count_depots -= 2) {
 							try {
 								if (lbone_server.depots(10, 1, 0, 2 * 24 * 60 * 60, location).size() >= count_depots - 1) {
@@ -109,7 +109,7 @@ public class TransferSettingsPanel extends javax.swing.JPanel
         input_depots = new javax.swing.JList<Depot>();
         input_depots_all = new javax.swing.JCheckBox();
         label_depots = new javax.swing.JLabel();
-        input_location = new javax.swing.JSpinner(new SpinnerListModel(Configuration.bd_depot_locations.toArray()));
+        input_location = new javax.swing.JSpinner(new SpinnerListModel(Configuration.dlt_depot_locations.toArray()));
 
         setBorder(javax.swing.BorderFactory.createTitledBorder(null, "File Transfer Settings", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 12))); // NOI18N
 
@@ -383,14 +383,14 @@ public class TransferSettingsPanel extends javax.swing.JPanel
 			size = block_size * multiplier;
 		} catch (NumberFormatException e) {
 			log.warning("failed to read input block size; defaulting to "
-					+ Configuration.bd_exnode_transfer_size_default);
-			size = Configuration.bd_exnode_transfer_size_default;
+					+ Configuration.dlt_exnode_transfer_size_default);
+			size = Configuration.dlt_exnode_transfer_size_default;
 		}
 
 		if (size > 10 * 1024 * 1024 || size <= 0) {
 			log.warning("unsupported transfer size of " + size + " bytes; defaulting to "
-					+ Configuration.bd_exnode_transfer_size_default);
-			size = Configuration.bd_exnode_transfer_size_default;
+					+ Configuration.dlt_exnode_transfer_size_default);
+			size = Configuration.dlt_exnode_transfer_size_default;
 		}
 
 		if (size / 1024 > 1) {

@@ -26,8 +26,8 @@ public class FileReadThread extends Thread
 	private RandomAccessFile file_access;
 	private JobQueue read_jobs;
 
-	private int count_fail_max = Configuration.bd_file_write_retries_max;
-	private int buffered_read_size = Configuration.bd_file_read_buffer_size;
+	private int count_fail_max = Configuration.dlt_file_write_retries_max;
+	private int buffered_read_size = Configuration.dlt_file_read_buffer_size;
 
 	public FileReadThread(String file_name) throws FileNotFoundException
 	{

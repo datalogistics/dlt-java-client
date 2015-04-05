@@ -74,7 +74,7 @@ public class Capability
 
 	public static Capability[] xml(Element xml) throws DeserializeException
 	{
-		String namespace = Configuration.exnode_namespace;
+		String namespace = Configuration.dlt_exnode_namespace;
 		Capability[] capabilities = new Capability[3];
 		try {
 			NodeList xml_capability = xml.getElementsByTagNameNS(namespace, "read");

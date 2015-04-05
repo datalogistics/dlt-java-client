@@ -84,7 +84,7 @@ public class Exnode extends MetadataContainer
 		mappings_sorted = new TreeMap<MappedOffsets, List<Mapping>>();
 		transfer_monitor = new Scoreboard(); // NOTE: initially length = 0
 
-		add(new MetadataString("Version", Configuration.exnode_version));
+		add(new MetadataString("Version", Configuration.dlt_exnode_version));
 		depots = new HashSet<Depot>();
 		state = state_exnode.nascent;
 	}
@@ -526,7 +526,7 @@ public class Exnode extends MetadataContainer
 		transfer_jobs = new JobQueue();
 		log.info(this + ": created " + read_jobs_serial.size() + " new read job(s).");
 
-		if (Configuration.bd_depot_transfer_shuffle) {
+		if (Configuration.dlt_depot_transfer_shuffle) {
 			/*
 			 * Shuffle mainQueue for better spread of requests (based on their target
 			 * depots) NOTE: remove the following for loop if shuffling is not
@@ -617,10 +617,10 @@ public class Exnode extends MetadataContainer
 			log.info(status());
 
 			try {
-				Thread.sleep(Configuration.bd_exnode_transfer_log_interval);
+				Thread.sleep(Configuration.dlt_exnode_transfer_log_interval);
 
 				if (last_progress == transfer_monitor.percent_completed()) {
-					time_no_progress += Configuration.bd_exnode_transfer_log_interval;
+					time_no_progress += Configuration.dlt_exnode_transfer_log_interval;
 				} else {
 					last_progress = transfer_monitor.percent_completed();
 					time_no_progress = 0;
@@ -795,10 +795,10 @@ public class Exnode extends MetadataContainer
 			log.info(status());
 
 			try {
-				Thread.sleep(Configuration.bd_exnode_transfer_log_interval);
+				Thread.sleep(Configuration.dlt_exnode_transfer_log_interval);
 
 				if (last_progress == transfer_monitor.percent_completed()) {
-					time_no_progress += Configuration.bd_exnode_transfer_log_interval;
+					time_no_progress += Configuration.dlt_exnode_transfer_log_interval;
 				} else {
 					last_progress = transfer_monitor.percent_completed();
 					time_no_progress = 0;
@@ -947,7 +947,7 @@ public class Exnode extends MetadataContainer
 	/******************* Serializers-Deserializers *********************/
 	public static Exnode xml(Element xml) throws DeserializeException
 	{
-		if (!xml.getNamespaceURI().equals(Configuration.exnode_namespace)) {
+		if (!xml.getNamespaceURI().equals(Configuration.dlt_exnode_namespace)) {
 			log.severe("failed to deserialize exnode from xml.");
 			throw new DeserializeException("valid exnode namespace not found");
 		}
@@ -977,7 +977,7 @@ public class Exnode extends MetadataContainer
 		StringBuffer xml = new StringBuffer();
 
 		xml.append("<?xml version=\"1.0\"?>\n");
-		xml.append("<exnode xmlns:exnode=\"" + Configuration.exnode_namespace + "\">\n");
+		xml.append("<exnode xmlns:exnode=\"" + Configuration.dlt_exnode_namespace + "\">\n");
 
 		Iterator<?> i = iterator();
 		Metadata metadata;

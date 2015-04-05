@@ -62,7 +62,7 @@ final class IBPCommand
 	{
 		String ibp_server = depot != null ? "IBP [" + depot + "]" : "IBP [unknown]";
 		TransferThread transfer_thread = (TransferThread) Thread.currentThread();
-		int timeout = Configuration.bd_depot_request_timeout;
+		int timeout = Configuration.dlt_depot_request_timeout;
 
 		try {
 			socket_to_read.setSoTimeout(timeout);
@@ -170,7 +170,7 @@ final class IBPCommand
 	{
 		String ibp_server = allocation != null ? "IBP [" + allocation.depot + "]" : "IBP [unknown]";
 		TransferThread transfer_thread = (TransferThread) Thread.currentThread();
-		int timeout = Configuration.bd_depot_request_timeout;
+		int timeout = Configuration.dlt_depot_request_timeout;
 
 		try {
 			socket.setSoTimeout(timeout);
@@ -244,7 +244,7 @@ final class IBPCommand
 	{
 		String ibp_server = allocation != null ? "IBP [" + allocation.depot + "]" : "IBP [unknown]";
 		TransferThread transfer_thread = (TransferThread) Thread.currentThread();
-		int timeout = Configuration.bd_depot_request_timeout;
+		int timeout = Configuration.dlt_depot_request_timeout;
 
 		try {
 			String ibp_command = PROTOCOL_VERSION + " " + LOAD + " " + allocation.capability_read.key
@@ -321,7 +321,7 @@ final class IBPCommand
 		String ibp_server = allocation_src != null ? "IBP [" + allocation_src.depot + "]"
 				: "IBP [unknown]";
 		TransferThread transfer_thread = (TransferThread) Thread.currentThread();
-		int timeout = Configuration.bd_depot_request_timeout;
+		int timeout = Configuration.dlt_depot_request_timeout;
 
 		try {
 			Depot depot = allocation_src.depot;

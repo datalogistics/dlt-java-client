@@ -102,7 +102,7 @@ public class ReadJob extends ConcurrentJob
 						+ "](" + bytes_to_read + "B) written to " + exnode_to_read.output_filename();
 
 			case failed:
-				return this + " [FAILED " + count_failed() + "/" + Configuration.bd_exnode_read_retries_max
+				return this + " [FAILED " + count_failed() + "/" + Configuration.dlt_exnode_read_retries_max
 						+ "] [" + offset_to_read + " - " + (offset_to_read + bytes_to_read - 1)
 						+ "](" + bytes_to_read + "B) of " + exnode_to_read.filename();
 
@@ -220,7 +220,7 @@ public class ReadJob extends ConcurrentJob
 		// return;
 		// }
 
-		if (count_tried() >= Configuration.bd_exnode_read_retries_max) {
+		if (count_tried() >= Configuration.dlt_exnode_read_retries_max) {
 			log.warning(this + ": ran out of retry attempts.");
 			/*
 			 * no state-change; since other threads might actually be trying it (and
@@ -296,6 +296,6 @@ public class ReadJob extends ConcurrentJob
 	public String toString()
 	{
 		return exnode_to_read.filename() + " Read" + super.toString() + "/"
-				+ Configuration.bd_exnode_read_retries_max;
+				+ Configuration.dlt_exnode_read_retries_max;
 	}
 }

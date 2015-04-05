@@ -34,8 +34,8 @@ public class ReadThread extends TransferThread
 	 */
 	private int pushback_index(int try_count)
 	{
-		int max_tries_allowed = Configuration.bd_exnode_read_retries_max;
-		int retry_interval = Configuration.bd_exnode_read_retry_interval;
+		int max_tries_allowed = Configuration.dlt_exnode_read_retries_max;
+		int retry_interval = Configuration.dlt_exnode_read_retry_interval;
 
 		synchronized (queued_read_jobs) {
 //			return Math.min(queued_read_jobs.size(), (max_tries_allowed * try_count) * retry_interval);
@@ -109,7 +109,7 @@ public class ReadThread extends TransferThread
 
 				/* if no more retrials possible, cancel the read operation */
 				case failed:
-					if (read_job.count_tried() >= Configuration.bd_exnode_read_retries_max) {
+					if (read_job.count_tried() >= Configuration.dlt_exnode_read_retries_max) {
 						log.severe(this + " [FAILED-TERMINATING] " + read_job.status());
 
 						/* notify the exnode to cancel the read operation */

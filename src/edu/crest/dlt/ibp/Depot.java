@@ -144,11 +144,11 @@ public class Depot implements Comparable<Depot>
 		transfer_sockets_ready = new ArrayList<Socket>();
 		transfer_sockets_active = new ArrayList<Socket>();
 
-		log.warning(this + ": setting up " + Configuration.bd_depot_transfer_sockets_max
+		log.warning(this + ": setting up " + Configuration.dlt_depot_transfer_sockets_max
 				+ " connections.");
 
-		int connect_timeout = Configuration.bd_depot_connect_timeout;
-		for (int i = 0; i < Configuration.bd_depot_transfer_sockets_max; i++) {
+		final int connect_timeout = Configuration.dlt_depot_connect_timeout;
+		for (int i = 0; i < Configuration.dlt_depot_transfer_sockets_max; i++) {
 			new Thread()
 			{
 				public void run()
@@ -230,7 +230,7 @@ public class Depot implements Comparable<Depot>
 				state = depot_state.setup;
 			}
 
-			if (Configuration.bd_depot_transfer_sockets_reuse) {
+			if (Configuration.dlt_depot_transfer_sockets_reuse) {
 				transfer_sockets_ready.add(socket_busy);
 			} else {
 				try {
@@ -559,10 +559,10 @@ public class Depot implements Comparable<Depot>
 		log.info("Compare Tries: " + d1 + " tried " + d1Tries + " times, " + d2 + " tried " + d2Tries
 				+ " times");
 		/* if pending minimum tries, prefer it over the other */
-		if (d1Tries < Configuration.bd_depot_transfer_tries_for_comparison) {
+		if (d1Tries < Configuration.dlt_depot_transfer_tries_for_comparison) {
 			log.info("Compare Tries: " + d1 + " tried only " + d1Tries + " times");
 			return FIRST;
-		} else if (d2Tries < Configuration.bd_depot_transfer_tries_for_comparison) {
+		} else if (d2Tries < Configuration.dlt_depot_transfer_tries_for_comparison) {
 			log.info("Compare Tries: " + d2 + " tried only " + d2Tries + " times");
 			return SECOND;
 		} else {
@@ -603,7 +603,7 @@ public class Depot implements Comparable<Depot>
 				return this + " [NASCENT (no-connections-setup)]";
 			case setup:
 				return this + " [SETUP " + count_connections_ready() + "/"
-						+ Configuration.bd_depot_transfer_sockets_max + "]";
+						+ Configuration.dlt_depot_transfer_sockets_max + "]";
 			case active:
 				return this + " [ACTIVE " + count_connections_active() + "/" + count_connections() + "]";
 			default:
