@@ -1,0 +1,219 @@
+package edu.crest.dlt.utils;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Properties;
+import java.util.StringTokenizer;
+import java.util.logging.ConsoleHandler;
+import java.util.logging.Formatter;
+import java.util.logging.Handler;
+import java.util.logging.Level;
+import java.util.logging.LogRecord;
+import java.util.logging.Logger;
+import java.util.logging.SimpleFormatter;
+
+import edu.crest.dlt.ibp.DepotLocatorLbone;
+
+public class Configuration
+{
+	private static final Logger log = Logger.getLogger(Configuration.class.getClass().getName());
+	private static final String bd_configuration_file = "config.properties";
+	private static Level bd_log_console_level;
+
+	/* Define all your application-required properties here */
+	public static String bd_ui_title;
+	public static String bd_ui_progress_map_send_url;
+	public static String bd_ui_progress_map_view_url;
+
+	public static int bd_exnode_transfer_connections_default;
+	public static long bd_exnode_transfer_size_default;
+	public static long bd_transfer_exhaust_timeout;
+
+	public static String exnode_namespace;
+	public static String exnode_version;
+
+	public static int bd_exnode_read_retry_interval;
+	public static long bd_exnode_transfer_log_interval;
+	public static int bd_exnode_read_retries_max;
+	public static int bd_exnode_write_retries_max;
+
+	public static int bd_depot_transfer_sockets_max;
+	public static int bd_depot_transfer_tries_for_comparison;
+	public static boolean bd_depot_transfer_shuffle;
+	public static int bd_depot_connect_timeout;
+	public static int bd_depot_request_timeout;
+	public static boolean bd_depot_transfer_sockets_reuse;
+	public static List<DepotLocatorLbone> bd_depot_locators_lbone;
+	public static List<String> bd_depot_locations;
+
+	public static int bd_file_write_retries_max;
+	public static int bd_file_read_buffer_size;
+
+	public static String bd_username;
+	public static String bd_password;
+	public static List<String> bd_file_paths;
+
+	/*
+	 * static block for NetBeans to access Configuration objects for building its
+	 * components
+	 */
+	static {
+		bd_depot_locations = new ArrayList<String>();
+		bd_depot_locations.add("");
+	}
+
+	public static boolean load()
+	{
+		Logger root_logger = Logger.getLogger("");
+
+		Handler handlers[] = root_logger.getHandlers();
+		for (Handler handler : handlers) {
+			Formatter formatter = new SimpleFormatter()
+			{
+				@Override
+				public synchronized String format(LogRecord record)
+				{
+					return "[" + record.getLevel() + "] " + record.getSourceClassName() + "."
+							+ record.getSourceMethodName() + "(): " + record.getMessage() + "\n";
+				}
+			};
+			handler.setFormatter(formatter);
+		}
+
+		Properties configuration = new Properties();
+		try {
+			configuration.load(Configuration.class.getResourceAsStream(bd_configuration_file));
+
+			bd_log_console_level = console_log_level(configuration, "bd.log.console");
+
+			for (Handler handler : handlers) {
+				if (handler instanceof ConsoleHandler) {
+					handler.setLevel(bd_log_console_level);
+				}
+			}
+
+			bd_ui_title = property(configuration, "bd.title");
+			bd_ui_progress_map_send_url = property(configuration, "bd.progress.map.send.url");
+			bd_ui_progress_map_view_url = property(configuration, "bd.progress.map.view.url");
+			bd_exnode_transfer_connections_default = Integer.parseInt(property(configuration,
+					"bd.transfer.connections.default"));
+			bd_exnode_transfer_size_default = Long.parseLong(property(configuration,
+					"bd.transfer.size.default"));
+			bd_transfer_exhaust_timeout = Long.parseLong(property(configuration,
+					"bd.transfer.exhaust.timeout"));
+
+			exnode_namespace = property(configuration, "exnode.namespace");
+			exnode_version = property(configuration, "exnode.version");
+
+			bd_exnode_read_retry_interval = Integer.parseInt(property(configuration,
+					"bd.exnode.read.retry.cycletime"));
+			bd_exnode_read_retries_max = Integer.parseInt(property(configuration,
+					"bd.exnode.read.retries"));
+			bd_exnode_transfer_log_interval = Long.parseLong(property(configuration,
+					"bd.exnode.transfer.log.interval"));
+			bd_exnode_write_retries_max = Integer.parseInt(property(configuration,
+					"bd.exnode.write.retries"));
+
+			bd_depot_transfer_sockets_max = Integer.parseInt(property(configuration,
+					"bd.depot.transfer.sockets.max"));
+			bd_depot_transfer_tries_for_comparison = Integer.parseInt(property(configuration,
+					"bd.depot.comparison.transfer_tries.min"));
+			bd_depot_transfer_shuffle = Boolean.parseBoolean(property(configuration,
+					"bd.depot.transfer.shuffle"));
+			bd_depot_connect_timeout = Integer.parseInt(property(configuration,
+					"bd.depot.connect.timeout"));
+			bd_depot_request_timeout = Integer.parseInt(property(configuration,
+					"bd.depot.request.timeout"));
+			bd_depot_transfer_sockets_reuse = Boolean.parseBoolean(property(configuration,
+					"bd.depot.transfer.sockets.reuse"));
+			List<String> lbone_servers = properties(configuration, "bd.depot.locator.lbone");
+			bd_depot_locators_lbone = new ArrayList<DepotLocatorLbone>();
+			for (String lbone_server : lbone_servers) {
+				List<String> host_port = host_port_verified(lbone_server);
+				if (host_port != null) {
+					bd_depot_locators_lbone.add(new DepotLocatorLbone(host_port.get(0), host_port.get(1)));
+				}
+			}
+			bd_depot_locations = properties(configuration, "bd.depot.locations");
+
+			bd_file_write_retries_max = Integer
+					.parseInt(property(configuration, "bd.file.write.retries"));
+			bd_file_read_buffer_size = Integer.parseInt(property(configuration,
+					"bd.file.read.buffer.size.default"));
+		} catch (Exception e) {
+			log.severe("failed to load initial configuration. " + e);
+			return false;
+		}
+
+		return true;
+	}
+
+	private static String property(Properties configuration, String property_key)
+	{
+		String property_value = configuration.getProperty(property_key);
+		log.info("read \"" + property_key + "\"=\"" + property_value + "\"");
+		return property_value;
+	}
+
+	private static Level console_log_level(Properties configuration, String property_key)
+	{
+		String level = property(configuration, property_key);
+		if (level == null) {
+			return Level.OFF;
+		}
+		level = level.trim().toLowerCase();
+		if (level.equals("severe")) {
+			return Level.SEVERE;
+		} else if (level.equals("warning") || level.equals("default") || level.equals("debug")) {
+			return Level.WARNING;
+		} else if (level.equals("info")) {
+			return Level.INFO;
+		} else if (level.equals("config")) {
+			return Level.CONFIG;
+		} else if (level.equals("fine")) {
+			return Level.FINE;
+		} else if (level.equals("finer")) {
+			return Level.FINER;
+		} else if (level.equals("finest")) {
+			return Level.FINEST;
+		}
+		return Level.ALL;
+	}
+
+	private static List<String> properties(Properties configuration, String property_key)
+	{
+		String property_value = configuration.getProperty(property_key);
+		log.info("read \"" + property_key + "\"=\"" + property_value + "\"");
+
+		List<String> property_values = new ArrayList<String>();
+		if (property_value.length() > 0) {
+			StringTokenizer tokenizer = new StringTokenizer(property_value);
+			while (tokenizer.hasMoreTokens()) {
+				String property_entry = tokenizer.nextToken().trim();
+				property_values.add(property_entry);
+			}
+		}
+
+		return property_values;
+	}
+
+	private static List<String> host_port_verified(String host_port)
+	{
+		if (host_port.length() > 0 && host_port.contains(":")) {
+			StringTokenizer tokenizer = new StringTokenizer(host_port, ":");
+
+			String host = "";
+			String port = "";
+			try {
+				host = tokenizer.nextToken();
+				port = tokenizer.nextToken();
+				Integer.parseInt(port);
+				return new ArrayList<String>(Arrays.asList(host, port));
+			} catch (Exception e) {
+			}
+		}
+		return null;
+	}
+}
