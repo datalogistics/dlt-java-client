@@ -18,7 +18,7 @@ import edu.crest.dlt.ibp.DepotLocatorLbone;
 public class Configuration
 {
 	private static final Logger log = Logger.getLogger(Configuration.class.getClass().getName());
-	private static final String bd_configuration_file = "config.properties";
+	private static final String dlt_configuration_file = "config.properties";
 	private static Level dlt_log_console_level;
 
 	/* Define all your application-required properties here */
@@ -83,7 +83,7 @@ public class Configuration
 
 		Properties configuration = new Properties();
 		try {
-			configuration.load(Configuration.class.getResourceAsStream(bd_configuration_file));
+			configuration.load(Configuration.class.getResourceAsStream(dlt_configuration_file));
 
 			dlt_log_console_level = console_log_level(configuration, "dlt.log.console");
 
