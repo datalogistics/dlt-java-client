@@ -56,8 +56,12 @@ public class WriteThread extends TransferThread
 	{
 		WriteJob write_job = null;
 		synchronized (queued_write_jobs) {
-			while (queued_write_jobs.size() > 0) {
+			for (int t = queued_write_jobs.size(); t > 0; t--) {
 				write_job = (WriteJob) queued_write_jobs.remove();
+
+				if (write_job != null) {
+					break;
+				}
 			}
 		}
 		return write_job;
@@ -83,16 +87,17 @@ public class WriteThread extends TransferThread
 
 			if (write_job == null) {
 				log.warning(this + " [IDLE] no job found for writing.");
-				synchronized (queued_write_jobs) {
-					try {
-						queued_write_jobs.wait();
-					} catch (InterruptedException e) {
-						if (queued_write_jobs.size() > 0) {
-							continue;
-						}
-					}
-					break;
-				}
+				continue;
+//				synchronized (queued_write_jobs) {
+//					try {
+//						queued_write_jobs.wait();
+//					} catch (InterruptedException e) {
+//						if (queued_write_jobs.size() > 0) {
+//							continue;
+//						}
+//					}
+//					break;
+//				}
 			}
 
 			log.info(this + " [EXECUTING] " + write_job.status());
@@ -102,6 +107,7 @@ public class WriteThread extends TransferThread
 				write_job.execute();
 			} catch (Throwable e) {
 				log.severe(this + " [FAILED-EXCEPTION] " + write_job + e);
+				e.printStackTrace();
 				result_execution = state_writejob.failed;
 			}
 			result_execution = write_job.state;

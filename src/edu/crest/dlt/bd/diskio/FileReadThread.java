@@ -83,6 +83,7 @@ public class FileReadThread extends Thread
 								+ read_offset_end + "](" + read_length + "B)");
 					}
 
+					read_job.bytes_read = read_bytes;
 					log.info(this + ": read [" + read_offset_start + "-" + read_offset_end + "]("
 							+ read_length + "B)");
 

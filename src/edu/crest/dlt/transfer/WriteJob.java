@@ -99,18 +99,17 @@ public class WriteJob extends ConcurrentJob
 
 			case preparing_mappings:
 				return this + " [PREPARING] " + mappings_to_write.size() + "/" + exnode_to_write.copies()
-						+ " " + depots_remaining + "mappings.";
+						+ " depots : " + depots_remaining;
 
 			case writing_data:
 				return this + " [WRITING] [" + offset_to_write + " - "
 						+ (offset_to_write + bytes_to_write - 1) + "](" + bytes_to_write + "B) to "
-						+ mappings_to_write.size() + "/" + exnode_to_write.copies() + " " + depots_remaining
-						+ "mappings.";
+						+ mappings_to_write.size() + "/" + exnode_to_write.copies() + " depots : " + depots_remaining;
 
 			case done:
 				return this + " [DONE] [" + offset_to_write + " - "
 						+ (offset_to_write + bytes_to_write - 1) + "](" + bytes_to_write + "B) "
-						+ exnode_to_write.copies() + " mappings.";
+						+ exnode_to_write.copies() + " depots.";
 
 			case failed:
 				return this + " [FAILED " + count_failed() + "/"
@@ -222,6 +221,10 @@ public class WriteJob extends ConcurrentJob
 				state = state_writejob.ready;
 			}
 			log.info(status());
+			
+			if (state != state_writejob.ready) {
+				return;
+			}
 		}
 
 		if (isInterrupted())
@@ -252,7 +255,8 @@ public class WriteJob extends ConcurrentJob
 		}
 
 		if (mappings_to_write.size() != exnode_to_write.copies()) {
-			log.info(status());
+			log.warning(status() + "; waiting for " + (exnode_to_write.copies() - mappings_to_write.size()) + " more depots.");
+			return;
 		}
 
 		state = state_writejob.writing_data;
@@ -286,6 +290,7 @@ public class WriteJob extends ConcurrentJob
 			try {
 				bytes_written = mapping_to_write.write(socket_to_write, bytes_read, bytes_to_write);
 			} catch (WriteException e) {
+				e.printStackTrace();
 			}
 
 			if (isInterrupted() || bytes_written == 0 || bytes_written != bytes_to_write) {

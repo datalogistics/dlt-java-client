@@ -23,6 +23,7 @@ import javax.json.JsonObject;
 import javax.json.JsonObjectBuilder;
 import javax.json.JsonValue;
 
+import org.apache.commons.io.FilenameUtils;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -89,11 +90,15 @@ public class Exnode extends MetadataContainer
 		state = state_exnode.nascent;
 	}
 
-	public Exnode(String filename) throws FileNotFoundException
+	public Exnode(String path_and_filename) throws FileNotFoundException
 	{
 		this();
+		
+		String path = FilenameUtils.getFullPath(path_and_filename);
+		String filename = path_and_filename.substring(path.length());
 		add(new MetadataString("filename", filename));
-		input_file(filename);
+		
+		input_file(path_and_filename);
 	}
 
 	/**
@@ -106,40 +111,47 @@ public class Exnode extends MetadataContainer
 			log.info(status());
 			return true;
 		}
+		
+		switch (service_requested) {
+			case read:
+				boolean mappings_accessible = true;
+				for (Map.Entry<MappedOffsets, List<Mapping>> mappings_identical : mappings_sorted.entrySet()) {
+					boolean mapping_accessible = false;
+					for (Mapping mapping_identical : mappings_identical.getValue()) {
+						mapping_accessible = mapping_identical.accessible();
 
-		if (service_requested == service_exnode.read) {
-			boolean mappings_accessible = true;
-			for (Map.Entry<MappedOffsets, List<Mapping>> mappings_identical : mappings_sorted.entrySet()) {
-				boolean mapping_accessible = false;
-				for (Mapping mapping_identical : mappings_identical.getValue()) {
-					mapping_accessible = mapping_identical.accessible();
-
+						/*
+						 * if even one allocation (i.e. replica) of the mapping is accessible,
+						 * the mapping can be read successfully
+						 */
+						if (mapping_accessible) {
+							break;
+						}
+					}
 					/*
-					 * if even one allocation (i.e. replica) of the mapping is accessible,
-					 * the mapping can be read successfully
+					 * if even one of the mappings (on all of its allocations) isn't
+					 * accessible, then the exnode cannot be read successfully
 					 */
-					if (mapping_accessible) {
+					if (!mapping_accessible) {
+						mappings_accessible = false;
 						break;
 					}
 				}
-				/*
-				 * if even one of the mappings (on all of its allocations) isn't
-				 * accessible, then the exnode cannot be read successfully
-				 */
-				if (!mapping_accessible) {
-					mappings_accessible = false;
-					break;
+
+				state = mappings_accessible ? state_exnode.ready : state;
+				break;
+				
+			case write:
+				int depots_servicable = 0;
+				for (Depot depot : depots) {
+					depots_servicable += depot.connected() ? 1 : 0;
 				}
-			}
 
-			state = mappings_accessible ? state_exnode.ready : state;
-		} else if (service_requested == service_exnode.write) {
-			int depots_servicable = 0;
-			for (Depot depot : depots) {
-				depots_servicable += depot.connected() ? 1 : 0;
-			}
-
-			state = depots_servicable >= copies ? state_exnode.ready : state;
+				state = depots_servicable >= copies ? state_exnode.ready : state;
+				break;
+				
+			default:
+				break;
 		}
 
 		if (state == state_exnode.ready) {
@@ -460,7 +472,7 @@ public class Exnode extends MetadataContainer
 		}
 
 		/* if the exnode is not ready, discourage setup */
-		if (!accessible(service_exnode.write)) {
+		if (!accessible(service_exnode.read)) {
 			log.warning(status() + "; cannot setup read jobs.");
 			return;
 		}
@@ -791,7 +803,7 @@ public class Exnode extends MetadataContainer
 		double last_progress = 0.0;
 		long time_no_progress = 0;
 		while (!transfer_thread_monitor.isInterrupted()
-				&& transfer_monitor.percent_completed() <= 100.0f && transfer_jobs.size() > 0) {
+				&& transfer_monitor.percent_completed() <= 100.0f) {// && (transfer_jobs.size() + transit_write_jobs.size()) > 0) {
 			log.info(status());
 
 			try {

@@ -22,6 +22,8 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.WindowConstants;
 
+import org.apache.commons.io.FilenameUtils;
+
 import edu.crest.dlt.exnode.Exnode;
 import edu.crest.dlt.exnode.Exnode.service_exnode;
 import edu.crest.dlt.ibp.Depot;
@@ -57,11 +59,13 @@ public class UploadPanel extends javax.swing.JPanel
 						try {
 							panel_files.wait();
 
+							panel_files.disable();
 							/* setup obtained exnodes for upload */
 							setup_exnodes();
 
 							/* publish ready exnodes for upload (by filename) */
 							publish_uploads();
+							panel_files.enable();
 						} catch (InterruptedException e) {
 						}
 					}
@@ -175,7 +179,92 @@ public class UploadPanel extends javax.swing.JPanel
 
 	private void button_upload_clicked(java.awt.event.MouseEvent evt)
 	{// GEN-FIRST:event_button_upload_clicked
-		// TODO add your handling code here:
+		Thread uploader = new Thread(new Runnable()
+		{
+			@Override
+			public void run()
+			{
+				panel_transfer_settings.disable();
+				button_upload.setEnabled(false);
+				List<String> files_to_upload = panel_files.files_selected();
+				int count_files_to_upload = files_to_upload.size();
+				
+				for (String file_to_upload : files_to_upload) {
+					try {
+						Exnode exnode_to_upload = map_filename_exnode.get(file_to_upload);
+						if (exnode_to_upload == null) {
+							log.severe("failed to retrieve exnode for : " + file_to_upload);
+							panel_files.status_file(file_to_upload, "Failed (Metadata)");
+							continue;
+						}
+						
+						long bytes_to_upload = exnode_to_upload.length();
+						int copies = panel_transfer_settings.copies();
+						
+						panel_transfer_progress.clear();
+						panel_transfer_progress.filename(file_to_upload);
+						panel_transfer_progress.size(bytes_to_upload);
+						exnode_to_upload.add(panel_transfer_progress);
+						
+						panel_files.status_file(file_to_upload, "In Progress");
+						if (exnode_to_upload.write(new HashSet<Depot>(panel_transfer_settings.depots_selected()),
+								copies,
+								panel_transfer_settings.time_seconds(),
+								panel_transfer_settings.transfer_size(),
+								null,
+								panel_transfer_settings.count_connections())) {
+							
+							/* store a local copy of the exnode, if requested */
+//							exnode_to_upload.add(new MetadataDouble(Configuration.dlt_ui_title + " Publisher Client", 0.0));
+//							exnode_to_upload.add(new MetadataInteger("number_of_copies", copies));
+//							exnode_to_upload.add(new MetadataInteger("original_filesize", bytes_to_upload));
+//							exnode_to_upload.add(new MetadataString("status", "NEW"));
+//							Metadata metadata_filetype = new MetadataList("Type");
+//							metadata_filetype.add(new MetadataString("Name", "logistical_file"));
+//							metadata_filetype.add(new MetadataString("Version", "0"));
+//							exnode_to_upload.add(metadata_filetype);
+							
+//							JsonObject exnodeWithAdditionalMetaData = exnode_to_upload.appendMetaData(pubPanel.metadataPanel
+//									.getAdditionalMetadata());
+//
+//							if (pubPanel.outBrowsePanel.isExnodeCheckBoxSelected()) {
+//								exnode_to_upload.toXndFile(outDir, fileName);
+//							}
+//							if (pubPanel.outBrowsePanel.isUefCheckBoxSelected()) {
+//								exnode_to_upload.toUefFile(outDir, fileName, exnodeWithAdditionalMetaData);
+//							}
+//							if (pubPanel.outBrowsePanel.isUnisBoxSelected()) {
+//								LOG.info("EXNODE JSON => \n" + exnode_to_upload.jsonPrettyPrint(exnodeWithAdditionalMetaData));
+//								String selfRef = unisOps.postJson(exnodeWithAdditionalMetaData.toString());
+//								if (selfRef != null) {
+//									JOptionPane.showMessageDialog(null,
+//											"Please note down the URL, to retreive file \n: " + selfRef,
+//											"Uploaded Sucessfully", JOptionPane.PLAIN_MESSAGE);
+//								} else {
+//									throw new CreateResourceException("");
+//								}
+//							}
+							
+							panel_files.status_file(file_to_upload, "Done");
+						} else {
+							String previousStatus = panel_files.status_file(file_to_upload);
+							if ("In Progress".equals(previousStatus)) {
+								panel_files.status_file(file_to_upload, "Failed");
+							} else if ("Cancelling".equals(previousStatus) || "Cancelled".equals(previousStatus)) {
+								panel_files.status_file(file_to_upload, "Cancelled");
+							}
+						}
+					} catch (Exception e) {
+						log.warning("failed to upload " + file_to_upload + ". " + e.getMessage());
+						panel_files.status_file(file_to_upload, "Failed");
+					}
+				}
+				
+				button_upload.setEnabled(true);
+				panel_transfer_settings.enable();
+			}
+		});
+		uploader.start();
 	}// GEN-LAST:event_button_upload_clicked
 
 	private void button_map_view_clicked(java.awt.event.MouseEvent evt)
@@ -258,8 +347,8 @@ public class UploadPanel extends javax.swing.JPanel
 					}
 				}
 				if (!entry.getValue().accessible(service_exnode.write)) {
-					/* if exnode is still not ready, fail the file-"name" */
-					panel_files.add_file(entry.getKey(), "Connect error");
+					/* if exnode is still not ready, declare the file-"name" waiting for depots */
+					panel_files.add_file(entry.getKey(), "Waiting");
 				} else {
 					/* else publish file-"name" for download */
 					panel_files.add_file(entry.getKey(), "Ready");
@@ -272,11 +361,6 @@ public class UploadPanel extends javax.swing.JPanel
 
 	private void setup_exnodes()
 	{
-		List<Depot> depots_selected = panel_transfer_settings.depots_selected();
-		for (Depot depot_selected : depots_selected) {
-			System.out.println(depot_selected + " : selected");
-		}
-		
 		/* remove entries of files removed by user */
 		Set<String> files_published_old = map_filename_exnode.keySet();
 		Set<String> files_published_new = new HashSet<String>(panel_files.files());
@@ -285,8 +369,6 @@ public class UploadPanel extends javax.swing.JPanel
 				map_filename_exnode.remove(file_published_old);
 			}
 		}
-
-		System.out.println("Setting up " + files_published_new.size() + " files for upload.");
 
 		/* add and/or setup exnodes for the files chosen by user */
 		files_published_old = map_filename_exnode.keySet();
@@ -301,7 +383,7 @@ public class UploadPanel extends javax.swing.JPanel
 				}
 			}
 			exnode = map_filename_exnode.get(file_published_new);
-			exnode.setup_write(null, panel_transfer_settings.copies(),
+			exnode.setup_write(new HashSet<Depot>(panel_transfer_settings.depots_selected()), panel_transfer_settings.copies(),
 					panel_transfer_settings.time_seconds(), panel_transfer_settings.transfer_size(), null);
 		}
 	}

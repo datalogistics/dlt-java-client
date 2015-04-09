@@ -175,11 +175,17 @@ public class Depot implements Comparable<Depot>
 
 	public synchronized int count_connections_ready()
 	{
+		if (transfer_sockets_ready == null) {
+			return 0;
+		}
 		return transfer_sockets_ready.size();
 	}
 
 	public synchronized int count_connections_active()
 	{
+		if (transfer_sockets_active == null) {
+			return 0;
+		}
 		return transfer_sockets_active.size();
 	}
 
