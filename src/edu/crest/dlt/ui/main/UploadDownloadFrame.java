@@ -8,7 +8,10 @@ package edu.crest.dlt.ui.main;
 import java.awt.Color;
 import java.util.logging.Logger;
 
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.UIManager;
+import javax.swing.WindowConstants;
 
 import org.apache.commons.cli.ParseException;
 
@@ -31,6 +34,7 @@ public class UploadDownloadFrame extends javax.swing.JFrame
 
 		initComponents();
 		setLocationRelativeTo(null); // for centering
+
 		log.info("started application. (says \"hola\" ^_^)");
 	}
 
@@ -41,33 +45,49 @@ public class UploadDownloadFrame extends javax.swing.JFrame
 	 */
 	@SuppressWarnings("unchecked")
 	// <editor-fold defaultstate="collapsed"
+	// <editor-fold defaultstate="collapsed"
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        uploadPanel1 = new edu.crest.dlt.ui.up.UploadPanel();
-        jTabbedPane1 = new javax.swing.JTabbedPane();
+        pane_tabs = new javax.swing.JTabbedPane();
         panel_download = new edu.crest.dlt.ui.down.DownloadPanel();
-        uploadPanel2 = new edu.crest.dlt.ui.up.UploadPanel();
+        panel_upload = new edu.crest.dlt.ui.up.UploadPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
 
-        jTabbedPane1.addTab("Download", panel_download);
-        jTabbedPane1.addTab("Upload", uploadPanel2);
+        pane_tabs.addTab("Download", panel_download);
+        pane_tabs.addTab("Upload", panel_upload);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane1)
+            .addComponent(pane_tabs)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 600, Short.MAX_VALUE)
+            .addComponent(pane_tabs, javax.swing.GroupLayout.DEFAULT_SIZE, 600, Short.MAX_VALUE)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-	
+
+	private void formWindowClosing(java.awt.event.WindowEvent evt)
+	{// GEN-FIRST:event_formWindowClosing
+		String confirmationMessage = "Are you sure you want to close the window?\nCAUTION: This will terminate all running tasks.";
+		int answer = JOptionPane.showConfirmDialog(new JFrame(), confirmationMessage, "",
+				JOptionPane.YES_NO_OPTION);
+		if (answer == JOptionPane.YES_OPTION) {
+			log.info("closing application after user confirmation. (says \"ciao\" ^_^)");
+			System.exit(WindowConstants.DISPOSE_ON_CLOSE);
+		}
+	}// GEN-LAST:event_formWindowClosing
+
 	public static void loadCommandLineConfiguration(String args[]) throws ParseException
 	{
 		CommandLineOptionParser parser = new CommandLineOptionParser(args);
@@ -90,13 +110,13 @@ public class UploadDownloadFrame extends javax.swing.JFrame
 	/**
 	 * @param args
 	 *          the command line arguments
-	 * @throws ParseException 
+	 * @throws ParseException
 	 */
 	public static void main(String args[]) throws ParseException
 	{
 		Configuration.load();
 		loadCommandLineConfiguration(args);
-		
+
 		/* Set the Nimbus look and feel */
 		// <editor-fold defaultstate="collapsed"
 		// desc=" Look and feel setting code (optional) ">
@@ -127,9 +147,10 @@ public class UploadDownloadFrame extends javax.swing.JFrame
 					java.util.logging.Level.SEVERE, null, ex);
 		}
 		// </editor-fold>
-		
-		UIManager.getLookAndFeelDefaults().put("List[Selected].textBackground", new Color(57, 105, 138));
-	  UIManager.getLookAndFeelDefaults().put("List[Selected].textForeground", Color.WHITE);
+
+		UIManager.getLookAndFeelDefaults()
+				.put("List[Selected].textBackground", new Color(57, 105, 138));
+		UIManager.getLookAndFeelDefaults().put("List[Selected].textForeground", Color.WHITE);
 
 		/* Create and display the form */
 		java.awt.EventQueue.invokeLater(new Runnable()
@@ -142,9 +163,8 @@ public class UploadDownloadFrame extends javax.swing.JFrame
 	}
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JTabbedPane pane_tabs;
     private edu.crest.dlt.ui.down.DownloadPanel panel_download;
-    private edu.crest.dlt.ui.up.UploadPanel uploadPanel1;
-    private edu.crest.dlt.ui.up.UploadPanel uploadPanel2;
+    private edu.crest.dlt.ui.up.UploadPanel panel_upload;
     // End of variables declaration//GEN-END:variables
 }

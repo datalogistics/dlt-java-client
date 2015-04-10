@@ -960,7 +960,7 @@ public class Exnode extends MetadataContainer
 	public static Exnode xml(Element xml) throws DeserializeException
 	{
 		if (!xml.getNamespaceURI().equals(Configuration.dlt_exnode_namespace)) {
-			log.severe("failed to deserialize exnode from xml.");
+			log.severe("failed to deserialize exnode from xml. namespace " + xml.getNamespaceURI() + " does not match exnode namespace " + Configuration.dlt_exnode_namespace);
 			throw new DeserializeException("valid exnode namespace not found");
 		}
 

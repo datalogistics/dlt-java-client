@@ -198,7 +198,7 @@ public class Configuration
 		return property_values;
 	}
 
-	private static List<String> host_port_verified(String host_port)
+	public static List<String> host_port_verified(String host_port)
 	{
 		if (host_port.length() > 0 && host_port.contains(":")) {
 			StringTokenizer tokenizer = new StringTokenizer(host_port, ":");

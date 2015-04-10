@@ -132,15 +132,15 @@ public class ReadJob extends ConcurrentJob
   public state_readjob state;
   
   public String status()
-	{
-		switch (state) {
-			case nascent:
-			...
-			case failed:
-			default:
-				return this + " [UNKNOWN-STATE]";
-		}
-	}
+  {
+    switch (state) {
+      case nascent:
+      ...
+      case failed:
+      default:
+        return this + " [UNKNOWN-STATE]";
+    }
+  }
   ...
 }
 ```
