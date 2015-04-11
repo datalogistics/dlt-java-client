@@ -44,6 +44,7 @@ public class Depot implements Comparable<Depot>
 		this.port = port;
 		this.locations = new HashSet<String>();
 
+		state = depot_state.nascent;
 		new Thread()
 		{
 			public void run()
@@ -83,21 +84,23 @@ public class Depot implements Comparable<Depot>
 	{
 		String hostPort = host + ":" + port;
 		Depot depot = null;
-		
+
 		synchronized (depots) {
-//			boolean added = false;
+			boolean added = false;
 			if (!depots.containsKey(hostPort)) {
 				depots.put(hostPort, new Depot(host, port, location));
-//				added = true;
+				added = true;
 			}
 
 			depot = depots.get(hostPort);
-//			if (added) {
-//				log.info(depot + " added.");
-//			}
 
 			if (location != null) {
 				depot.locations.add(location);
+			}
+			
+			if (added) {
+				depots.notifyAll();
+				// log.info(depot + " added.");
 			}
 		}
 
@@ -106,6 +109,9 @@ public class Depot implements Comparable<Depot>
 
 	public static List<Depot> depots()
 	{
+		if (depots.isEmpty()) {
+			return new ArrayList<Depot>();
+		}
 		return new ArrayList<Depot>(depots.values());
 	}
 
@@ -116,7 +122,7 @@ public class Depot implements Comparable<Depot>
 	{
 		close();
 	}
-	
+
 	@Override
 	public boolean equals(Object object)
 	{
@@ -132,23 +138,22 @@ public class Depot implements Comparable<Depot>
 		}
 	}
 
-	public synchronized void setup()
+	private synchronized void more_connections()
 	{
-		try {
-			close();
-		} catch (Exception e) {
-			// ignore failures
-		}
-		state = depot_state.nascent;
-		transfer_statistics = new TransferStatistics();
-		transfer_sockets_ready = new ArrayList<Socket>();
-		transfer_sockets_active = new ArrayList<Socket>();
+		int count_connections = count_connections();
+		int count_increment = (Configuration.dlt_depot_transfer_sockets_max / 3) > 2 ? Configuration.dlt_depot_transfer_sockets_max / 3
+				: 2;
+		int valid_increment = Configuration.dlt_depot_transfer_sockets_max - count_connections < count_increment ? Configuration.dlt_depot_transfer_sockets_max
+				- count_connections
+				: count_increment;
 
-		log.warning(this + ": setting up " + Configuration.dlt_depot_transfer_sockets_max
-				+ " connections.");
+		/* start with 1; cap at count_increment */
+		int more_connections = count_connections == 0 ? 1 : valid_increment;
+
+		log.warning(this + ": adding " + more_connections + " connection(s).");
 
 		final int connect_timeout = Configuration.dlt_depot_connect_timeout;
-		for (int i = 0; i < Configuration.dlt_depot_transfer_sockets_max; i++) {
+		for (; more_connections > 0; more_connections--) {
 			new Thread()
 			{
 				public void run()
@@ -164,13 +169,53 @@ public class Depot implements Comparable<Depot>
 						log.info(status());
 
 						/* Depot is setup even if one connection is setup successfully */
-						state = depot_state.setup;
+						state = state == depot_state.nascent ? depot_state.setup : state;
 					} catch (IOException e) {
 						log.warning(status());
 					}
 				}
 			}.start();
 		}
+	}
+
+	private synchronized void less_connections()
+	{
+		int count_connections = count_connections();
+		int count_decrement = (Configuration.dlt_depot_transfer_sockets_max / 3) > 2 ? Configuration.dlt_depot_transfer_sockets_max / 3
+				: 2;
+		int valid_decrement = Configuration.dlt_depot_transfer_sockets_max - count_connections < count_decrement ? Configuration.dlt_depot_transfer_sockets_max
+				- count_connections
+				: count_decrement;
+
+		/* start with 0; cap at count_increment */
+		int less_connections = count_connections <= 1 ? 0 : valid_decrement;
+
+		log.warning(this + ": removing " + less_connections + " connection(s).");
+
+		for (; less_connections > 0 && count_connections_ready() > 0; less_connections--) {
+			Socket socket_free = transfer_sockets_ready.get(0);
+			try {
+				if (!socket_free.isClosed()) {
+					socket_free.close();
+				}
+			} catch (IOException e) {
+			}
+		}
+	}
+
+	public synchronized void setup()
+	{
+		try {
+			close();
+		} catch (Exception e) {
+			// ignore failures
+		}
+		state = depot_state.nascent;
+		transfer_statistics = new TransferStatistics();
+		transfer_sockets_ready = new ArrayList<Socket>();
+		transfer_sockets_active = new ArrayList<Socket>();
+
+		more_connections();
 	}
 
 	public synchronized int count_connections_ready()
@@ -205,6 +250,7 @@ public class Depot implements Comparable<Depot>
 	 */
 	public synchronized Socket connect()
 	{
+		/* if a ready connection is available, return it */
 		if (count_connections_ready() > 0) {
 			Socket socket_free = transfer_sockets_ready.remove(0);
 
@@ -214,9 +260,16 @@ public class Depot implements Comparable<Depot>
 
 			transfer_statistics.try_start();
 			return socket_free;
-		} else {
-			log.warning(status() + " connection declined.");
 		}
+
+		/* else try to add more connections */
+		if (count_connections() < Configuration.dlt_depot_transfer_sockets_max) {
+			more_connections();
+			return connect();
+		}
+
+		/* else decline the connection request */
+		log.warning(status() + " connection declined.");
 		return null;
 	}
 
@@ -248,6 +301,10 @@ public class Depot implements Comparable<Depot>
 			log.info(status());
 		} else {
 			transfer_statistics.try_end(0); // failure
+		}
+
+		if (transfer_statistics.is_last_failed()) {
+			less_connections();
 		}
 	}
 
@@ -595,13 +652,13 @@ public class Depot implements Comparable<Depot>
 			return NEITHER;
 		}
 	}
-	
+
 	@Override
 	public int hashCode()
 	{
 		return toString().hashCode();
 	}
-	
+
 	public String status()
 	{
 		switch (state) {

@@ -40,7 +40,7 @@
           <Group type="102" alignment="0" attributes="0">
               <Component id="panel_files" min="-2" pref="191" max="-2" attributes="0"/>
               <EmptySpace min="-2" max="-2" attributes="0"/>
-              <Component id="panel_transfer_settings" max="32767" attributes="0"/>
+              <Component id="panel_transfer_settings" pref="187" max="32767" attributes="0"/>
               <EmptySpace min="-2" max="-2" attributes="0"/>
               <Component id="panel_transfer_progress" pref="180" max="32767" attributes="0"/>
               <EmptySpace min="-2" max="-2" attributes="0"/>
@@ -54,7 +54,7 @@
                       <Component id="button_map_view" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
               </Group>
-              <EmptySpace min="-2" pref="9" max="-2" attributes="0"/>
+              <EmptySpace min="-2" max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
