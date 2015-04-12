@@ -170,6 +170,11 @@ public class Depot implements Comparable<Depot>
 
 						/* Depot is setup even if one connection is setup successfully */
 						state = state == depot_state.nascent ? depot_state.setup : state;
+						if (state == depot_state.setup) {
+							synchronized (depots) {
+								depots.notifyAll();								
+							}
+						}
 					} catch (IOException e) {
 						log.warning(status());
 					}
