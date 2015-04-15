@@ -21,7 +21,7 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Component id="panel_files" alignment="1" max="32767" attributes="0"/>
+          <Component id="panel_files" alignment="1" pref="0" max="32767" attributes="0"/>
           <Component id="panel_transfer_settings" alignment="1" max="32767" attributes="0"/>
           <Component id="panel_transfer_progress" alignment="1" max="32767" attributes="0"/>
           <Group type="102" attributes="0">
@@ -40,9 +40,9 @@
           <Group type="102" alignment="0" attributes="0">
               <Component id="panel_files" min="-2" pref="191" max="-2" attributes="0"/>
               <EmptySpace min="-2" max="-2" attributes="0"/>
-              <Component id="panel_transfer_settings" pref="187" max="32767" attributes="0"/>
+              <Component id="panel_transfer_settings" pref="215" max="32767" attributes="0"/>
               <EmptySpace min="-2" max="-2" attributes="0"/>
-              <Component id="panel_transfer_progress" pref="180" max="32767" attributes="0"/>
+              <Component id="panel_transfer_progress" pref="182" max="32767" attributes="0"/>
               <EmptySpace min="-2" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="103" alignment="0" groupAlignment="3" attributes="0">
@@ -78,6 +78,9 @@
     </Component>
     <Component class="javax.swing.JButton" name="button_upload">
       <Properties>
+        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+          <Connection code="Icons.icon_upload" type="code"/>
+        </Property>
         <Property name="text" type="java.lang.String" value="Upload"/>
       </Properties>
       <Events>
@@ -87,6 +90,9 @@
     </Component>
     <Component class="javax.swing.JButton" name="button_map_view">
       <Properties>
+        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+          <Connection code="Icons.icon_map" type="code"/>
+        </Property>
         <Property name="text" type="java.lang.String" value="View"/>
       </Properties>
       <Events>
@@ -95,6 +101,9 @@
     </Component>
     <Component class="javax.swing.JButton" name="button_cancel">
       <Properties>
+        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+          <Connection code="Icons.icon_abort" type="code"/>
+        </Property>
         <Property name="text" type="java.lang.String" value="Cancel"/>
       </Properties>
       <Events>
@@ -103,6 +112,9 @@
     </Component>
     <Component class="javax.swing.JButton" name="button_close">
       <Properties>
+        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+          <Connection code="Icons.icon_failure" type="code"/>
+        </Property>
         <Property name="text" type="java.lang.String" value="Close"/>
       </Properties>
       <Events>

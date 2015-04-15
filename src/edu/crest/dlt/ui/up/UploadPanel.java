@@ -22,12 +22,17 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.WindowConstants;
 
-import org.apache.commons.io.FilenameUtils;
-
+import edu.crest.dlt.exception.CreateResourceException;
 import edu.crest.dlt.exnode.Exnode;
 import edu.crest.dlt.exnode.Exnode.service_exnode;
+import edu.crest.dlt.exnode.metadata.Metadata;
+import edu.crest.dlt.exnode.metadata.MetadataDouble;
+import edu.crest.dlt.exnode.metadata.MetadataInteger;
+import edu.crest.dlt.exnode.metadata.MetadataList;
+import edu.crest.dlt.exnode.metadata.MetadataString;
 import edu.crest.dlt.ibp.Depot;
 import edu.crest.dlt.ui.down.DownloadPanel;
+import edu.crest.dlt.ui.utils.img.Icons;
 import edu.crest.dlt.utils.Configuration;
 
 /**
@@ -86,91 +91,118 @@ public class UploadPanel extends javax.swing.JPanel
 	// <editor-fold defaultstate="collapsed"
 	// <editor-fold defaultstate="collapsed"
 	// <editor-fold defaultstate="collapsed"
-  // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-  private void initComponents() {
+	// <editor-fold defaultstate="collapsed"
+	// desc="Generated Code">//GEN-BEGIN:initComponents
+	private void initComponents()
+	{
 
-    panel_files = new edu.crest.dlt.ui.up.FilesPanel();
-    panel_transfer_settings = new edu.crest.dlt.ui.up.TransferSettingsPanel();
-    panel_transfer_progress = new edu.crest.dlt.ui.utils.TransferProgressPanel();
-    button_upload = new javax.swing.JButton();
-    button_map_view = new javax.swing.JButton();
-    button_cancel = new javax.swing.JButton();
-    button_close = new javax.swing.JButton();
+		panel_files = new edu.crest.dlt.ui.up.FilesPanel();
+		panel_transfer_settings = new edu.crest.dlt.ui.up.TransferSettingsPanel();
+		panel_transfer_progress = new edu.crest.dlt.ui.utils.TransferProgressPanel();
+		button_upload = new javax.swing.JButton();
+		button_map_view = new javax.swing.JButton();
+		button_cancel = new javax.swing.JButton();
+		button_close = new javax.swing.JButton();
 
-    setPreferredSize(new java.awt.Dimension(500, 474));
+		setPreferredSize(new java.awt.Dimension(500, 474));
 
-    panel_files.setMinimumSize(new java.awt.Dimension(500, 176));
+		panel_files.setMinimumSize(new java.awt.Dimension(500, 176));
 
-    panel_transfer_progress.setMinimumSize(new java.awt.Dimension(500, 154));
+		panel_transfer_progress.setMinimumSize(new java.awt.Dimension(500, 154));
 
-    button_upload.setText("Upload");
-    button_upload.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
-      public void mouseMoved(java.awt.event.MouseEvent evt) {
-        button_uploadMouseMoved(evt);
-      }
-    });
-    button_upload.addMouseListener(new java.awt.event.MouseAdapter() {
-      public void mouseClicked(java.awt.event.MouseEvent evt) {
-        button_upload_clicked(evt);
-      }
-    });
+		button_upload.setIcon(Icons.icon_upload);
+		button_upload.setText("Upload");
+		button_upload.addMouseMotionListener(new java.awt.event.MouseMotionAdapter()
+		{
+			public void mouseMoved(java.awt.event.MouseEvent evt)
+			{
+				button_uploadMouseMoved(evt);
+			}
+		});
+		button_upload.addMouseListener(new java.awt.event.MouseAdapter()
+		{
+			public void mouseClicked(java.awt.event.MouseEvent evt)
+			{
+				button_upload_clicked(evt);
+			}
+		});
 
-    button_map_view.setText("View");
-    button_map_view.addMouseListener(new java.awt.event.MouseAdapter() {
-      public void mouseClicked(java.awt.event.MouseEvent evt) {
-        button_map_view_clicked(evt);
-      }
-    });
+		button_map_view.setIcon(Icons.icon_map);
+		button_map_view.setText("View");
+		button_map_view.addMouseListener(new java.awt.event.MouseAdapter()
+		{
+			public void mouseClicked(java.awt.event.MouseEvent evt)
+			{
+				button_map_view_clicked(evt);
+			}
+		});
 
-    button_cancel.setText("Cancel");
-    button_cancel.addMouseListener(new java.awt.event.MouseAdapter() {
-      public void mouseClicked(java.awt.event.MouseEvent evt) {
-        button_cancel_clicked(evt);
-      }
-    });
+		button_cancel.setIcon(Icons.icon_abort);
+		button_cancel.setText("Cancel");
+		button_cancel.addMouseListener(new java.awt.event.MouseAdapter()
+		{
+			public void mouseClicked(java.awt.event.MouseEvent evt)
+			{
+				button_cancel_clicked(evt);
+			}
+		});
 
-    button_close.setText("Close");
-    button_close.addMouseListener(new java.awt.event.MouseAdapter() {
-      public void mouseClicked(java.awt.event.MouseEvent evt) {
-        button_close_clicked(evt);
-      }
-    });
+		button_close.setIcon(Icons.icon_failure);
+		button_close.setText("Close");
+		button_close.addMouseListener(new java.awt.event.MouseAdapter()
+		{
+			public void mouseClicked(java.awt.event.MouseEvent evt)
+			{
+				button_close_clicked(evt);
+			}
+		});
 
-    javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-    this.setLayout(layout);
-    layout.setHorizontalGroup(
-      layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-      .addComponent(panel_files, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-      .addComponent(panel_transfer_settings, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-      .addComponent(panel_transfer_progress, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-      .addGroup(layout.createSequentialGroup()
-        .addComponent(button_upload)
-        .addGap(18, 18, 18)
-        .addComponent(button_map_view)
-        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        .addComponent(button_cancel)
-        .addGap(18, 18, 18)
-        .addComponent(button_close))
-    );
-    layout.setVerticalGroup(
-      layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-      .addGroup(layout.createSequentialGroup()
-        .addComponent(panel_files, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE)
-        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-        .addComponent(panel_transfer_settings, javax.swing.GroupLayout.DEFAULT_SIZE, 187, Short.MAX_VALUE)
-        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-        .addComponent(panel_transfer_progress, javax.swing.GroupLayout.DEFAULT_SIZE, 180, Short.MAX_VALUE)
-        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-          .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-            .addComponent(button_close)
-            .addComponent(button_cancel))
-          .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-            .addComponent(button_upload)
-            .addComponent(button_map_view)))
-        .addContainerGap())
-    );
-  }// </editor-fold>//GEN-END:initComponents
+		javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
+		this.setLayout(layout);
+		layout.setHorizontalGroup(layout
+				.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+				.addComponent(panel_files, javax.swing.GroupLayout.Alignment.TRAILING,
+						javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+				.addComponent(panel_transfer_settings, javax.swing.GroupLayout.Alignment.TRAILING,
+						javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE,
+						Short.MAX_VALUE)
+				.addComponent(panel_transfer_progress, javax.swing.GroupLayout.Alignment.TRAILING,
+						javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE,
+						Short.MAX_VALUE)
+				.addGroup(
+						layout
+								.createSequentialGroup()
+								.addComponent(button_upload)
+								.addGap(18, 18, 18)
+								.addComponent(button_map_view)
+								.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED,
+										javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+								.addComponent(button_cancel).addGap(18, 18, 18).addComponent(button_close)));
+		layout.setVerticalGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+				.addGroup(
+						layout
+								.createSequentialGroup()
+								.addComponent(panel_files, javax.swing.GroupLayout.PREFERRED_SIZE, 191,
+										javax.swing.GroupLayout.PREFERRED_SIZE)
+								.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+								.addComponent(panel_transfer_settings, javax.swing.GroupLayout.DEFAULT_SIZE, 215,
+										Short.MAX_VALUE)
+								.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+								.addComponent(panel_transfer_progress, javax.swing.GroupLayout.DEFAULT_SIZE, 182,
+										Short.MAX_VALUE)
+								.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+								.addGroup(
+										layout
+												.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+												.addGroup(
+														layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+																.addComponent(button_close).addComponent(button_cancel))
+												.addGroup(
+														javax.swing.GroupLayout.Alignment.TRAILING,
+														layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+																.addComponent(button_upload).addComponent(button_map_view)))
+								.addContainerGap()));
+	}// </editor-fold>//GEN-END:initComponents
 
 	private void button_uploadMouseMoved(java.awt.event.MouseEvent evt)
 	{// GEN-FIRST:event_button_uploadMouseMoved
@@ -188,7 +220,7 @@ public class UploadPanel extends javax.swing.JPanel
 				button_upload.setEnabled(false);
 				List<String> files_to_upload = panel_files.files_selected();
 				int count_files_to_upload = files_to_upload.size();
-				
+
 				for (String file_to_upload : files_to_upload) {
 					try {
 						Exnode exnode_to_upload = map_filename_exnode.get(file_to_upload);
@@ -197,54 +229,38 @@ public class UploadPanel extends javax.swing.JPanel
 							panel_files.status_file(file_to_upload, "Failed (Metadata)");
 							continue;
 						}
-						
+
 						long bytes_to_upload = exnode_to_upload.length();
 						int copies = panel_transfer_settings.copies();
-						
+
+						/* Update the number of copies for the exnode */
+						exnode_to_upload.add(new MetadataInteger("number_of_copies", copies));
+
 						panel_transfer_progress.clear();
 						panel_transfer_progress.filename(file_to_upload);
 						panel_transfer_progress.size(bytes_to_upload);
 						exnode_to_upload.add(panel_transfer_progress);
-						
+
 						panel_files.status_file(file_to_upload, "In Progress");
-						if (exnode_to_upload.write(new HashSet<Depot>(panel_transfer_settings.depots_selected()),
-								copies,
-								panel_transfer_settings.time_seconds(),
-								panel_transfer_settings.transfer_size(),
-								null,
-								panel_transfer_settings.count_connections())) {
+						if (exnode_to_upload.write(
+								new HashSet<Depot>(panel_transfer_settings.depots_selected()), copies,
+								panel_transfer_settings.time_seconds(), panel_transfer_settings.transfer_size(),
+								null, panel_transfer_settings.count_connections())) {
+							panel_files.status_file(file_to_upload, "Registering");
+
+							/* Register the new exnode with the registry-service (UNIS) */
+							String selfRef = Configuration.dlt_exnode_registry_unis
+									.register_exnode(exnode_to_upload);
 							
-							/* store a local copy of the exnode, if requested */
-//							exnode_to_upload.add(new MetadataDouble(Configuration.dlt_ui_title + " Publisher Client", 0.0));
-//							exnode_to_upload.add(new MetadataInteger("number_of_copies", copies));
-//							exnode_to_upload.add(new MetadataInteger("original_filesize", bytes_to_upload));
-//							exnode_to_upload.add(new MetadataString("status", "NEW"));
-//							Metadata metadata_filetype = new MetadataList("Type");
-//							metadata_filetype.add(new MetadataString("Name", "logistical_file"));
-//							metadata_filetype.add(new MetadataString("Version", "0"));
-//							exnode_to_upload.add(metadata_filetype);
+							System.out.println("Published to selfRef " + selfRef);
 							
-//							JsonObject exnodeWithAdditionalMetaData = exnode_to_upload.appendMetaData(pubPanel.metadataPanel
-//									.getAdditionalMetadata());
-//
-//							if (pubPanel.outBrowsePanel.isExnodeCheckBoxSelected()) {
-//								exnode_to_upload.toXndFile(outDir, fileName);
+//							if (selfRef != null) {
+//								JOptionPane.showMessageDialog(null, "Published file " + selfRef,
+//										"Upload Sucessful", JOptionPane.PLAIN_MESSAGE);
+//							} else {
+//								throw new CreateResourceException("selfRef=null");
 //							}
-//							if (pubPanel.outBrowsePanel.isUefCheckBoxSelected()) {
-//								exnode_to_upload.toUefFile(outDir, fileName, exnodeWithAdditionalMetaData);
-//							}
-//							if (pubPanel.outBrowsePanel.isUnisBoxSelected()) {
-//								LOG.info("EXNODE JSON => \n" + exnode_to_upload.jsonPrettyPrint(exnodeWithAdditionalMetaData));
-//								String selfRef = unisOps.postJson(exnodeWithAdditionalMetaData.toString());
-//								if (selfRef != null) {
-//									JOptionPane.showMessageDialog(null,
-//											"Please note down the URL, to retreive file \n: " + selfRef,
-//											"Uploaded Sucessfully", JOptionPane.PLAIN_MESSAGE);
-//								} else {
-//									throw new CreateResourceException("");
-//								}
-//							}
-							
+
 							panel_files.status_file(file_to_upload, "Done");
 						} else {
 							String previousStatus = panel_files.status_file(file_to_upload);
@@ -259,7 +275,7 @@ public class UploadPanel extends javax.swing.JPanel
 						panel_files.status_file(file_to_upload, "Failed");
 					}
 				}
-				
+
 				button_upload.setEnabled(true);
 				panel_transfer_settings.enable();
 			}
@@ -347,7 +363,10 @@ public class UploadPanel extends javax.swing.JPanel
 					}
 				}
 				if (!entry.getValue().accessible(service_exnode.write)) {
-					/* if exnode is still not ready, declare the file-"name" waiting for depots */
+					/*
+					 * if exnode is still not ready, declare the file-"name" waiting for
+					 * depots
+					 */
 					panel_files.add_file(entry.getKey(), "Waiting");
 				} else {
 					/* else publish file-"name" for download */
@@ -376,25 +395,37 @@ public class UploadPanel extends javax.swing.JPanel
 			Exnode exnode;
 			if (!files_published_old.contains(file_published_new)) {
 				try {
-					map_filename_exnode.put(file_published_new, new Exnode(file_published_new));
+					/* Initialize a new exnode */
+					Exnode exnode_to_upload = new Exnode(file_published_new);
+					exnode_to_upload.add(new MetadataDouble(Configuration.dlt_ui_title + " Publisher Client",
+							0.0));
+					exnode_to_upload.add(new MetadataInteger("original_filesize", exnode_to_upload.length()));
+					exnode_to_upload.add(new MetadataString("status", "NEW"));
+					Metadata metadata_filetype = new MetadataList("Type");
+					metadata_filetype.add(new MetadataString("Name", "logistical_file"));
+					metadata_filetype.add(new MetadataString("Version", "0"));
+					exnode_to_upload.add(metadata_filetype);
+
+					map_filename_exnode.put(file_published_new, exnode_to_upload);
 				} catch (FileNotFoundException e) {
 					log.warning("failed to setup exnode for file " + files_published_new + ". " + e);
 					map_filename_exnode.put(file_published_new, null);
 				}
 			}
 			exnode = map_filename_exnode.get(file_published_new);
-			exnode.setup_write(new HashSet<Depot>(panel_transfer_settings.depots_selected()), panel_transfer_settings.copies(),
-					panel_transfer_settings.time_seconds(), panel_transfer_settings.transfer_size(), null);
+			exnode.setup_write(new HashSet<Depot>(panel_transfer_settings.depots_selected()),
+					panel_transfer_settings.copies(), panel_transfer_settings.time_seconds(),
+					panel_transfer_settings.transfer_size(), null);
 		}
 	}
 
-  // Variables declaration - do not modify//GEN-BEGIN:variables
-  private javax.swing.JButton button_cancel;
-  private javax.swing.JButton button_close;
-  private javax.swing.JButton button_map_view;
-  private javax.swing.JButton button_upload;
-  private edu.crest.dlt.ui.up.FilesPanel panel_files;
-  private edu.crest.dlt.ui.utils.TransferProgressPanel panel_transfer_progress;
-  private edu.crest.dlt.ui.up.TransferSettingsPanel panel_transfer_settings;
-  // End of variables declaration//GEN-END:variables
+	// Variables declaration - do not modify//GEN-BEGIN:variables
+	private javax.swing.JButton button_cancel;
+	private javax.swing.JButton button_close;
+	private javax.swing.JButton button_map_view;
+	private javax.swing.JButton button_upload;
+	private edu.crest.dlt.ui.up.FilesPanel panel_files;
+	private edu.crest.dlt.ui.utils.TransferProgressPanel panel_transfer_progress;
+	private edu.crest.dlt.ui.up.TransferSettingsPanel panel_transfer_settings;
+	// End of variables declaration//GEN-END:variables
 }

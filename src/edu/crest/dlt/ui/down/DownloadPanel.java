@@ -30,6 +30,7 @@ import edu.crest.dlt.exnode.Exnode;
 import edu.crest.dlt.exnode.Exnode.service_exnode;
 import edu.crest.dlt.exnode.ExnodeBuilder;
 import edu.crest.dlt.transfer.MapProgressListener;
+import edu.crest.dlt.ui.utils.img.Icons;
 import edu.crest.dlt.utils.Configuration;
 import edu.crest.dlt.utils.DefaultOuputFileNameGenerater;
 
@@ -97,113 +98,94 @@ public class DownloadPanel extends javax.swing.JPanel
 	 */
 	@SuppressWarnings("unchecked")
 	// <editor-fold defaultstate="collapsed"
-	// desc="Generated Code">//GEN-BEGIN:initComponents
-	private void initComponents()
-	{
+  // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+  private void initComponents() {
 
-		panel_files = new edu.crest.dlt.ui.down.FilesPanel();
-		panel_output_directory = new edu.crest.dlt.ui.down.DirectoryChooserPanel();
-		panel_transfer_settings = new edu.crest.dlt.ui.down.TransferSettingsPanel();
-		panel_transfer_progress = new edu.crest.dlt.ui.utils.TransferProgressPanel();
-		button_download = new javax.swing.JButton();
-		button_map_view = new javax.swing.JButton();
-		button_cancel = new javax.swing.JButton();
-		button_close = new javax.swing.JButton();
+    panel_files = new edu.crest.dlt.ui.down.FilesPanel();
+    panel_output_directory = new edu.crest.dlt.ui.down.DirectoryChooserPanel();
+    panel_transfer_settings = new edu.crest.dlt.ui.down.TransferSettingsPanel();
+    panel_transfer_progress = new edu.crest.dlt.ui.utils.TransferProgressPanel();
+    button_download = new javax.swing.JButton();
+    button_map_view = new javax.swing.JButton();
+    button_cancel = new javax.swing.JButton();
+    button_close = new javax.swing.JButton();
 
-		button_download.setText("Download");
-		button_download.addMouseMotionListener(new java.awt.event.MouseMotionAdapter()
-		{
-			public void mouseMoved(java.awt.event.MouseEvent evt)
-			{
-				button_downloadMouseMoved(evt);
-			}
-		});
-		button_download.addMouseListener(new java.awt.event.MouseAdapter()
-		{
-			public void mouseClicked(java.awt.event.MouseEvent evt)
-			{
-				button_download_clicked(evt);
-			}
-		});
+    button_download.setIcon(Icons.icon_download);
+    button_download.setText("Download");
+    button_download.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+      public void mouseMoved(java.awt.event.MouseEvent evt) {
+        button_downloadMouseMoved(evt);
+      }
+    });
+    button_download.addMouseListener(new java.awt.event.MouseAdapter() {
+      public void mouseClicked(java.awt.event.MouseEvent evt) {
+        button_download_clicked(evt);
+      }
+    });
 
-		button_map_view.setText("View");
-		button_map_view.addMouseListener(new java.awt.event.MouseAdapter()
-		{
-			public void mouseClicked(java.awt.event.MouseEvent evt)
-			{
-				button_map_view_clicked(evt);
-			}
-		});
+    button_map_view.setIcon(Icons.icon_map);
+    button_map_view.setText("View");
+    button_map_view.addMouseListener(new java.awt.event.MouseAdapter() {
+      public void mouseClicked(java.awt.event.MouseEvent evt) {
+        button_map_view_clicked(evt);
+      }
+    });
 
-		button_cancel.setText("Cancel");
-		button_cancel.addMouseListener(new java.awt.event.MouseAdapter()
-		{
-			public void mouseClicked(java.awt.event.MouseEvent evt)
-			{
-				button_cancel_clicked(evt);
-			}
-		});
+    button_cancel.setIcon(Icons.icon_abort);
+    button_cancel.setText("Cancel");
+    button_cancel.addMouseListener(new java.awt.event.MouseAdapter() {
+      public void mouseClicked(java.awt.event.MouseEvent evt) {
+        button_cancel_clicked(evt);
+      }
+    });
 
-		button_close.setText("Close");
-		button_close.addMouseListener(new java.awt.event.MouseAdapter()
-		{
-			public void mouseClicked(java.awt.event.MouseEvent evt)
-			{
-				button_close_clicked(evt);
-			}
-		});
+    button_close.setIcon(Icons.icon_failure);
+    button_close.setText("Close");
+    button_close.addMouseListener(new java.awt.event.MouseAdapter() {
+      public void mouseClicked(java.awt.event.MouseEvent evt) {
+        button_close_clicked(evt);
+      }
+    });
 
-		javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-		this.setLayout(layout);
-		layout.setHorizontalGroup(layout
-				.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-				.addGroup(
-						layout
-								.createSequentialGroup()
-								.addComponent(button_download)
-								.addGap(28, 28, 28)
-								.addComponent(button_map_view)
-								.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED,
-										javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-								.addComponent(button_cancel).addGap(18, 18, 18).addComponent(button_close)
-								.addContainerGap())
-				.addComponent(panel_transfer_settings, javax.swing.GroupLayout.DEFAULT_SIZE,
-						javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-				.addComponent(panel_output_directory, javax.swing.GroupLayout.DEFAULT_SIZE,
-						javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-				.addComponent(panel_files, javax.swing.GroupLayout.DEFAULT_SIZE,
-						javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-				.addComponent(panel_transfer_progress, javax.swing.GroupLayout.Alignment.TRAILING,
-						javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE,
-						Short.MAX_VALUE));
-		layout.setVerticalGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-				.addGroup(
-						layout
-								.createSequentialGroup()
-								.addComponent(panel_files, javax.swing.GroupLayout.DEFAULT_SIZE, 159,
-										Short.MAX_VALUE)
-								.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-								.addComponent(panel_output_directory, javax.swing.GroupLayout.DEFAULT_SIZE, 69,
-										Short.MAX_VALUE)
-								.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-								.addComponent(panel_transfer_settings, javax.swing.GroupLayout.DEFAULT_SIZE,
-										javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-								.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-								.addComponent(panel_transfer_progress, javax.swing.GroupLayout.DEFAULT_SIZE, 181,
-										Short.MAX_VALUE)
-								.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-								.addGroup(
-										layout
-												.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-												.addGroup(
-														layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-																.addComponent(button_close).addComponent(button_cancel)
-																.addComponent(button_map_view))
-												.addGroup(
-														javax.swing.GroupLayout.Alignment.TRAILING,
-														layout.createSequentialGroup().addComponent(button_download)
-																.addContainerGap()))));
-	}// </editor-fold>//GEN-END:initComponents
+    javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
+    this.setLayout(layout);
+    layout.setHorizontalGroup(
+      layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+      .addGroup(layout.createSequentialGroup()
+        .addComponent(button_download)
+        .addGap(28, 28, 28)
+        .addComponent(button_map_view)
+        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        .addComponent(button_cancel)
+        .addGap(18, 18, 18)
+        .addComponent(button_close)
+        .addContainerGap())
+      .addComponent(panel_transfer_settings, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+      .addComponent(panel_output_directory, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+      .addComponent(panel_files, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+      .addComponent(panel_transfer_progress, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+    );
+    layout.setVerticalGroup(
+      layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+      .addGroup(layout.createSequentialGroup()
+        .addComponent(panel_files, javax.swing.GroupLayout.PREFERRED_SIZE, 159, Short.MAX_VALUE)
+        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+        .addComponent(panel_output_directory, javax.swing.GroupLayout.DEFAULT_SIZE, 69, Short.MAX_VALUE)
+        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+        .addComponent(panel_transfer_settings, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+        .addComponent(panel_transfer_progress, javax.swing.GroupLayout.PREFERRED_SIZE, 181, Short.MAX_VALUE)
+        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+          .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+            .addComponent(button_close)
+            .addComponent(button_cancel)
+            .addComponent(button_map_view))
+          .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+            .addComponent(button_download)
+            .addContainerGap())))
+    );
+  }// </editor-fold>//GEN-END:initComponents
 
 	private void button_downloadMouseMoved(java.awt.event.MouseEvent evt)
 	{// GEN-FIRST:event_button_downloadMouseMoved
@@ -580,14 +562,14 @@ public class DownloadPanel extends javax.swing.JPanel
 		return panel_transfer_settings.count_connections();
 	}
 
-	// Variables declaration - do not modify//GEN-BEGIN:variables
-	private javax.swing.JButton button_cancel;
-	private javax.swing.JButton button_close;
-	private javax.swing.JButton button_download;
-	private javax.swing.JButton button_map_view;
-	private edu.crest.dlt.ui.down.FilesPanel panel_files;
-	private edu.crest.dlt.ui.down.DirectoryChooserPanel panel_output_directory;
-	private edu.crest.dlt.ui.utils.TransferProgressPanel panel_transfer_progress;
-	private edu.crest.dlt.ui.down.TransferSettingsPanel panel_transfer_settings;
-	// End of variables declaration//GEN-END:variables
+  // Variables declaration - do not modify//GEN-BEGIN:variables
+  private javax.swing.JButton button_cancel;
+  private javax.swing.JButton button_close;
+  private javax.swing.JButton button_download;
+  private javax.swing.JButton button_map_view;
+  private edu.crest.dlt.ui.down.FilesPanel panel_files;
+  private edu.crest.dlt.ui.down.DirectoryChooserPanel panel_output_directory;
+  private edu.crest.dlt.ui.utils.TransferProgressPanel panel_transfer_progress;
+  private edu.crest.dlt.ui.down.TransferSettingsPanel panel_transfer_settings;
+  // End of variables declaration//GEN-END:variables
 }

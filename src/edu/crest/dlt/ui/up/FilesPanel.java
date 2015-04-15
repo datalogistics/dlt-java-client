@@ -16,6 +16,8 @@ import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 
+import edu.crest.dlt.ui.utils.img.Icons;
+
 /**
  *
  * @author Rohit
@@ -42,120 +44,109 @@ public class FilesPanel extends javax.swing.JPanel
 	// <editor-fold defaultstate="collapsed"
 	// <editor-fold defaultstate="collapsed"
 	// <editor-fold defaultstate="collapsed"
-	// desc="Generated Code">//GEN-BEGIN:initComponents
-	private void initComponents()
-	{
+  // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+  private void initComponents() {
 
-		scrollpane_files = new javax.swing.JScrollPane();
-		table_files = new javax.swing.JTable();
-		button_select_all = new javax.swing.JButton();
-		button_deselect_all = new javax.swing.JButton();
-		button_add = new javax.swing.JButton();
-		button_remove = new javax.swing.JButton();
+    scrollpane_files = new javax.swing.JScrollPane();
+    table_files = new javax.swing.JTable();
+    button_add = new javax.swing.JButton();
+    button_remove = new javax.swing.JButton();
+    input_files_all = new javax.swing.JCheckBox();
 
-		setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Files",
-				javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION,
-				javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 12))); // NOI18N
+    setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Files", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 12))); // NOI18N
 
-		table_files.setModel(new javax.swing.table.DefaultTableModel(new Object[][] {
+    table_files.setModel(new javax.swing.table.DefaultTableModel(
+      new Object [][] {
 
-		}, new String[] { "[]", "File(s)", "Status" })
-		{
-			Class[] types = new Class[] { java.lang.Boolean.class, java.lang.String.class,
-					java.lang.String.class };
-			boolean[] canEdit = new boolean[] { true, false, false };
+      },
+      new String [] {
+        "[]", "File(s)", "Status"
+      }
+    ) {
+      Class[] types = new Class [] {
+        java.lang.Boolean.class, java.lang.String.class, java.lang.String.class
+      };
+      boolean[] canEdit = new boolean [] {
+        true, false, false
+      };
 
-			public Class getColumnClass(int columnIndex)
-			{
-				return types[columnIndex];
-			}
+      public Class getColumnClass(int columnIndex) {
+        return types [columnIndex];
+      }
 
-			public boolean isCellEditable(int rowIndex, int columnIndex)
-			{
-				return canEdit[columnIndex];
-			}
-		});
-		table_files.setColumnSelectionAllowed(true);
-		table_files.setFillsViewportHeight(true);
-		table_files.setShowHorizontalLines(false);
-		table_files.setShowVerticalLines(false);
-		table_files.getTableHeader().setReorderingAllowed(false);
-		scrollpane_files.setViewportView(table_files);
-		table_files.getColumnModel().getSelectionModel()
-				.setSelectionMode(javax.swing.ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
-		if (table_files.getColumnModel().getColumnCount() > 0) {
-			table_files.getColumnModel().getColumn(0).setMinWidth(20);
-			table_files.getColumnModel().getColumn(0).setPreferredWidth(20);
-			table_files.getColumnModel().getColumn(0).setMaxWidth(20);
-			table_files.getColumnModel().getColumn(1).setResizable(false);
-			table_files.getColumnModel().getColumn(2).setMinWidth(75);
-			table_files.getColumnModel().getColumn(2).setPreferredWidth(120);
-			table_files.getColumnModel().getColumn(2).setMaxWidth(150);
-		}
+      public boolean isCellEditable(int rowIndex, int columnIndex) {
+        return canEdit [columnIndex];
+      }
+    });
+    table_files.setColumnSelectionAllowed(true);
+    table_files.setFillsViewportHeight(true);
+    table_files.getTableHeader().setReorderingAllowed(false);
+    scrollpane_files.setViewportView(table_files);
+    table_files.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+    if (table_files.getColumnModel().getColumnCount() > 0) {
+      table_files.getColumnModel().getColumn(0).setMinWidth(20);
+      table_files.getColumnModel().getColumn(0).setPreferredWidth(20);
+      table_files.getColumnModel().getColumn(0).setMaxWidth(20);
+      table_files.getColumnModel().getColumn(1).setResizable(false);
+      table_files.getColumnModel().getColumn(2).setMinWidth(75);
+      table_files.getColumnModel().getColumn(2).setPreferredWidth(120);
+      table_files.getColumnModel().getColumn(2).setMaxWidth(150);
+    }
 
-		button_select_all.setText("Select All");
-		button_select_all.addMouseListener(new java.awt.event.MouseAdapter()
-		{
-			public void mouseClicked(java.awt.event.MouseEvent evt)
-			{
-				button_select_all_clicked(evt);
-			}
-		});
+    button_add.setIcon(Icons.icon_plus);
+    button_add.setText("Add");
+    button_add.addMouseListener(new java.awt.event.MouseAdapter() {
+      public void mouseClicked(java.awt.event.MouseEvent evt) {
+        button_add_clicked(evt);
+      }
+    });
 
-		button_deselect_all.setText("Deselect All");
-		button_deselect_all.addMouseListener(new java.awt.event.MouseAdapter()
-		{
-			public void mouseClicked(java.awt.event.MouseEvent evt)
-			{
-				button_deselect_all_clicked(evt);
-			}
-		});
+    button_remove.setIcon(Icons.icon_minus);
+    button_remove.setText("Remove");
+    button_remove.addMouseListener(new java.awt.event.MouseAdapter() {
+      public void mouseClicked(java.awt.event.MouseEvent evt) {
+        button_remove_clicked(evt);
+      }
+    });
 
-		button_add.setText("Add");
-		button_add.addMouseListener(new java.awt.event.MouseAdapter()
-		{
-			public void mouseClicked(java.awt.event.MouseEvent evt)
-			{
-				button_add_clicked(evt);
-			}
-		});
+    input_files_all.setText("all");
+    input_files_all.addActionListener(new java.awt.event.ActionListener() {
+      public void actionPerformed(java.awt.event.ActionEvent evt) {
+        input_files_all_clicked(evt);
+      }
+    });
 
-		button_remove.setText("Remove");
-		button_remove.addMouseListener(new java.awt.event.MouseAdapter()
-		{
-			public void mouseClicked(java.awt.event.MouseEvent evt)
-			{
-				button_remove_clicked(evt);
-			}
-		});
+    javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
+    this.setLayout(layout);
+    layout.setHorizontalGroup(
+      layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+      .addGroup(layout.createSequentialGroup()
+        .addComponent(input_files_all)
+        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        .addComponent(button_add)
+        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+        .addComponent(button_remove))
+      .addComponent(scrollpane_files, javax.swing.GroupLayout.DEFAULT_SIZE, 498, Short.MAX_VALUE)
+    );
+    layout.setVerticalGroup(
+      layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+      .addGroup(layout.createSequentialGroup()
+        .addComponent(scrollpane_files, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
+        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+          .addComponent(button_add)
+          .addComponent(button_remove)
+          .addComponent(input_files_all)))
+    );
+  }// </editor-fold>//GEN-END:initComponents
 
-		javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-		this.setLayout(layout);
-		layout.setHorizontalGroup(layout
-				.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-				.addGroup(
-						layout
-								.createSequentialGroup()
-								.addComponent(button_select_all)
-								.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-								.addComponent(button_deselect_all)
-								.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 192,
-										Short.MAX_VALUE).addComponent(button_add)
-								.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-								.addComponent(button_remove)).addComponent(scrollpane_files));
-		layout.setVerticalGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-				.addGroup(
-						layout
-								.createSequentialGroup()
-								.addComponent(scrollpane_files, javax.swing.GroupLayout.PREFERRED_SIZE, 123,
-										javax.swing.GroupLayout.PREFERRED_SIZE)
-								.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED,
-										javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-								.addGroup(
-										layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-												.addComponent(button_add).addComponent(button_remove)
-												.addComponent(button_select_all).addComponent(button_deselect_all))));
-	}// </editor-fold>//GEN-END:initComponents
+  private void input_files_all_clicked(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_input_files_all_clicked
+    if (input_files_all.isSelected()) {
+      select_files_all();
+    } else {
+      deselect_files_all();
+    }
+  }//GEN-LAST:event_input_files_all_clicked
 
 	private void button_select_all_clicked(java.awt.event.MouseEvent evt)
 	{// GEN-FIRST:event_button_select_all_clicked
@@ -323,7 +314,6 @@ public class FilesPanel extends javax.swing.JPanel
 			if (Boolean.FALSE.equals(table_files_model.getValueAt(row, column_index_checkbox))) {
 				table_files_model.setValueAt(true, row, column_index_checkbox);
 				log.info((String) table_files_model.getValueAt(row, column_index_file) + " selected.");
-				break;
 			}
 		}
 	}
@@ -376,7 +366,6 @@ public class FilesPanel extends javax.swing.JPanel
 			if (Boolean.TRUE.equals(table_files_model.getValueAt(row, column_index_checkbox))) {
 				table_files_model.setValueAt(false, row, column_index_checkbox);
 				log.info((String) table_files_model.getValueAt(row, column_index_file) + " deselected.");
-				break;
 			}
 		}
 	}
@@ -454,16 +443,14 @@ public class FilesPanel extends javax.swing.JPanel
 
 	public void disable()
 	{
-		button_select_all.setEnabled(false);
-		button_deselect_all.setEnabled(false);
+		input_files_all.setEnabled(false);
 		button_add.setEnabled(false);
 		button_remove.setEnabled(false);
 	}
 
 	public void enable()
 	{
-		button_select_all.setEnabled(true);
-		button_deselect_all.setEnabled(true);
+		input_files_all.setEnabled(true);
 		button_add.setEnabled(true);
 		button_remove.setEnabled(true);
 	}
@@ -472,12 +459,11 @@ public class FilesPanel extends javax.swing.JPanel
 	private static final int column_index_file = 1;
 	private static final int column_index_status = 2;
 
-	// Variables declaration - do not modify//GEN-BEGIN:variables
-	private javax.swing.JButton button_add;
-	private javax.swing.JButton button_deselect_all;
-	private javax.swing.JButton button_remove;
-	private javax.swing.JButton button_select_all;
-	private javax.swing.JScrollPane scrollpane_files;
-	public javax.swing.JTable table_files;
-	// End of variables declaration//GEN-END:variables
+  // Variables declaration - do not modify//GEN-BEGIN:variables
+  private javax.swing.JButton button_add;
+  private javax.swing.JButton button_remove;
+  private javax.swing.JCheckBox input_files_all;
+  private javax.swing.JScrollPane scrollpane_files;
+  public javax.swing.JTable table_files;
+  // End of variables declaration//GEN-END:variables
 }

@@ -292,7 +292,7 @@ public class WriteJob extends ConcurrentJob
 			} catch (WriteException e) {
 				e.printStackTrace();
 			}
-
+			
 			if (isInterrupted() || bytes_written == 0 || bytes_written != bytes_to_write) {
 				try_end(try_id, mapping_to_write, socket_to_write, 0);
 			} else {

@@ -3,7 +3,9 @@ package edu.crest.dlt.exnode;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.Socket;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -39,6 +41,7 @@ import edu.crest.dlt.exnode.metadata.Metadata;
 import edu.crest.dlt.exnode.metadata.MetadataContainer;
 import edu.crest.dlt.exnode.metadata.MetadataInteger;
 import edu.crest.dlt.exnode.metadata.MetadataString;
+import edu.crest.dlt.ibp.Allocation;
 import edu.crest.dlt.ibp.Depot;
 import edu.crest.dlt.transfer.ConcurrentJob;
 import edu.crest.dlt.transfer.Job;
@@ -93,12 +96,12 @@ public class Exnode extends MetadataContainer
 	public Exnode(String path_and_filename) throws FileNotFoundException
 	{
 		this();
-		
+
 		String path = FilenameUtils.getFullPath(path_and_filename);
 		String filename = path_and_filename.substring(path.length());
 		add(new MetadataString("filename", filename));
-		
 		input_file(path_and_filename);
+		add(new MetadataInteger("original_filesize", length()));
 	}
 
 	/**
@@ -111,18 +114,19 @@ public class Exnode extends MetadataContainer
 			log.info(status());
 			return true;
 		}
-		
+
 		switch (service_requested) {
 			case read:
 				boolean mappings_accessible = true;
-				for (Map.Entry<MappedOffsets, List<Mapping>> mappings_identical : mappings_sorted.entrySet()) {
+				for (Map.Entry<MappedOffsets, List<Mapping>> mappings_identical : mappings_sorted
+						.entrySet()) {
 					boolean mapping_accessible = false;
 					for (Mapping mapping_identical : mappings_identical.getValue()) {
 						mapping_accessible = mapping_identical.accessible();
 
 						/*
-						 * if even one allocation (i.e. replica) of the mapping is accessible,
-						 * the mapping can be read successfully
+						 * if even one allocation (i.e. replica) of the mapping is
+						 * accessible, the mapping can be read successfully
 						 */
 						if (mapping_accessible) {
 							break;
@@ -140,7 +144,7 @@ public class Exnode extends MetadataContainer
 
 				state = mappings_accessible ? state_exnode.ready : state;
 				break;
-				
+
 			case write:
 				int depots_servicable = 0;
 				for (Depot depot : depots) {
@@ -149,7 +153,7 @@ public class Exnode extends MetadataContainer
 
 				state = depots_servicable >= copies ? state_exnode.ready : state;
 				break;
-				
+
 			default:
 				break;
 		}
@@ -211,6 +215,15 @@ public class Exnode extends MetadataContainer
 			log.warning(this + " failed to obtain allocation on " + depot + " " + e);
 			return null;
 		}
+
+		Calendar calender = Calendar.getInstance();
+		calender.setTime(new Date());
+		Date start = calender.getTime();
+		calender.add(Calendar.SECOND, (int) allocation_duration);
+		Date end = calender.getTime();
+
+		mapping_new.add(new MetadataString("start", Configuration.dlt_exnode_date_formatter.format(start)));
+		mapping_new.add(new MetadataString("end", Configuration.dlt_exnode_date_formatter.format(end)));
 
 		mapping_new.add(new MetadataInteger("exnode_offset", exnode_offset));
 		mapping_new.add(new MetadataInteger("logical_length", logical_length));
@@ -625,7 +638,7 @@ public class Exnode extends MetadataContainer
 		double last_progress = 0.0;
 		long time_no_progress = 0;
 		while (!transfer_thread_monitor.isInterrupted()
-				&& transfer_monitor.percent_completed() <= 100.0f && transfer_jobs.size() > 0) {
+				&& transfer_monitor.percent_completed() < 100.0f && transfer_jobs.size() > 0) {
 			log.info(status());
 
 			try {
@@ -697,10 +710,10 @@ public class Exnode extends MetadataContainer
 		/* if the exnode is not ready, discourage setup */
 		if (!accessible(service_exnode.write)) {
 			log.warning(status() + "; no depots for write jobs.");
-//			if (transfer_jobs != null) {
-//				transfer_jobs.clear();
-//			}
-//			return;
+			// if (transfer_jobs != null) {
+			// transfer_jobs.clear();
+			// }
+			// return;
 		}
 
 		/*
@@ -803,7 +816,11 @@ public class Exnode extends MetadataContainer
 		double last_progress = 0.0;
 		long time_no_progress = 0;
 		while (!transfer_thread_monitor.isInterrupted()
-				&& transfer_monitor.percent_completed() <= 100.0f) {// && (transfer_jobs.size() + transit_write_jobs.size()) > 0) {
+				&& transfer_monitor.percent_completed() < (double) 100) {// &&
+																																	// (transfer_jobs.size()
+																																	// +
+																																	// transit_write_jobs.size())
+																																	// > 0) {
 			log.info(status());
 
 			try {
@@ -827,7 +844,7 @@ public class Exnode extends MetadataContainer
 			}
 		}
 
-		if (transfer_monitor.percent_completed() >= 100.0f) {
+		if (transfer_monitor.percent_completed() >= (double) 100) {
 			state = state_exnode.done;
 			log.info(status());
 		} else {
@@ -960,7 +977,8 @@ public class Exnode extends MetadataContainer
 	public static Exnode xml(Element xml) throws DeserializeException
 	{
 		if (!xml.getNamespaceURI().equals(Configuration.dlt_exnode_namespace)) {
-			log.severe("failed to deserialize exnode from xml. namespace " + xml.getNamespaceURI() + " does not match exnode namespace " + Configuration.dlt_exnode_namespace);
+			log.severe("failed to deserialize exnode from xml. namespace " + xml.getNamespaceURI()
+					+ " does not match exnode namespace " + Configuration.dlt_exnode_namespace);
 			throw new DeserializeException("valid exnode namespace not found");
 		}
 

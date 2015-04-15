@@ -26,15 +26,13 @@
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" attributes="0">
-              <Component id="button_select_all" min="-2" max="-2" attributes="0"/>
-              <EmptySpace max="-2" attributes="0"/>
-              <Component id="button_deselect_all" min="-2" max="-2" attributes="0"/>
-              <EmptySpace pref="192" max="32767" attributes="0"/>
+              <Component id="input_files_all" min="-2" max="-2" attributes="0"/>
+              <EmptySpace max="32767" attributes="0"/>
               <Component id="button_add" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="button_remove" min="-2" max="-2" attributes="0"/>
           </Group>
-          <Component id="scrollpane_files" alignment="0" max="32767" attributes="0"/>
+          <Component id="scrollpane_files" pref="498" max="32767" attributes="0"/>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
@@ -45,8 +43,7 @@
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="button_add" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="button_remove" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="button_select_all" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="button_deselect_all" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="input_files_all" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
           </Group>
       </Group>
@@ -90,8 +87,6 @@
             </Property>
             <Property name="columnSelectionAllowed" type="boolean" value="true"/>
             <Property name="fillsViewportHeight" type="boolean" value="true"/>
-            <Property name="showHorizontalLines" type="boolean" value="false"/>
-            <Property name="showVerticalLines" type="boolean" value="false"/>
             <Property name="tableHeader" type="javax.swing.table.JTableHeader" editor="org.netbeans.modules.form.editors2.JTableHeaderEditor">
               <TableHeader reorderingAllowed="false" resizingAllowed="true"/>
             </Property>
@@ -102,24 +97,11 @@
         </Component>
       </SubComponents>
     </Container>
-    <Component class="javax.swing.JButton" name="button_select_all">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Select All"/>
-      </Properties>
-      <Events>
-        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="button_select_all_clicked"/>
-      </Events>
-    </Component>
-    <Component class="javax.swing.JButton" name="button_deselect_all">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Deselect All"/>
-      </Properties>
-      <Events>
-        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="button_deselect_all_clicked"/>
-      </Events>
-    </Component>
     <Component class="javax.swing.JButton" name="button_add">
       <Properties>
+        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+          <Connection code="Icons.icon_plus" type="code"/>
+        </Property>
         <Property name="text" type="java.lang.String" value="Add"/>
       </Properties>
       <Events>
@@ -128,10 +110,21 @@
     </Component>
     <Component class="javax.swing.JButton" name="button_remove">
       <Properties>
+        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+          <Connection code="Icons.icon_minus" type="code"/>
+        </Property>
         <Property name="text" type="java.lang.String" value="Remove"/>
       </Properties>
       <Events>
         <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="button_remove_clicked"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JCheckBox" name="input_files_all">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="all"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="input_files_all_clicked"/>
       </Events>
     </Component>
   </SubComponents>

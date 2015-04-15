@@ -1,5 +1,8 @@
 package edu.crest.dlt.utils;
 
+import java.io.InputStream;
+import java.net.URL;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -13,12 +16,14 @@ import java.util.logging.LogRecord;
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
 
+import edu.crest.dlt.exnode.ExnodeRegistryUNIS;
+import edu.crest.dlt.ibp.Depot;
 import edu.crest.dlt.ibp.DepotLocatorLbone;
 
 public class Configuration
 {
 	private static final Logger log = Logger.getLogger(Configuration.class.getClass().getName());
-	private static final String dlt_configuration_file = "config.properties";
+	private static final InputStream dlt_configuration_file = Configuration.class.getResourceAsStream("config.properties");
 	private static Level dlt_log_console_level;
 
 	/* Define all your application-required properties here */
@@ -37,6 +42,8 @@ public class Configuration
 	public static long dlt_exnode_transfer_log_interval;
 	public static int dlt_exnode_read_retries_max;
 	public static int dlt_exnode_write_retries_max;
+	public static ExnodeRegistryUNIS dlt_exnode_registry_unis;
+	public static SimpleDateFormat dlt_exnode_date_formatter;
 
 	public static int dlt_depot_transfer_sockets_max;
 	public static int dlt_depot_transfer_tries_for_comparison;
@@ -53,7 +60,7 @@ public class Configuration
 	public static String dlt_username;
 	public static String dlt_password;
 	public static List<String> dlt_file_paths;
-
+	
 	/*
 	 * static block for NetBeans to access Configuration objects for building its
 	 * components
@@ -83,7 +90,7 @@ public class Configuration
 
 		Properties configuration = new Properties();
 		try {
-			configuration.load(Configuration.class.getResourceAsStream(dlt_configuration_file));
+			configuration.load(dlt_configuration_file);
 
 			dlt_log_console_level = console_log_level(configuration, "dlt.log.console");
 
@@ -114,6 +121,8 @@ public class Configuration
 					"dlt.exnode.transfer.log.interval"));
 			dlt_exnode_write_retries_max = Integer.parseInt(property(configuration,
 					"dlt.exnode.write.retries"));
+			dlt_exnode_registry_unis = new ExnodeRegistryUNIS(new URL(property(configuration, "dlt.exnode.registry.unis")));
+			dlt_exnode_date_formatter = new SimpleDateFormat(property(configuration, "dlt.exnode.date.format"));
 
 			dlt_depot_transfer_sockets_max = Integer.parseInt(property(configuration,
 					"dlt.depot.transfer.sockets.max"));
@@ -136,6 +145,13 @@ public class Configuration
 				}
 			}
 			dlt_depot_locations = properties(configuration, "dlt.depot.locations");
+			List<String> dlt_depots = properties(configuration, "dlt.depot.list");
+			for (String dlt_depot : dlt_depots) {
+				List<String> host_port = host_port_verified(dlt_depot);
+				if (host_port != null) {
+					Depot.depot(host_port.get(0), host_port.get(1));
+				}
+			}
 
 			dlt_file_write_retries_max = Integer
 					.parseInt(property(configuration, "dlt.file.write.retries"));
