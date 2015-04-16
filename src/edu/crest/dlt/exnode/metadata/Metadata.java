@@ -110,4 +110,15 @@ public abstract class Metadata
 		}
 		return md;
 	}
+	
+	public static Metadata json(JsonObject json, String key, Class type) {
+		if (json != null && key != null && type != null) {
+			if (type.equals(MetadataString.class)) {
+				return new MetadataString(key, json.getString(key));
+			} else if (type.equals(MetadataInteger.class)) {
+				return new MetadataInteger(key, json.getJsonNumber(key).longValue());		
+			}
+		}
+		return null;
+	}
 }

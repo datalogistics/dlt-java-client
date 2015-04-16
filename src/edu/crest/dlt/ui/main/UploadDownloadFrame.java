@@ -15,6 +15,7 @@ import javax.swing.WindowConstants;
 
 import org.apache.commons.cli.ParseException;
 
+import edu.crest.dlt.exnode.Directory;
 import edu.crest.dlt.ui.utils.CommandLineOptionParser;
 import edu.crest.dlt.utils.Configuration;
 
@@ -72,7 +73,7 @@ public class UploadDownloadFrame extends javax.swing.JFrame
     layout.setVerticalGroup(
       layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
       .addGroup(layout.createSequentialGroup()
-        .addComponent(pane_tabs, javax.swing.GroupLayout.PREFERRED_SIZE, 642, javax.swing.GroupLayout.PREFERRED_SIZE)
+        .addComponent(pane_tabs, javax.swing.GroupLayout.PREFERRED_SIZE, 680, javax.swing.GroupLayout.PREFERRED_SIZE)
         .addGap(0, 0, Short.MAX_VALUE))
     );
 
@@ -118,7 +119,7 @@ public class UploadDownloadFrame extends javax.swing.JFrame
 	{
 		Configuration.load();
 		loadCommandLineConfiguration(args);
-
+		
 		/* Set the Nimbus look and feel */
 		// <editor-fold defaultstate="collapsed"
 		// desc=" Look and feel setting code (optional) ">

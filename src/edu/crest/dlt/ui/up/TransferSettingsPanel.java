@@ -174,6 +174,7 @@ public class TransferSettingsPanel extends javax.swing.JPanel
     label_connection_type.setText("Connection Type");
 
     input_connection_type.setModel(new javax.swing.SpinnerListModel(new String[] {"Dial-Up/ISDN", "DSL/Cable/T1", "< 100 Mbps", "> 100 Mbps"}));
+    input_connection_type.setToolTipText("select the type of connection");
     input_connection_type.setEditor(new javax.swing.JSpinner.ListEditor(input_connection_type));
     input_connection_type.addChangeListener(new javax.swing.event.ChangeListener() {
       public void stateChanged(javax.swing.event.ChangeEvent evt) {
@@ -187,6 +188,7 @@ public class TransferSettingsPanel extends javax.swing.JPanel
     input_block_size.setMaximumRowCount(15);
     input_block_size.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "1", "2", "4", "5", "8", "10", "16", "32", "64", "128", "256", "512", "1024" }));
     input_block_size.setSelectedIndex(11);
+    input_block_size.setToolTipText("select block size in which to perform the transfer");
     input_block_size.addActionListener(new java.awt.event.ActionListener() {
       public void actionPerformed(java.awt.event.ActionEvent evt) {
         input_block_size_changed(evt);
@@ -194,6 +196,7 @@ public class TransferSettingsPanel extends javax.swing.JPanel
     });
 
     input_block_unit.setModel(new javax.swing.SpinnerListModel(new String[] {"KB", "MB"}));
+    input_block_unit.setToolTipText("specify block unit (KB=kilobytes; MB=megabytes)");
     input_block_unit.addChangeListener(new javax.swing.event.ChangeListener() {
       public void stateChanged(javax.swing.event.ChangeEvent evt) {
         input_block_unit_changed(evt);
@@ -205,7 +208,7 @@ public class TransferSettingsPanel extends javax.swing.JPanel
     input_connection_count.setEditable(true);
     input_connection_count.setMaximumRowCount(10);
     input_connection_count.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10" }));
-    input_connection_count.setToolTipText("");
+    input_connection_count.setToolTipText("select number of connections");
 
     button_reconnect.setIcon(Icons.icon_refresh);
     button_reconnect.setText("Reconnect");
@@ -220,23 +223,26 @@ public class TransferSettingsPanel extends javax.swing.JPanel
     input_copies_count.setEditable(true);
     input_copies_count.setMaximumRowCount(10);
     input_copies_count.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "1", "2", "3", "4", "5" }));
-    input_copies_count.setToolTipText("");
+    input_copies_count.setToolTipText("select number of copies/replicas to create");
 
     label_duration.setText("Duration");
 
     input_time_days.setEditable(true);
     input_time_days.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "0", "1", "2", "3", "4", "5", "6", "7" }));
     input_time_days.setSelectedIndex(2);
+    input_time_days.setToolTipText("specify file lifetime (in days)");
 
     label_duration_days.setText("day(s)");
 
     input_time_hours.setEditable(true);
     input_time_hours.setMaximumRowCount(15);
     input_time_hours.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23" }));
+    input_time_hours.setToolTipText("specify file lifetime (in hours)");
 
     label_duration_hours.setText("hr");
 
     input_depots_all.setText("all");
+    input_depots_all.setToolTipText("select all available depots");
     input_depots_all.addActionListener(new java.awt.event.ActionListener() {
       public void actionPerformed(java.awt.event.ActionEvent evt) {
         input_depots_all_clicked(evt);
@@ -246,6 +252,7 @@ public class TransferSettingsPanel extends javax.swing.JPanel
     label_depots.setText("Depots");
 
     input_location.setModel(new javax.swing.SpinnerListModel(new String[] {"AL", "IN"}));
+    input_location.setToolTipText("select target depots by location");
     input_location.addChangeListener(new javax.swing.event.ChangeListener() {
       public void stateChanged(javax.swing.event.ChangeEvent evt) {
         input_location_changed(evt);
@@ -254,6 +261,7 @@ public class TransferSettingsPanel extends javax.swing.JPanel
 
     button_add_depot.setForeground(new java.awt.Color(255, 0, 0));
     button_add_depot.setText("+");
+    button_add_depot.setToolTipText("add a depot (host:port)");
     button_add_depot.addMouseListener(new java.awt.event.MouseAdapter() {
       public void mouseClicked(java.awt.event.MouseEvent evt) {
         button_add_depot_clicked(evt);

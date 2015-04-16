@@ -160,6 +160,7 @@
             <ListItem value="&gt; 100 Mbps"/>
           </SpinnerModel>
         </Property>
+        <Property name="toolTipText" type="java.lang.String" value="select the type of connection"/>
         <Property name="editor" type="javax.swing.JComponent" editor="org.netbeans.modules.form.editors.SpinnerEditorEditor">
           <SpinnerEditor type="2"/>
         </Property>
@@ -195,6 +196,7 @@
           </StringArray>
         </Property>
         <Property name="selectedIndex" type="int" value="11"/>
+        <Property name="toolTipText" type="java.lang.String" value="select block size in which to perform the transfer"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="input_block_size_changed"/>
@@ -211,6 +213,7 @@
             <ListItem value="MB"/>
           </SpinnerModel>
         </Property>
+        <Property name="toolTipText" type="java.lang.String" value="specify block unit (KB=kilobytes; MB=megabytes)"/>
       </Properties>
       <Events>
         <EventHandler event="stateChanged" listener="javax.swing.event.ChangeListener" parameters="javax.swing.event.ChangeEvent" handler="input_block_unit_changed"/>
@@ -242,7 +245,7 @@
             <StringItem index="9" value="10"/>
           </StringArray>
         </Property>
-        <Property name="toolTipText" type="java.lang.String" value=""/>
+        <Property name="toolTipText" type="java.lang.String" value="select number of connections"/>
       </Properties>
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;Integer&gt;"/>
@@ -277,7 +280,7 @@
             <StringItem index="4" value="5"/>
           </StringArray>
         </Property>
-        <Property name="toolTipText" type="java.lang.String" value=""/>
+        <Property name="toolTipText" type="java.lang.String" value="select number of copies/replicas to create"/>
       </Properties>
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;Integer&gt;"/>
@@ -304,6 +307,7 @@
           </StringArray>
         </Property>
         <Property name="selectedIndex" type="int" value="2"/>
+        <Property name="toolTipText" type="java.lang.String" value="specify file lifetime (in days)"/>
       </Properties>
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;Integer&gt;"/>
@@ -346,6 +350,7 @@
             <StringItem index="23" value="23"/>
           </StringArray>
         </Property>
+        <Property name="toolTipText" type="java.lang.String" value="specify file lifetime (in hours)"/>
       </Properties>
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;Integer&gt;"/>
@@ -359,6 +364,7 @@
     <Component class="javax.swing.JCheckBox" name="input_depots_all">
       <Properties>
         <Property name="text" type="java.lang.String" value="all"/>
+        <Property name="toolTipText" type="java.lang.String" value="select all available depots"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="input_depots_all_clicked"/>
@@ -377,6 +383,7 @@
             <ListItem value="IN"/>
           </SpinnerModel>
         </Property>
+        <Property name="toolTipText" type="java.lang.String" value="select target depots by location"/>
       </Properties>
       <Events>
         <EventHandler event="stateChanged" listener="javax.swing.event.ChangeListener" parameters="javax.swing.event.ChangeEvent" handler="input_location_changed"/>
@@ -392,6 +399,7 @@
           <Color blue="0" green="0" red="ff" type="rgb"/>
         </Property>
         <Property name="text" type="java.lang.String" value="+"/>
+        <Property name="toolTipText" type="java.lang.String" value="add a depot (host:port)"/>
       </Properties>
       <Events>
         <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="button_add_depot_clicked"/>

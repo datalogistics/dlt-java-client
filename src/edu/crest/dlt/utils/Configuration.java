@@ -30,6 +30,7 @@ public class Configuration
 	public static String dlt_ui_title;
 	public static String dlt_ui_progress_map_send_url;
 	public static String dlt_ui_progress_map_view_url;
+	public static String dlt_ui_regex_directory;
 
 	public static int dlt_exnode_transfer_connections_default;
 	public static long dlt_exnode_transfer_size_default;
@@ -43,6 +44,8 @@ public class Configuration
 	public static int dlt_exnode_read_retries_max;
 	public static int dlt_exnode_write_retries_max;
 	public static ExnodeRegistryUNIS dlt_exnode_registry_unis;
+	public static String dlt_exnode_registry_unis_content_type;
+	public static int dlt_exnode_registry_unis_request_timeout;
 	public static SimpleDateFormat dlt_exnode_date_formatter;
 
 	public static int dlt_depot_transfer_sockets_max;
@@ -103,6 +106,7 @@ public class Configuration
 			dlt_ui_title = property(configuration, "dlt.title");
 			dlt_ui_progress_map_send_url = property(configuration, "dlt.progress.map.send.url");
 			dlt_ui_progress_map_view_url = property(configuration, "dlt.progress.map.view.url");
+			dlt_ui_regex_directory = property(configuration, "dlt.regex.directory");
 			dlt_exnode_transfer_connections_default = Integer.parseInt(property(configuration,
 					"dlt.transfer.connections.default"));
 			dlt_exnode_transfer_size_default = Long.parseLong(property(configuration,
@@ -122,6 +126,8 @@ public class Configuration
 			dlt_exnode_write_retries_max = Integer.parseInt(property(configuration,
 					"dlt.exnode.write.retries"));
 			dlt_exnode_registry_unis = new ExnodeRegistryUNIS(new URL(property(configuration, "dlt.exnode.registry.unis")));
+			dlt_exnode_registry_unis_content_type = property(configuration, "dlt.exnode.registry.unis.content_type");
+			dlt_exnode_registry_unis_request_timeout = Integer.parseInt(property(configuration, "dlt.exnode.registry.unis.request.timeout"));
 			dlt_exnode_date_formatter = new SimpleDateFormat(property(configuration, "dlt.exnode.date.format"));
 
 			dlt_depot_transfer_sockets_max = Integer.parseInt(property(configuration,

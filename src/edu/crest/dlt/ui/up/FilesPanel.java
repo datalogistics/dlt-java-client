@@ -16,7 +16,9 @@ import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 
+import edu.crest.dlt.exnode.Directory;
 import edu.crest.dlt.ui.utils.img.Icons;
+import edu.crest.dlt.utils.Configuration;
 
 /**
  *
@@ -52,6 +54,8 @@ public class FilesPanel extends javax.swing.JPanel
     button_add = new javax.swing.JButton();
     button_remove = new javax.swing.JButton();
     input_files_all = new javax.swing.JCheckBox();
+    label_remote_directory = new javax.swing.JLabel();
+    input_remote_directory = new javax.swing.JTextField();
 
     setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Files", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 12))); // NOI18N
 
@@ -116,13 +120,21 @@ public class FilesPanel extends javax.swing.JPanel
       }
     });
 
+    label_remote_directory.setText("Remote Directory: /");
+
+    input_remote_directory.setToolTipText("remote directory eg. dlt/cloud/dir - use /, \\ or . to delimit the path or leave blank to default to root directory /");
+
     javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
     this.setLayout(layout);
     layout.setHorizontalGroup(
       layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
       .addGroup(layout.createSequentialGroup()
         .addComponent(input_files_all)
-        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        .addGap(18, 18, 18)
+        .addComponent(label_remote_directory)
+        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+        .addComponent(input_remote_directory)
+        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
         .addComponent(button_add)
         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
         .addComponent(button_remove))
@@ -136,7 +148,9 @@ public class FilesPanel extends javax.swing.JPanel
         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
           .addComponent(button_add)
           .addComponent(button_remove)
-          .addComponent(input_files_all)))
+          .addComponent(input_files_all)
+          .addComponent(label_remote_directory)
+          .addComponent(input_remote_directory, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
     );
   }// </editor-fold>//GEN-END:initComponents
 
@@ -440,6 +454,15 @@ public class FilesPanel extends javax.swing.JPanel
 			remove_file(file_selected);
 		}
 	}
+	
+	public Directory remote_directory()
+	{
+		String path_remote_directory = input_remote_directory.getText();
+		if (path_remote_directory.matches(Configuration.dlt_ui_regex_directory)) {
+			return Directory.directory(path_remote_directory);
+		}
+		return null;
+	}
 
 	public void disable()
 	{
@@ -454,7 +477,7 @@ public class FilesPanel extends javax.swing.JPanel
 		button_add.setEnabled(true);
 		button_remove.setEnabled(true);
 	}
-
+	
 	private static final int column_index_checkbox = 0;
 	private static final int column_index_file = 1;
 	private static final int column_index_status = 2;
@@ -463,6 +486,8 @@ public class FilesPanel extends javax.swing.JPanel
   private javax.swing.JButton button_add;
   private javax.swing.JButton button_remove;
   private javax.swing.JCheckBox input_files_all;
+  private javax.swing.JTextField input_remote_directory;
+  private javax.swing.JLabel label_remote_directory;
   private javax.swing.JScrollPane scrollpane_files;
   public javax.swing.JTable table_files;
   // End of variables declaration//GEN-END:variables

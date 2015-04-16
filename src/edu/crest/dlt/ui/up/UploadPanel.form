@@ -40,9 +40,9 @@
           <Group type="102" alignment="0" attributes="0">
               <Component id="panel_files" min="-2" pref="191" max="-2" attributes="0"/>
               <EmptySpace min="-2" max="-2" attributes="0"/>
-              <Component id="panel_transfer_settings" pref="215" max="32767" attributes="0"/>
+              <Component id="panel_transfer_settings" max="32767" attributes="0"/>
               <EmptySpace min="-2" max="-2" attributes="0"/>
-              <Component id="panel_transfer_progress" pref="182" max="32767" attributes="0"/>
+              <Component id="panel_transfer_progress" max="32767" attributes="0"/>
               <EmptySpace min="-2" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="103" alignment="0" groupAlignment="3" attributes="0">
