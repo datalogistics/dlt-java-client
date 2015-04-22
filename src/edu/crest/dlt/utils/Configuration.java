@@ -53,6 +53,7 @@ public class Configuration
 	public static boolean dlt_depot_transfer_shuffle;
 	public static int dlt_depot_connect_timeout;
 	public static int dlt_depot_request_timeout;
+	public static int dlt_depot_inactivity_timeout;
 	public static boolean dlt_depot_transfer_sockets_reuse;
 	public static List<DepotLocatorLbone> dlt_depot_locators_lbone;
 	public static List<String> dlt_depot_locations;
@@ -140,6 +141,8 @@ public class Configuration
 					"dlt.depot.connect.timeout"));
 			dlt_depot_request_timeout = Integer.parseInt(property(configuration,
 					"dlt.depot.request.timeout"));
+			dlt_depot_inactivity_timeout = Integer.parseInt(property(configuration,
+					"dlt.depot.inactivity.timeout"));
 			dlt_depot_transfer_sockets_reuse = Boolean.parseBoolean(property(configuration,
 					"dlt.depot.transfer.sockets.reuse"));
 			List<String> lbone_servers = properties(configuration, "dlt.depot.locator.lbone");

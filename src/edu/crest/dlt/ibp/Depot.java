@@ -42,18 +42,17 @@ public class Depot implements Comparable<Depot>
 	{
 		this.host = host;
 		this.port = port;
+		
 		this.locations = new HashSet<String>();
+		this.transfer_statistics = new TransferStatistics();
+		this.transfer_sockets_ready = new ArrayList<Socket>();
+		this.transfer_sockets_active = new ArrayList<Socket>();
 
-		state = depot_state.nascent;
-		new Thread()
-		{
-			public void run()
-			{
-				setup();
-			}
-		}.start();
+		/* start setting up initial connection(s) */
+		setup();
+//		forge_connections();
 	}
-
+	
 	private Depot(String host, int port, String location)
 	{
 		this(host, port);
@@ -97,10 +96,9 @@ public class Depot implements Comparable<Depot>
 			if (location != null) {
 				depot.locations.add(location);
 			}
-			
+
 			if (added) {
 				depots.notifyAll();
-				// log.info(depot + " added.");
 			}
 		}
 
@@ -137,7 +135,26 @@ public class Depot implements Comparable<Depot>
 			return (false);
 		}
 	}
-
+	
+//	private void forge_connections()
+//	{
+//		new Thread(() -> {
+//			setup();
+//		}).start();
+//	}
+	
+	public synchronized void setup()
+	{
+		new Thread(() -> {
+			try {
+				close();
+			} catch (Exception e) {
+				// ignore failures
+			}
+			more_connections();
+		}).start();
+	}
+	
 	private synchronized void more_connections()
 	{
 		int count_connections = count_connections();
@@ -172,7 +189,7 @@ public class Depot implements Comparable<Depot>
 						state = state == depot_state.nascent ? depot_state.setup : state;
 						if (state == depot_state.setup) {
 							synchronized (depots) {
-								depots.notifyAll();								
+								depots.notifyAll();
 							}
 						}
 					} catch (IOException e) {
@@ -181,6 +198,35 @@ public class Depot implements Comparable<Depot>
 				}
 			}.start();
 		}
+		
+		/* start inactive connections monitor-releaser */
+		monitor_connections();
+	}
+	
+	private boolean monitor_active = false;
+	private synchronized void monitor_connections()
+	{
+		if (monitor_active) {
+			return;
+		}
+		
+		monitor_active = true;
+		new Thread(
+				() -> {
+					long timeout_inactivity = Configuration.dlt_depot_inactivity_timeout;
+					do {
+						try {
+							Thread.sleep(timeout_inactivity);
+						} catch (Exception e) {
+						}
+
+						if (count_connections() > 0 && transfer_statistics.threads_active() == 0
+								&& System.currentTimeMillis() - transfer_statistics.time_last_tried() >= timeout_inactivity) {
+							less_connections();
+						}
+					} while (state != depot_state.nascent);
+					monitor_active = false;
+				}).start();
 	}
 
 	private synchronized void less_connections()
@@ -193,12 +239,13 @@ public class Depot implements Comparable<Depot>
 				: count_decrement;
 
 		/* start with 0; cap at count_increment */
-		int less_connections = count_connections <= 1 ? 0 : valid_decrement;
+		int less_connections = count_connections <= valid_decrement ? count_connections : valid_decrement;
+//		int less_connections = count_connections <= 1 ? 0 : valid_decrement;
 
 		log.warning(this + ": removing " + less_connections + " connection(s).");
 
 		for (; less_connections > 0 && count_connections_ready() > 0; less_connections--) {
-			Socket socket_free = transfer_sockets_ready.get(0);
+			Socket socket_free = transfer_sockets_ready.remove(0);
 			try {
 				if (!socket_free.isClosed()) {
 					socket_free.close();
@@ -206,21 +253,10 @@ public class Depot implements Comparable<Depot>
 			} catch (IOException e) {
 			}
 		}
-	}
 
-	public synchronized void setup()
-	{
-		try {
-			close();
-		} catch (Exception e) {
-			// ignore failures
+		if (count_connections() == 0) {
+			state = depot_state.nascent;
 		}
-		state = depot_state.nascent;
-		transfer_statistics = new TransferStatistics();
-		transfer_sockets_ready = new ArrayList<Socket>();
-		transfer_sockets_active = new ArrayList<Socket>();
-
-		more_connections();
 	}
 
 	public synchronized int count_connections_ready()
@@ -246,6 +282,22 @@ public class Depot implements Comparable<Depot>
 
 	public boolean connected()
 	{
+		/* if no outstanding connections */
+		if (count_connections() == 0) {
+			/* try to forge new connections */
+			more_connections();
+			
+			long time_monitor = Configuration.dlt_depot_connect_timeout;
+			for (long time_sleep = time_monitor/64; time_sleep < time_monitor; time_sleep *= 2) {
+				try {
+					Thread.sleep(time_sleep);
+				} catch (InterruptedException e) {
+					if (count_connections() == 0) {
+						continue;
+					}
+				}
+			}
+		}
 		return count_connections() > 0;
 	}
 
@@ -349,9 +401,9 @@ public class Depot implements Comparable<Depot>
 			}
 		}
 		transfer_sockets_active.clear();
-		log.info(status());
-
+		
 		state = depot_state.nascent;
+		log.info(status());
 	}
 
 	public Allocation allocateSoftByteArray(int duration, long size) throws IBPException
