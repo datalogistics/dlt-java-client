@@ -1,3 +1,6 @@
+/*******************************************************************************
+ * Copyright (c) : See the COPYRIGHT file in top-level/project directory
+ *******************************************************************************/
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -9,8 +12,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
+import javax.swing.JLabel;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
+
+import edu.crest.dlt.utils.Status;
+import edu.crest.dlt.utils.Status.ui_status;
+import java.awt.event.MouseEvent;
 
 /**
  *
@@ -36,73 +45,89 @@ public class FilesPanel extends javax.swing.JPanel
 	@SuppressWarnings("unchecked")
 	// <editor-fold defaultstate="collapsed"
 	// <editor-fold defaultstate="collapsed"
-    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-    private void initComponents() {
+	// <editor-fold defaultstate="collapsed"
+  // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+  private void initComponents() {
 
-        scrollpane_files = new javax.swing.JScrollPane();
-        table_files = new javax.swing.JTable();
+    scrollpane_files = new javax.swing.JScrollPane();
+    table_files = new javax.swing.JTable(){
+      //Implement table cell tool tips.
+      public String getToolTipText(MouseEvent e) {
+        String tip = null;
+        java.awt.Point p = e.getPoint();
+        int row = rowAtPoint(p);
+        int column = columnAtPoint(p);
 
-        setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Files", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 12))); // NOI18N
-
-        table_files.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-                "[]", "File(s)", "Status"
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.Boolean.class, java.lang.String.class, java.lang.String.class
-            };
-            boolean[] canEdit = new boolean [] {
-                true, false, false
-            };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
-        table_files.setColumnSelectionAllowed(true);
-        table_files.setFillsViewportHeight(true);
-        table_files.setShowHorizontalLines(false);
-        table_files.setShowVerticalLines(false);
-        table_files.getTableHeader().setReorderingAllowed(false);
-        scrollpane_files.setViewportView(table_files);
-        table_files.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
-        if (table_files.getColumnModel().getColumnCount() > 0) {
-            table_files.getColumnModel().getColumn(0).setMinWidth(20);
-            table_files.getColumnModel().getColumn(0).setPreferredWidth(20);
-            table_files.getColumnModel().getColumn(0).setMaxWidth(20);
-            table_files.getColumnModel().getColumn(1).setResizable(false);
-            table_files.getColumnModel().getColumn(2).setMinWidth(75);
-            table_files.getColumnModel().getColumn(2).setPreferredWidth(120);
-            table_files.getColumnModel().getColumn(2).setMaxWidth(150);
+        try {
+          ui_status status_file = (ui_status) getValueAt(row, column_index_status);
+          tip = Status.message(status_file);
+        } catch (Exception e1) {
         }
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(scrollpane_files, javax.swing.GroupLayout.DEFAULT_SIZE, 488, Short.MAX_VALUE)
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(scrollpane_files, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
-        );
-    }// </editor-fold>//GEN-END:initComponents
+        return tip;
+      }
+    };
 
-	public void add_file(String filename, String status)
+    setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Files", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 12))); // NOI18N
+
+    table_files.setModel(new javax.swing.table.DefaultTableModel(
+      new Object [][] {
+
+      },
+      new String [] {
+        "[]", "File(s)", "Status"
+      }
+    ) {
+      Class[] types = new Class [] {
+        java.lang.Boolean.class, java.lang.String.class, java.lang.Object.class
+      };
+      boolean[] canEdit = new boolean [] {
+        true, false, false
+      };
+
+      public Class getColumnClass(int columnIndex) {
+        return types [columnIndex];
+      }
+
+      public boolean isCellEditable(int rowIndex, int columnIndex) {
+        return canEdit [columnIndex];
+      }
+    });
+    table_files.setColumnSelectionAllowed(true);
+    table_files.setFillsViewportHeight(true);
+    table_files.getTableHeader().setReorderingAllowed(false);
+    scrollpane_files.setViewportView(table_files);
+    table_files.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+    if (table_files.getColumnModel().getColumnCount() > 0) {
+      table_files.getColumnModel().getColumn(0).setMinWidth(20);
+      table_files.getColumnModel().getColumn(0).setPreferredWidth(20);
+      table_files.getColumnModel().getColumn(0).setMaxWidth(20);
+      table_files.getColumnModel().getColumn(1).setResizable(false);
+      table_files.getColumnModel().getColumn(2).setMinWidth(50);
+      table_files.getColumnModel().getColumn(2).setPreferredWidth(50);
+      table_files.getColumnModel().getColumn(2).setMaxWidth(50);
+      table_files.getColumnModel().getColumn(2).setCellRenderer(new FileStatusRenderer());
+    }
+
+    javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
+    this.setLayout(layout);
+    layout.setHorizontalGroup(
+      layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+      .addComponent(scrollpane_files, javax.swing.GroupLayout.DEFAULT_SIZE, 488, Short.MAX_VALUE)
+    );
+    layout.setVerticalGroup(
+      layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+      .addComponent(scrollpane_files, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
+    );
+  }// </editor-fold>//GEN-END:initComponents
+
+	public void add_file(String filename, ui_status status)
 	{
 		DefaultTableModel table_files_model = (DefaultTableModel) table_files.getModel();
 		table_files_model.addRow(new Object[] { false, filename, status });
 	}
-	
-	public void add_files(List<String> files, String status)
+
+	public void add_files(List<String> files, ui_status status)
 	{
 		for (String file : files) {
 			add_file(file, status);
@@ -122,24 +147,25 @@ public class FilesPanel extends javax.swing.JPanel
 		return -1;
 	}
 
-	public String status_file(String filename)
+	public ui_status status_file(String filename)
 	{
 		int index_file = index_file(filename);
 		if (index_file == -1) {
 			return null;
 		}
 		TableModel table_files_model = table_files.getModel();
-		return (String) table_files_model.getValueAt(index_file, column_index_status);
+		try {
+		  return (ui_status) table_files_model.getValueAt(index_file, column_index_status);
+		} catch (Exception e) {
+			return null;
+		}
 	}
 
-	public void status_file(String filename, String status)
+	public void status_file(String filename, ui_status status)
 	{
 		int row_file = index_file(filename);
 		if (row_file != -1) {
 			TableModel table_files_model = table_files.getModel();
-			log.info((String) table_files_model.getValueAt(row_file, column_index_file)
-					+ " status change : "
-					+ (String) table_files_model.getValueAt(row_file, column_index_status) + " ~> " + status);
 			table_files_model.setValueAt(status, row_file, column_index_status);
 		}
 	}
@@ -156,7 +182,7 @@ public class FilesPanel extends javax.swing.JPanel
 		}
 		return files_selected;
 	}
-	
+
 	public void select_file(String filename)
 	{
 		if (filename == null) {
@@ -308,8 +334,28 @@ public class FilesPanel extends javax.swing.JPanel
 	private static final int column_index_file = 1;
 	private static final int column_index_status = 2;
 
-    // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JScrollPane scrollpane_files;
-    public javax.swing.JTable table_files;
-    // End of variables declaration//GEN-END:variables
+  // Variables declaration - do not modify//GEN-BEGIN:variables
+  private javax.swing.JScrollPane scrollpane_files;
+  public javax.swing.JTable table_files;
+  // End of variables declaration//GEN-END:variables
+
+	public static class FileStatusRenderer extends DefaultTableCellRenderer
+	{
+		public FileStatusRenderer()
+		{
+			setHorizontalAlignment(JLabel.CENTER);
+		}
+
+		@Override
+		protected void setValue(Object value)
+		{
+			if (value instanceof ui_status) {
+				ui_status status = (ui_status) value;
+				this.setIcon(Status.icon(status));
+//				this.setToolTipText(Status.message(status));
+			} else {
+				log.warning("Unknown FileStatus object [" + value + "]");
+			}
+		}
+	}
 }

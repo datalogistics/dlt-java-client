@@ -1,3 +1,6 @@
+/*******************************************************************************
+ * Copyright (c) : See the COPYRIGHT file in top-level/project directory
+ *******************************************************************************/
 /* $Id: ChecksumFunction.java,v 1.4 2008/05/24 22:25:51 linuxguy79 Exp $ */
 
 package edu.crest.dlt.exnode.function;

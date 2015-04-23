@@ -1,3 +1,6 @@
+/*******************************************************************************
+ * Copyright (c) : See the COPYRIGHT file in top-level/project directory
+ *******************************************************************************/
 package edu.crest.dlt.ibp;
 
 import java.io.IOException;
@@ -282,23 +285,23 @@ public class Depot implements Comparable<Depot>
 
 	public boolean connected()
 	{
-		/* if no outstanding connections */
-		if (count_connections() == 0) {
-			/* try to forge new connections */
-			more_connections();
-			
-			long time_monitor = Configuration.dlt_depot_connect_timeout;
-			for (long time_sleep = time_monitor/64; time_sleep < time_monitor; time_sleep *= 2) {
-				try {
-					Thread.sleep(time_sleep);
-				} catch (InterruptedException e) {
-					if (count_connections() == 0) {
-						continue;
-					}
-				}
-			}
-		}
-		return count_connections() > 0;
+//		/* if no outstanding connections */
+//		if (state == depot_state.nascent && count_connections() == 0) {
+//			/* try to forge new connections */
+//			more_connections();
+//			
+//			long time_monitor = Configuration.dlt_depot_connect_timeout;
+//			for (long time_sleep = time_monitor/64; time_sleep < time_monitor; time_sleep *= 2) {
+//				try {
+//					Thread.sleep(time_sleep);
+//				} catch (InterruptedException e) {
+//					if (count_connections() == 0) {
+//						continue;
+//					}
+//				}
+//			}
+//		}
+		return state != depot_state.nascent;// || count_connections() > 0;
 	}
 
 	/**

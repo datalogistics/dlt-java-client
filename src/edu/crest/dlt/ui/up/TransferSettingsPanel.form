@@ -44,20 +44,15 @@
               <EmptySpace min="-2" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" attributes="0">
+                      <Component id="input_connection_type" min="-2" pref="200" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="label_duration" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="102" attributes="0">
-                              <Component id="input_connection_type" min="-2" pref="200" max="-2" attributes="0"/>
-                              <EmptySpace type="separate" max="-2" attributes="0"/>
-                              <Component id="label_duration" min="-2" max="-2" attributes="0"/>
-                          </Group>
-                          <Component id="label_connection_count" alignment="1" min="-2" max="-2" attributes="0"/>
+                          <Component id="input_time_days" min="-2" pref="45" max="-2" attributes="0"/>
+                          <Component id="input_connection_count" min="-2" pref="57" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="1" attributes="0">
-                          <Component id="input_connection_count" alignment="1" min="-2" pref="45" max="-2" attributes="0"/>
-                          <Component id="input_time_days" alignment="1" min="-2" pref="45" max="-2" attributes="0"/>
-                      </Group>
-                      <EmptySpace max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="6" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" alignment="1" attributes="0">
                               <Component id="label_copies_count" min="-2" max="-2" attributes="0"/>
@@ -81,6 +76,9 @@
                               <Component id="input_block_size" min="-2" pref="58" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="input_block_unit" min="-2" pref="53" max="-2" attributes="0"/>
+                              <EmptySpace max="32767" attributes="0"/>
+                              <Component id="label_connection_count" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="107" max="-2" attributes="0"/>
                           </Group>
                           <Component id="scrollpane_depots" alignment="0" pref="0" max="32767" attributes="0"/>
                       </Group>
@@ -99,9 +97,9 @@
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="label_connection_type" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="input_connection_type" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="label_duration" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <Group type="103" alignment="0" groupAlignment="3" attributes="0">
-                      <Component id="label_duration" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="input_time_days" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="label_duration_days" alignment="3" max="32767" attributes="0"/>
                       <Component id="input_time_hours" alignment="3" min="-2" max="-2" attributes="0"/>

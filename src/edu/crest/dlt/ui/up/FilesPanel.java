@@ -1,3 +1,6 @@
+/*******************************************************************************
+ * Copyright (c) : See the COPYRIGHT file in top-level/project directory
+ *******************************************************************************/
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -10,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
+import java.awt.event.MouseEvent;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -19,6 +23,9 @@ import javax.swing.table.TableModel;
 import edu.crest.dlt.exnode.Directory;
 import edu.crest.dlt.ui.utils.img.Icons;
 import edu.crest.dlt.utils.Configuration;
+import edu.crest.dlt.utils.Status;
+import edu.crest.dlt.utils.Status.ui_status;
+import edu.crest.dlt.ui.down.FilesPanel.FileStatusRenderer;
 
 /**
  *
@@ -50,7 +57,23 @@ public class FilesPanel extends javax.swing.JPanel
   private void initComponents() {
 
     scrollpane_files = new javax.swing.JScrollPane();
-    table_files = new javax.swing.JTable();
+    table_files = new javax.swing.JTable(){
+      //Implement table cell tool tips.
+      public String getToolTipText(MouseEvent e) {
+        String tip = null;
+        java.awt.Point p = e.getPoint();
+        int row = rowAtPoint(p);
+        int column = columnAtPoint(p);
+
+        try {
+          ui_status status_file = (ui_status) getValueAt(row, column_index_status);
+          tip = Status.message(status_file);
+        } catch (Exception e1) {
+        }
+
+        return tip;
+      }
+    };
     button_add = new javax.swing.JButton();
     button_remove = new javax.swing.JButton();
     input_files_all = new javax.swing.JCheckBox();
@@ -68,7 +91,7 @@ public class FilesPanel extends javax.swing.JPanel
       }
     ) {
       Class[] types = new Class [] {
-        java.lang.Boolean.class, java.lang.String.class, java.lang.String.class
+        java.lang.Boolean.class, java.lang.String.class, java.lang.Object.class
       };
       boolean[] canEdit = new boolean [] {
         true, false, false
@@ -92,9 +115,10 @@ public class FilesPanel extends javax.swing.JPanel
       table_files.getColumnModel().getColumn(0).setPreferredWidth(20);
       table_files.getColumnModel().getColumn(0).setMaxWidth(20);
       table_files.getColumnModel().getColumn(1).setResizable(false);
-      table_files.getColumnModel().getColumn(2).setMinWidth(75);
-      table_files.getColumnModel().getColumn(2).setPreferredWidth(120);
-      table_files.getColumnModel().getColumn(2).setMaxWidth(150);
+      table_files.getColumnModel().getColumn(2).setMinWidth(50);
+      table_files.getColumnModel().getColumn(2).setPreferredWidth(50);
+      table_files.getColumnModel().getColumn(2).setMaxWidth(50);
+      table_files.getColumnModel().getColumn(2).setCellRenderer(new FileStatusRenderer());
     }
 
     button_add.setIcon(Icons.icon_plus);
@@ -181,7 +205,7 @@ public class FilesPanel extends javax.swing.JPanel
 
 		if (result == JFileChooser.APPROVE_OPTION) {
 			List<String> files = file_paths(chooser.getSelectedFiles());
-			add_files(files, "Ready");
+			add_files(files, ui_status.upload_ready);
 
 			synchronized (this) {
 				this.notify();
@@ -238,13 +262,13 @@ public class FilesPanel extends javax.swing.JPanel
 		return file_paths;
 	}
 
-	public void add_file(String filename, String status)
+	public void add_file(String filename, ui_status status)
 	{
 		DefaultTableModel table_files_model = (DefaultTableModel) table_files.getModel();
 		table_files_model.addRow(new Object[] { false, filename, status });
 	}
 
-	public void add_files(List<String> files, String status)
+	public void add_files(List<String> files, ui_status status)
 	{
 		for (String file : files) {
 			add_file(file, status);
@@ -264,24 +288,25 @@ public class FilesPanel extends javax.swing.JPanel
 		return -1;
 	}
 
-	public String status_file(String filename)
+	public ui_status status_file(String filename)
 	{
 		int index_file = index_file(filename);
 		if (index_file == -1) {
 			return null;
 		}
 		TableModel table_files_model = table_files.getModel();
-		return (String) table_files_model.getValueAt(index_file, column_index_status);
+		try {
+		  return (ui_status) table_files_model.getValueAt(index_file, column_index_status);
+		} catch (Exception e) {
+			return null;
+		}
 	}
 
-	public void status_file(String filename, String status)
+	public void status_file(String filename, ui_status status)
 	{
 		int row_file = index_file(filename);
 		if (row_file != -1) {
 			TableModel table_files_model = table_files.getModel();
-			log.info((String) table_files_model.getValueAt(row_file, column_index_file)
-					+ " status change : "
-					+ (String) table_files_model.getValueAt(row_file, column_index_status) + " ~> " + status);
 			table_files_model.setValueAt(status, row_file, column_index_status);
 		}
 	}

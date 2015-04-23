@@ -1,3 +1,6 @@
+/*******************************************************************************
+ * Copyright (c) : See the COPYRIGHT file in top-level/project directory
+ *******************************************************************************/
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -35,6 +38,7 @@ import edu.crest.dlt.ibp.Depot;
 import edu.crest.dlt.ui.down.DownloadPanel;
 import edu.crest.dlt.ui.utils.img.Icons;
 import edu.crest.dlt.utils.Configuration;
+import edu.crest.dlt.utils.Status.ui_status;
 
 /**
  *
@@ -206,7 +210,7 @@ public class UploadPanel extends javax.swing.JPanel
 						Exnode exnode_to_upload = map_filename_exnode.get(file_to_upload);
 						if (exnode_to_upload == null) {
 							log.severe("failed to retrieve exnode for : " + file_to_upload);
-							panel_files.status_file(file_to_upload, "Failed (Metadata)");
+							panel_files.status_file(file_to_upload, ui_status.metadata_error);//"Failed (Metadata)"
 							continue;
 						}
 
@@ -221,13 +225,13 @@ public class UploadPanel extends javax.swing.JPanel
 						panel_transfer_progress.size(bytes_to_upload);
 						exnode_to_upload.add(panel_transfer_progress);
 
-						panel_files.status_file(file_to_upload, "In Progress");
+						panel_files.status_file(file_to_upload, ui_status.uploading);//"In Progress");
 						exnode_to_upload.directory = directory;
 						if (exnode_to_upload.write(
 								new HashSet<Depot>(panel_transfer_settings.depots_selected()), copies,
 								panel_transfer_settings.time_seconds(), panel_transfer_settings.transfer_size(),
 								null, panel_transfer_settings.count_connections())) {
-							panel_files.status_file(file_to_upload, "Registering");
+							panel_files.status_file(file_to_upload, ui_status.file_registering);//"Registering");
 
 							/* Register the new exnode with the registry-service (UNIS) */
 							String selfRef = Configuration.dlt_exnode_registry_unis
@@ -242,18 +246,18 @@ public class UploadPanel extends javax.swing.JPanel
 //								throw new CreateResourceException("selfRef=null");
 //							}
 
-							panel_files.status_file(file_to_upload, "Done");
+							panel_files.status_file(file_to_upload, ui_status.transfer_sucess);//"Done");
 						} else {
-							String previousStatus = panel_files.status_file(file_to_upload);
-							if ("In Progress".equals(previousStatus)) {
-								panel_files.status_file(file_to_upload, "Failed");
-							} else if ("Cancelling".equals(previousStatus) || "Cancelled".equals(previousStatus)) {
-								panel_files.status_file(file_to_upload, "Cancelled");
+							ui_status previousStatus = panel_files.status_file(file_to_upload);
+							if (ui_status.uploading == previousStatus) {
+								panel_files.status_file(file_to_upload, ui_status.upload_failed);//"Failed");
+							} else if (ui_status.transfer_aborting == previousStatus || ui_status.transfer_aborted == previousStatus) {
+								panel_files.status_file(file_to_upload, ui_status.transfer_aborted);//"Cancelled");
 							}
 						}
 					} catch (Exception e) {
 						log.warning("failed to upload " + file_to_upload + ". " + e.getMessage());
-						panel_files.status_file(file_to_upload, "Failed");
+						panel_files.status_file(file_to_upload, ui_status.upload_failed);//"Failed");
 					}
 				}
 
@@ -290,12 +294,9 @@ public class UploadPanel extends javax.swing.JPanel
 						throw new Exception("failed to retrieve exnode for file name : " + file_selected);
 					}
 
-					// setTitle(Configuration.bd_ui_title + " (Cancelling " + count +
-					// ")");
-
-					panel_files.status_file(file_selected, "Cancelling");
+					panel_files.status_file(file_selected, ui_status.transfer_aborting);//"Cancelling");
 					exnode_to_cancel.transfer_cancel();
-					panel_files.status_file(file_selected, "Cancelled");
+					panel_files.status_file(file_selected, ui_status.transfer_aborted);//"Cancelled");
 					panel_files.deselect_file(file_selected);
 				} catch (Exception e) {
 				}
@@ -303,8 +304,6 @@ public class UploadPanel extends javax.swing.JPanel
 			}
 			panel_files.deselect_files_all();
 			panel_transfer_progress.clear();
-
-			// setTitle(Configuration.bd_ui_title + " (Download)");
 
 			panel_transfer_settings.enable();
 			panel_files.enable();
@@ -332,7 +331,7 @@ public class UploadPanel extends javax.swing.JPanel
 		for (Map.Entry<String, Exnode> entry : map_filename_exnode.entrySet()) {
 			if (entry.getValue() == null) {
 				/* if exnode not found, fail the file-"path" */
-				panel_files.add_file(entry.getKey(), "I/O error");
+				panel_files.add_file(entry.getKey(), ui_status.file_not_found);//"I/O error");
 			} else {
 				/* if exnode is not in ready state yet, */
 				if (!entry.getValue().accessible(service_exnode.write)) {
@@ -348,10 +347,10 @@ public class UploadPanel extends javax.swing.JPanel
 					 * if exnode is still not ready, declare the file-"name" waiting for
 					 * depots
 					 */
-					panel_files.add_file(entry.getKey(), "Waiting");
+					panel_files.add_file(entry.getKey(), ui_status.not_enough_depots);//"Waiting");
 				} else {
 					/* else publish file-"name" for download */
-					panel_files.add_file(entry.getKey(), "Ready");
+					panel_files.add_file(entry.getKey(), ui_status.upload_ready);//"Ready");
 				}
 			}
 			// panel_files.add_file(entry.getKey(), (entry.getValue() != null ?

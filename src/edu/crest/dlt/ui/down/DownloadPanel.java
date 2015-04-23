@@ -1,3 +1,6 @@
+/*******************************************************************************
+ * Copyright (c) : See the COPYRIGHT file in top-level/project directory
+ *******************************************************************************/
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -33,6 +36,8 @@ import edu.crest.dlt.transfer.MapProgressListener;
 import edu.crest.dlt.ui.utils.img.Icons;
 import edu.crest.dlt.utils.Configuration;
 import edu.crest.dlt.utils.DefaultOuputFileNameGenerater;
+import edu.crest.dlt.utils.Status;
+import edu.crest.dlt.utils.Status.ui_status;
 
 /**
  * @author Rohit
@@ -219,12 +224,9 @@ public class DownloadPanel extends javax.swing.JPanel
 						throw new Exception("failed to retrieve exnode for file name : " + file_selected);
 					}
 
-					// setTitle(Configuration.bd_ui_title + " (Cancelling " + count +
-					// ")");
-
-					panel_files.status_file(file_selected, "Cancelling");
+					panel_files.status_file(file_selected, ui_status.transfer_aborting);//"Cancelling"
 					exnode_to_cancel.transfer_cancel();
-					panel_files.status_file(file_selected, "Cancelled");
+					panel_files.status_file(file_selected, ui_status.transfer_aborted);//"Cancelled"
 					panel_files.deselect_file(file_selected);
 				} catch (Exception e) {
 				}
@@ -232,8 +234,6 @@ public class DownloadPanel extends javax.swing.JPanel
 			}
 			panel_files.deselect_files_all();
 			panel_transfer_progress.clear();
-
-			// setTitle(Configuration.bd_ui_title + " (Download)");
 
 			panel_transfer_settings.enable();
 			panel_output_directory.enable();
@@ -276,7 +276,7 @@ public class DownloadPanel extends javax.swing.JPanel
 						Exnode exnode_to_download = map_filename_exnode.get(file_to_download);
 						if (exnode_to_download == null) {
 							log.severe("failed to retrieve exnode for : " + file_to_download);
-							panel_files.status_file(file_to_download, "Failed (Metadata)");
+							panel_files.status_file(file_to_download, ui_status.transfer_aborted);//"Failed (Metadata)"
 							continue;
 						}
 
@@ -301,22 +301,22 @@ public class DownloadPanel extends javax.swing.JPanel
 						panel_transfer_progress.size(bytes_to_download);
 						exnode_to_download.add(panel_transfer_progress);
 
-						panel_files.status_file(file_to_download, "In Progress");
+						panel_files.status_file(file_to_download, ui_status.downloading);//"In Progress"
 						if (exnode_to_download.read(target_file_absolute_path,
 								(int) panel_transfer_settings.transfer_size(),
 								panel_transfer_settings.count_connections())) {
-							panel_files.status_file(file_to_download, "Done");
+							panel_files.status_file(file_to_download, ui_status.transfer_sucess);//"Done"
 						} else {
-							String previousStatus = panel_files.status_file(file_to_download);
-							if ("In Progress".equals(previousStatus)) {
-								panel_files.status_file(file_to_download, "Failed");
-							} else if ("Cancelling".equals(previousStatus) || "Cancelled".equals(previousStatus)) {
-								panel_files.status_file(file_to_download, "Cancelled");
+							ui_status previousStatus = panel_files.status_file(file_to_download);
+							if (ui_status.downloading == previousStatus) {
+								panel_files.status_file(file_to_download, ui_status.transfer_failed);//"Failed"
+							} else if (ui_status.transfer_aborting == previousStatus || ui_status.transfer_aborted == previousStatus) {
+								panel_files.status_file(file_to_download, ui_status.transfer_aborted);//"Cancelled"
 							}
 						}
 					} catch (Exception e) {
 						log.warning("failed to download " + file_to_download + ". " + e.getMessage());
-						panel_files.status_file(file_to_download, "Failed");
+						panel_files.status_file(file_to_download, ui_status.transfer_failed);//"Failed"
 					}
 
 					count_files_to_download--;
@@ -492,7 +492,7 @@ public class DownloadPanel extends javax.swing.JPanel
 		for (Map.Entry<String, Exnode> entry : map_filename_exnode.entrySet()) {
 			if (entry.getValue() == null) {
 				/* if exnode not found, fail the file-"path" */
-				panel_files.add_file(entry.getKey(), "Metadata error");
+				panel_files.add_file(entry.getKey(), ui_status.metadata_error);//"Metadata error");
 			} else {
 				/* if exnode is not in ready state yet, */
 				if (!entry.getValue().accessible(service_exnode.read)) {
@@ -505,10 +505,10 @@ public class DownloadPanel extends javax.swing.JPanel
 				}
 				if (!entry.getValue().accessible(service_exnode.read)) {
 					/* if exnode is still not ready, fail the file-"name" */
-					panel_files.add_file(entry.getKey(), "Connect error");
+					panel_files.add_file(entry.getKey(), ui_status.mappings_inaccessible);//"Connect error");
 				} else {
 					/* else publish file-"name" for download */
-					panel_files.add_file(entry.getKey(), "Ready");
+					panel_files.add_file(entry.getKey(), ui_status.download_ready);//"Ready");
 				}
 			}
 			// panel_files.add_file(entry.getKey(), (entry.getValue() != null ?
@@ -547,6 +547,7 @@ public class DownloadPanel extends javax.swing.JPanel
 				try {
 					exnode = ExnodeBuilder.uef(url);
 				} catch (Exception e2) {
+					e2.printStackTrace();
 					log.warning("failed to obtain exnode from url : " + url_string);
 				}
 			}

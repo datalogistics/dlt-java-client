@@ -1,3 +1,6 @@
+/*******************************************************************************
+ * Copyright (c) : See the COPYRIGHT file in top-level/project directory
+ *******************************************************************************/
 package edu.crest.dlt.exnode;
 
 import java.io.File;
@@ -79,7 +82,11 @@ public class ExnodeBuilder
 	public static Exnode uef(URL url_uef) throws DeserializeException, IOException
 	{
 		JsonReader json_reader = Json.createReader(url_uef.openStream());
-		return Exnode.json(json_reader.readObject());
+//		try {
+//		  return Exnode.json(json_reader.readObject());
+//		} catch (Exception e) {
+	  return Exnode.json(json_reader.readArray().getJsonObject(0));
+//		}
 	}
 
 	public static void uef(Exnode exnode, String filename_uef) throws IOException, SerializeException
