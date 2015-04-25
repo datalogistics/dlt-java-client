@@ -40,7 +40,6 @@ import edu.crest.dlt.utils.Status.ui_status;
 
 public class DownloadPanel extends javax.swing.JPanel
 {
-
 	private static final Logger log = Logger.getLogger(DownloadPanel.class.getName());
 
 	private Map<String, Exnode> map_filename_exnode;
@@ -57,11 +56,8 @@ public class DownloadPanel extends javax.swing.JPanel
 			/* obtain exnodes for download */
 			obtain_exnodes();
 
-			/* setup obtained exnodes for download */
+			/* setup & publish obtained exnodes for download */
 			setup_exnodes();
-
-			/* publish ready exnodes for download (by filename) */
-			publish_downloads();
 
 			panel_transfer_settings.enable();
 		}).start();
@@ -75,9 +71,9 @@ public class DownloadPanel extends javax.swing.JPanel
 						panel_transfer_settings.wait();
 					}
 
-					/* setup obtained exnodes using selected transfer-settings */
+					panel_files.remove_files_all();
+					/* setup obtained exnodes using selected transfer-settings & publish */
 					setup_exnodes();
-					publish_downloads();
 				} catch (InterruptedException e) {
 				}
 			}
@@ -236,9 +232,9 @@ public class DownloadPanel extends javax.swing.JPanel
 						throw new Exception("failed to retrieve exnode for file name : " + file_selected);
 					}
 
-					panel_files.status_file(file_selected, ui_status.transfer_aborting);// "Cancelling"
+					panel_files.status_file(file_selected, ui_status.transfer_aborting);
 					exnode_to_cancel.transfer_cancel();
-					panel_files.status_file(file_selected, ui_status.transfer_aborted);// "Cancelled"
+					panel_files.status_file(file_selected, ui_status.transfer_aborted);
 					panel_files.deselect_file(file_selected);
 				} catch (Exception e) {
 				}
@@ -285,63 +281,58 @@ public class DownloadPanel extends javax.swing.JPanel
 					Exnode exnode_to_download = map_filename_exnode.get(file_to_download);
 					if (exnode_to_download == null) {
 						log.severe("failed to retrieve exnode for : " + file_to_download);
-						panel_files.status_file(file_to_download, ui_status.transfer_aborted);// "Failed (Metadata)"
-				continue;
-			}
-
-			long bytes_to_download = exnode_to_download.length();
-			String target_file_absolute_path = DefaultOuputFileNameGenerater.getOuputFileName(
-					exnode_to_download, target_directory);
-			String target_file = file_to_download;
-			if (target_file_absolute_path.contains(")")) {
-				String[] components_path = target_file_absolute_path.split("\\(");
-
-				String file_extension = DefaultOuputFileNameGenerater.getExtension(file_to_download);
-				target_file = file_to_download.substring(0,
-						file_to_download.length() - file_extension.length());
-				target_file = target_file + "(" + components_path[components_path.length - 1];
-			}
-
-			// setTitle(Configuration.bd_ui_title + " (Downloading " +
-			// count_files_to_download + ")");
-
-				panel_transfer_progress.clear();
-				panel_transfer_progress.filename(target_file);
-				panel_transfer_progress.size(bytes_to_download);
-				exnode_to_download.add(panel_transfer_progress);
-
-				panel_files.status_file(file_to_download, ui_status.downloading);// "In Progress"
-				if (exnode_to_download.read(target_file_absolute_path,
-						(int) panel_transfer_settings.transfer_size(),
-						panel_transfer_settings.count_connections())) {
-					panel_files.status_file(file_to_download, ui_status.transfer_sucess);// "Done"
-				} else {
-					ui_status previousStatus = panel_files.status_file(file_to_download);
-					if (ui_status.downloading == previousStatus) {
-						panel_files.status_file(file_to_download, ui_status.transfer_failed);// "Failed"
-					} else if (ui_status.transfer_aborting == previousStatus
-							|| ui_status.transfer_aborted == previousStatus) {
-						panel_files.status_file(file_to_download, ui_status.transfer_aborted);// "Cancelled"
+						panel_files.status_file(file_to_download, ui_status.transfer_aborted);
+						continue;
 					}
+
+					long bytes_to_download = exnode_to_download.length();
+					String target_file_absolute_path = DefaultOuputFileNameGenerater.getOuputFileName(
+							exnode_to_download, target_directory);
+					String target_file = file_to_download;
+					if (target_file_absolute_path.contains(")")) {
+						String[] components_path = target_file_absolute_path.split("\\(");
+
+						String file_extension = DefaultOuputFileNameGenerater.getExtension(file_to_download);
+						target_file = file_to_download.substring(0,
+								file_to_download.length() - file_extension.length());
+						target_file = target_file + "(" + components_path[components_path.length - 1];
+					}
+
+					panel_transfer_progress.clear();
+					panel_transfer_progress.filename(target_file);
+					panel_transfer_progress.size(bytes_to_download);
+					exnode_to_download.add(panel_transfer_progress);
+
+					panel_files.status_file(file_to_download, ui_status.downloading);
+					if (exnode_to_download.read(target_file_absolute_path,
+							(int) panel_transfer_settings.transfer_size(),
+							panel_transfer_settings.count_connections())) {
+						panel_files.status_file(file_to_download, ui_status.transfer_sucess);
+					} else {
+						ui_status previousStatus = panel_files.status_file(file_to_download);
+						if (ui_status.downloading == previousStatus) {
+							panel_files.status_file(file_to_download, ui_status.transfer_failed);
+						} else if (ui_status.transfer_aborting == previousStatus
+								|| ui_status.transfer_aborted == previousStatus) {
+							panel_files.status_file(file_to_download, ui_status.transfer_aborted);
+						}
+					}
+				} catch (Exception e) {
+					log.warning("failed to download " + file_to_download + ". " + e.getMessage());
+					panel_files.status_file(file_to_download, ui_status.transfer_failed);
 				}
-			} catch (Exception e) {
-				log.warning("failed to download " + file_to_download + ". " + e.getMessage());
-				panel_files.status_file(file_to_download, ui_status.transfer_failed);// "Failed"
+
+				count_files_to_download--;
+				panel_files.deselect_file(file_to_download);
 			}
 
-			count_files_to_download--;
-			panel_files.deselect_file(file_to_download);
-		}
+			panel_files.deselect_files_all();
+			panel_transfer_settings.enable();
+			panel_output_directory.enable();
+			button_download.setEnabled(true);
 
-		// setTitle(Configuration.bd_ui_title + " (Download)");
-
-		panel_files.deselect_files_all();
-		panel_transfer_settings.enable();
-		panel_output_directory.enable();
-		button_download.setEnabled(true);
-
-		Toolkit.getDefaultToolkit().beep();
-	}	).start();
+			Toolkit.getDefaultToolkit().beep();
+		}).start();
 	}// GEN-LAST:event_button_download_clicked
 
 	private Map<String, ArrayList<URL>> obtain_local_exnodes_get_urls()
@@ -445,39 +436,39 @@ public class DownloadPanel extends javax.swing.JPanel
 				}
 			}
 
-			/**
-			 * TODO: if only part of the concatenated URL produces into valid exnodes
-			 * only those are shown on the files panel; the failed ones are ignored.
-			 * but if concatenated URL's fail, then all stripped url's are tried and
-			 * the failed URL's will be shown on files panel
-			 */
-			boolean url_concatenated_supported = true;
+			/* obtain exnodes from per-host concatenated-url's */
 			for (Entry<String, StringBuffer> hostUrl : urls_concatenated.entrySet()) {
 				List<Exnode> exnodes = url(hostUrl.getValue().toString());
-				if (exnodes.size() == 0) {
-					url_concatenated_supported = false;
-					break;
-				}
 				for (Exnode exnode : exnodes) {
 					String session_id = session_ids.size() > 0 ? session_ids.remove(0) : "";
 					exnode.add(new MapProgressListener(session_id, exnode, this));
 					map_filename_exnode.put(exnode.filename(), exnode);
 				}
 			}
-			if (!url_concatenated_supported) {
+
+			/* remove url's of exnodes obtained through concatenated-url */
+			for (Exnode exnode : map_filename_exnode.values()) {
 				for (URL url : urls_stripped) {
-					List<Exnode> exnodes = url(url.toString());
-
-					if (exnodes == null || exnodes.isEmpty()) {
-						map_filename_exnode.put(url.getPath(), null);
-						continue;
+					if (url.toString().endsWith(exnode.id())) {
+						urls_stripped.remove(url);
+						break;
 					}
+				}
+			}
 
-					for (Exnode exnode : exnodes) {
-						String session_id = session_ids.size() > 0 ? session_ids.remove(0) : "";
-						exnode.add(new MapProgressListener(session_id, exnode, this));
-						map_filename_exnode.put(exnode.filename(), exnode);
-					}
+			/* obtain exnodes from individual url's */
+			for (URL url : urls_stripped) {
+				List<Exnode> exnodes = url(url.toString());
+
+				if (exnodes == null || exnodes.isEmpty()) {
+					map_filename_exnode.put(url.getPath(), null);
+					continue;
+				}
+
+				for (Exnode exnode : exnodes) {
+					String session_id = session_ids.size() > 0 ? session_ids.remove(0) : "";
+					exnode.add(new MapProgressListener(session_id, exnode, this));
+					map_filename_exnode.put(exnode.filename(), exnode);
 				}
 			}
 		}
@@ -489,20 +480,22 @@ public class DownloadPanel extends javax.swing.JPanel
 			if (entry.getValue() != null) {
 				entry.getValue().setup_read(panel_transfer_settings.transfer_size());
 			}
+			publish_download(entry.getKey(), entry.getValue());
 		}
 	}
 
-	private void publish_downloads()
+	private void publish_download(String filename, Exnode exnode)
 	{
-		panel_files.remove_files_all();
+		panel_files.add_file(filename, ui_status.processing);
 
-		for (Map.Entry<String, Exnode> entry : map_filename_exnode.entrySet()) {
-			if (entry.getValue() == null) {
+		/* start status-updater thread */
+		new Thread(() -> {
+			if (exnode == null) {
 				/* if exnode not found, fail the file-"path" */
-				panel_files.add_file(entry.getKey(), ui_status.metadata_error);// "Metadata error");
+				panel_files.status_file(filename, ui_status.metadata_error);
 			} else {
 				/* if exnode is not in ready state yet, */
-				if (!entry.getValue().accessible(service_exnode.read)) {
+				if (!exnode.accessible(service_exnode.read)) {
 					try {
 						/* wait for connection-setup timeout */
 						Thread.sleep(Configuration.dlt_depot_connect_timeout);
@@ -510,17 +503,15 @@ public class DownloadPanel extends javax.swing.JPanel
 						e.printStackTrace();
 					}
 				}
-				if (!entry.getValue().accessible(service_exnode.read)) {
+				if (!exnode.accessible(service_exnode.read)) {
 					/* if exnode is still not ready, fail the file-"name" */
-					panel_files.add_file(entry.getKey(), ui_status.mappings_inaccessible);// "Connect error");
+					panel_files.status_file(filename, ui_status.mappings_inaccessible);
 				} else {
 					/* else publish file-"name" for download */
-					panel_files.add_file(entry.getKey(), ui_status.download_ready);// "Ready");
+					panel_files.status_file(filename, ui_status.download_ready);
 				}
 			}
-			// panel_files.add_file(entry.getKey(), (entry.getValue() != null ?
-			// "Ready" : "Failed"));
-		}
+		}).start();
 	}
 
 	public List<Exnode> url(String url_string)

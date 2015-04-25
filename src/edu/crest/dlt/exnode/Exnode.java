@@ -333,10 +333,14 @@ public class Exnode extends MetadataContainer
 		}
 		return length;
 	}
+	
+	public String id()
+	{
+		return get("id").getString();
+	}
 
 	public String filename()
 	{
-		// return get("filename").getString();
 		return get("name").getString();
 	}
 
