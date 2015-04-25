@@ -7,9 +7,9 @@ package edu.crest.dlt.transfer;
 
 public interface ProgressListener
 {
-    public void progressUpdated( ProgressEvent e );
+	public void progressUpdated(ProgressEvent e);
 
-    public void progressDone( ProgressEvent e );
+	public void progressDone(ProgressEvent e);
 
-    public void progressError( ProgressEvent e );
+	public void progressError(ProgressEvent e);
 }

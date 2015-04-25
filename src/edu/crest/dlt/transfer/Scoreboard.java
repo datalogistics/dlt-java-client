@@ -13,9 +13,6 @@ import java.util.logging.Logger;
 import edu.crest.dlt.exnode.Mapping;
 import edu.crest.dlt.ibp.Depot;
 
-/**
- * @author rkhapare 03/16/2015
- */
 public class Scoreboard
 {
 	private static Logger log = Logger.getLogger(Scoreboard.class.getName());

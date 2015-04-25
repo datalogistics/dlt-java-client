@@ -11,18 +11,13 @@ package edu.crest.dlt.exnode.function;
 
 import edu.crest.dlt.exception.UnknownFunctionException;
 
-/**
- * @author millar
- *
- *         To change the template for this generated type comment go to
- *         Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
- */
 public class FunctionFactory
 {
-	public FunctionFactory() {
+	public FunctionFactory()
+	{
 	}
 
-	public static Function function( String name ) throws UnknownFunctionException
+	public static Function function(String name) throws UnknownFunctionException
 	{
 		if (name.compareToIgnoreCase("checksum") == 0) {
 			return (new FunctionChecksum());

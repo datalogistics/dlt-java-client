@@ -82,10 +82,11 @@ public class ExnodeBuilder
 	public static Exnode uef(URL url_uef) throws DeserializeException, IOException
 	{
 		JsonReader json_reader = Json.createReader(url_uef.openStream());
-		if (url_uef.getQuery() == null || url_uef.getQuery().trim().length() == 0 || !url_uef.getQuery().startsWith("id")) {
+		if (url_uef.getQuery() == null || url_uef.getQuery().trim().length() == 0
+				|| !url_uef.getQuery().startsWith("id")) {
 			return Exnode.json(json_reader.readObject());
 		} else {
-	    return Exnode.json(json_reader.readArray().getJsonObject(0));
+			return Exnode.json(json_reader.readArray().getJsonObject(0));
 		}
 	}
 

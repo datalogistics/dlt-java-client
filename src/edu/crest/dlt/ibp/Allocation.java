@@ -58,8 +58,9 @@ public class Allocation
 				&& (write == null || (write.host.equals(host) && write.port.equals(port)))
 				&& (manage == null || (manage.host.equals(host) && manage.port.equals(port)));
 	}
-	
-	public boolean accessible() {
+
+	public boolean accessible()
+	{
 		return depot.connected();
 	}
 
@@ -108,8 +109,8 @@ public class Allocation
 		return (IBPCommand.store(socket_to_read, this, buf, size));
 	}
 
-	public int load(Socket socket_to_read, byte[] buf, long size, long readOffset,
-			int writeOffset) throws IBPException
+	public int load(Socket socket_to_read, byte[] buf, long size, long readOffset, int writeOffset)
+			throws IBPException
 	{
 		return (IBPCommand.load(socket_to_read, this, buf, size, readOffset, writeOffset));
 	}

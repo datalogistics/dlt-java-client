@@ -9,26 +9,17 @@
  */
 package edu.crest.dlt.exception;
 
-/**
- * @author millar
- *
- * To change the template for this generated type comment go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
- */
 public class ReadException extends Exception
 {
-    /**
-	 * 
-	 */
 	private static final long serialVersionUID = 2736350509022053900L;
 
 	public ReadException()
-    {
-        super();
-    }
+	{
+		super();
+	}
 
-    public ReadException( String msg )
-    {
-        super( msg );
-    }
+	public ReadException(String msg)
+	{
+		super(msg);
+	}
 }

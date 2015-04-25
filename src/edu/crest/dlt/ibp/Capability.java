@@ -99,11 +99,12 @@ public class Capability
 			throw (new DeserializeException(ex.getMessage()));
 		}
 	}
-	
+
 	/**
 	 * @return "String" value of this capability
 	 */
-	public String json() {
+	public String json()
+	{
 		return uri.toString();
 	}
 
@@ -129,7 +130,7 @@ public class Capability
 			throw (new DeserializeException(ex.getMessage()));
 		}
 	}
-	
+
 	public String toString()
 	{
 		return (uri.toString());

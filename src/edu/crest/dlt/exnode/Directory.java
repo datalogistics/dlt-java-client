@@ -65,7 +65,7 @@ public class Directory extends MetadataContainer
 	{
 		return get("id") != null ? get("id").getString() : null;
 	}
-	
+
 	public String name()
 	{
 		return get("name").getString();
@@ -86,7 +86,8 @@ public class Directory extends MetadataContainer
 		}
 
 		/* if "parent" not already set */
-//		if (id() == null || get("id") == null || get("parent").getString().length() != id().length()) {
+		// if (id() == null || get("id") == null ||
+		// get("parent").getString().length() != id().length()) {
 		if (get("parent") == null && parent != null) {
 			json_builder.add("parent", parent.id());
 		} else {
@@ -95,7 +96,7 @@ public class Directory extends MetadataContainer
 
 		return json_builder.build();
 	}
-	
+
 	public void json(JsonObject json)
 	{
 		add(json, "name", MetadataString.class);

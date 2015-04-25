@@ -12,12 +12,6 @@ package edu.crest.dlt.exnode.metadata;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
-/**
- * @author millar
- *
- *         To change the template for this generated type comment go to
- *         Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
- */
 public class MetadataDouble extends Metadata
 {
 	public MetadataDouble(String name, Double value)

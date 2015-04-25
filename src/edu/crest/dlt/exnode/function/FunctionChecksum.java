@@ -61,7 +61,7 @@ public class FunctionChecksum extends Function
 		switch (mode) {
 
 			case SET_CS: // set checksum [<-- checksum (32)-->:<-- rawBuf
-							// (rawBuf.length) -->]
+				// (rawBuf.length) -->]
 
 				checksum = keyed_digest(rawBuf);
 				String checksumHexStr = hex(checksum) + ":";
@@ -117,13 +117,15 @@ public class FunctionChecksum extends Function
 					log.info("lastblocksize = " + lastblocksize);
 
 					tmpbuf = new byte[(int) lastblocksize];
-					System.arraycopy(rawBuf, (int) (blocksize * nb) + CHECKSUM_HEADER_SIZE, tmpbuf, 0, (int) lastblocksize);
+					System.arraycopy(rawBuf, (int) (blocksize * nb) + CHECKSUM_HEADER_SIZE, tmpbuf, 0,
+							(int) lastblocksize);
 
 					byte[] hash = keyed_digest(tmpbuf);
 
 					if (MessageDigest.isEqual(checksum, hash)) {
 						// if(true) {
-						System.arraycopy(tmpbuf, 0, buf_wo_cs, (int) ((blocksize - CHECKSUM_HEADER_SIZE) * nb), (int) lastblocksize);
+						System.arraycopy(tmpbuf, 0, buf_wo_cs, (int) ((blocksize - CHECKSUM_HEADER_SIZE) * nb),
+								(int) lastblocksize);
 
 					} else {
 						throw (new ChecksumException("Checksums differ!"));

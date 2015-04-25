@@ -8,18 +8,18 @@ package edu.crest.dlt.exception;
 public class ChecksumException extends Exception
 {
 
-    /**
+	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 6251848394322272113L;
 
 	public ChecksumException()
-    {
-        super();
-    }
+	{
+		super();
+	}
 
-    public ChecksumException( String msg )
-    {
-        super( msg );
-    }
+	public ChecksumException(String msg)
+	{
+		super(msg);
+	}
 }

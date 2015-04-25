@@ -155,7 +155,8 @@ public abstract class Function extends MetadataContainer
 
 	public static String hex(byte b)
 	{
-		char digit16[] = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f' };
+		char digit16[] = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e',
+				'f' };
 		char[] array = { digit16[(b >> 4) & 0x0f], digit16[b & 0x0f] };
 		return new String(array);
 	}

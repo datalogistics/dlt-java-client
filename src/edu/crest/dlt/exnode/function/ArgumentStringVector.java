@@ -11,9 +11,6 @@ package edu.crest.dlt.exnode.function;
 
 import java.util.Vector;
 
-/**
- * @author millar
- */
 public class ArgumentStringVector extends ArgumentVector
 {
 	Vector<ArgumentString> value = null;

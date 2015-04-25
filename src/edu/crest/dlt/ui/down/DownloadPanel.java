@@ -36,12 +36,8 @@ import edu.crest.dlt.transfer.MapProgressListener;
 import edu.crest.dlt.ui.utils.img.Icons;
 import edu.crest.dlt.utils.Configuration;
 import edu.crest.dlt.utils.DefaultOuputFileNameGenerater;
-import edu.crest.dlt.utils.Status;
 import edu.crest.dlt.utils.Status.ui_status;
 
-/**
- * @author Rohit
- */
 public class DownloadPanel extends javax.swing.JPanel
 {
 
@@ -57,43 +53,35 @@ public class DownloadPanel extends javax.swing.JPanel
 		initComponents();
 
 		panel_transfer_settings.disable();
-		new Thread()
-		{
-			public void run()
-			{
-				/* obtain exnodes for download */
-				obtain_exnodes();
+		new Thread(() -> {
+			/* obtain exnodes for download */
+			obtain_exnodes();
 
-				/* setup obtained exnodes for download */
-				setup_exnodes();
+			/* setup obtained exnodes for download */
+			setup_exnodes();
 
-				/* publish ready exnodes for download (by filename) */
-				publish_downloads();
+			/* publish ready exnodes for download (by filename) */
+			publish_downloads();
 
-				panel_transfer_settings.enable();
-			}
-		}.start();
+			panel_transfer_settings.enable();
+		}).start();
 
-		new Thread()
-		{
-			public void run()
-			{
-				while (true) {
-					try {
-						synchronized (panel_transfer_settings) {
-							/* wait on transfer-settings state-change */
-							log.info("transfer-settings listener waiting");
-							panel_transfer_settings.wait();
-						}
-
-						/* setup obtained exnodes using selected transfer-settings */
-						setup_exnodes();
-						publish_downloads();
-					} catch (InterruptedException e) {
+		new Thread(() -> {
+			while (true) {
+				try {
+					synchronized (panel_transfer_settings) {
+						/* wait on transfer-settings state-change */
+						log.info("transfer-settings listener waiting");
+						panel_transfer_settings.wait();
 					}
+
+					/* setup obtained exnodes using selected transfer-settings */
+					setup_exnodes();
+					publish_downloads();
+				} catch (InterruptedException e) {
 				}
 			}
-		}.start();
+		}).start();
 	}
 
 	/**
@@ -103,94 +91,118 @@ public class DownloadPanel extends javax.swing.JPanel
 	 */
 	@SuppressWarnings("unchecked")
 	// <editor-fold defaultstate="collapsed"
-  // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-  private void initComponents() {
+	// <editor-fold defaultstate="collapsed"
+	// desc="Generated Code">//GEN-BEGIN:initComponents
+	private void initComponents()
+	{
 
-    panel_files = new edu.crest.dlt.ui.down.FilesPanel();
-    panel_output_directory = new edu.crest.dlt.ui.down.DirectoryChooserPanel();
-    panel_transfer_settings = new edu.crest.dlt.ui.down.TransferSettingsPanel();
-    panel_transfer_progress = new edu.crest.dlt.ui.utils.TransferProgressPanel();
-    button_download = new javax.swing.JButton();
-    button_map_view = new javax.swing.JButton();
-    button_cancel = new javax.swing.JButton();
-    button_close = new javax.swing.JButton();
+		panel_files = new edu.crest.dlt.ui.down.FilesPanel();
+		panel_output_directory = new edu.crest.dlt.ui.down.DirectoryChooserPanel();
+		panel_transfer_settings = new edu.crest.dlt.ui.down.TransferSettingsPanel();
+		panel_transfer_progress = new edu.crest.dlt.ui.utils.TransferProgressPanel();
+		button_download = new javax.swing.JButton();
+		button_map_view = new javax.swing.JButton();
+		button_cancel = new javax.swing.JButton();
+		button_close = new javax.swing.JButton();
 
-    button_download.setIcon(Icons.icon_download);
-    button_download.setText("Download");
-    button_download.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
-      public void mouseMoved(java.awt.event.MouseEvent evt) {
-        button_downloadMouseMoved(evt);
-      }
-    });
-    button_download.addMouseListener(new java.awt.event.MouseAdapter() {
-      public void mouseClicked(java.awt.event.MouseEvent evt) {
-        button_download_clicked(evt);
-      }
-    });
+		button_download.setIcon(Icons.icon_download);
+		button_download.setText("Download");
+		button_download.addMouseMotionListener(new java.awt.event.MouseMotionAdapter()
+		{
+			public void mouseMoved(java.awt.event.MouseEvent evt)
+			{
+				button_downloadMouseMoved(evt);
+			}
+		});
+		button_download.addMouseListener(new java.awt.event.MouseAdapter()
+		{
+			public void mouseClicked(java.awt.event.MouseEvent evt)
+			{
+				button_download_clicked(evt);
+			}
+		});
 
-    button_map_view.setIcon(Icons.icon_map);
-    button_map_view.setText("View");
-    button_map_view.addMouseListener(new java.awt.event.MouseAdapter() {
-      public void mouseClicked(java.awt.event.MouseEvent evt) {
-        button_map_view_clicked(evt);
-      }
-    });
+		button_map_view.setIcon(Icons.icon_map);
+		button_map_view.setText("View");
+		button_map_view.addMouseListener(new java.awt.event.MouseAdapter()
+		{
+			public void mouseClicked(java.awt.event.MouseEvent evt)
+			{
+				button_map_view_clicked(evt);
+			}
+		});
 
-    button_cancel.setIcon(Icons.icon_abort);
-    button_cancel.setText("Cancel");
-    button_cancel.addMouseListener(new java.awt.event.MouseAdapter() {
-      public void mouseClicked(java.awt.event.MouseEvent evt) {
-        button_cancel_clicked(evt);
-      }
-    });
+		button_cancel.setIcon(Icons.icon_abort);
+		button_cancel.setText("Cancel");
+		button_cancel.addMouseListener(new java.awt.event.MouseAdapter()
+		{
+			public void mouseClicked(java.awt.event.MouseEvent evt)
+			{
+				button_cancel_clicked(evt);
+			}
+		});
 
-    button_close.setIcon(Icons.icon_failure);
-    button_close.setText("Close");
-    button_close.addMouseListener(new java.awt.event.MouseAdapter() {
-      public void mouseClicked(java.awt.event.MouseEvent evt) {
-        button_close_clicked(evt);
-      }
-    });
+		button_close.setIcon(Icons.icon_failure);
+		button_close.setText("Close");
+		button_close.addMouseListener(new java.awt.event.MouseAdapter()
+		{
+			public void mouseClicked(java.awt.event.MouseEvent evt)
+			{
+				button_close_clicked(evt);
+			}
+		});
 
-    javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-    this.setLayout(layout);
-    layout.setHorizontalGroup(
-      layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-      .addGroup(layout.createSequentialGroup()
-        .addComponent(button_download)
-        .addGap(28, 28, 28)
-        .addComponent(button_map_view)
-        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        .addComponent(button_cancel)
-        .addGap(18, 18, 18)
-        .addComponent(button_close)
-        .addContainerGap())
-      .addComponent(panel_transfer_settings, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-      .addComponent(panel_output_directory, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-      .addComponent(panel_files, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-      .addComponent(panel_transfer_progress, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-    );
-    layout.setVerticalGroup(
-      layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-      .addGroup(layout.createSequentialGroup()
-        .addComponent(panel_files, javax.swing.GroupLayout.PREFERRED_SIZE, 159, Short.MAX_VALUE)
-        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-        .addComponent(panel_output_directory, javax.swing.GroupLayout.DEFAULT_SIZE, 69, Short.MAX_VALUE)
-        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-        .addComponent(panel_transfer_settings, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-        .addComponent(panel_transfer_progress, javax.swing.GroupLayout.PREFERRED_SIZE, 181, Short.MAX_VALUE)
-        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-          .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-            .addComponent(button_close)
-            .addComponent(button_cancel)
-            .addComponent(button_map_view))
-          .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-            .addComponent(button_download)
-            .addContainerGap())))
-    );
-  }// </editor-fold>//GEN-END:initComponents
+		javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
+		this.setLayout(layout);
+		layout.setHorizontalGroup(layout
+				.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+				.addGroup(
+						layout
+								.createSequentialGroup()
+								.addComponent(button_download)
+								.addGap(28, 28, 28)
+								.addComponent(button_map_view)
+								.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED,
+										javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+								.addComponent(button_cancel).addGap(18, 18, 18).addComponent(button_close)
+								.addContainerGap())
+				.addComponent(panel_transfer_settings, javax.swing.GroupLayout.DEFAULT_SIZE,
+						javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+				.addComponent(panel_output_directory, javax.swing.GroupLayout.DEFAULT_SIZE,
+						javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+				.addComponent(panel_files, javax.swing.GroupLayout.DEFAULT_SIZE,
+						javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+				.addComponent(panel_transfer_progress, javax.swing.GroupLayout.Alignment.TRAILING,
+						javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE,
+						Short.MAX_VALUE));
+		layout.setVerticalGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+				.addGroup(
+						layout
+								.createSequentialGroup()
+								.addComponent(panel_files, javax.swing.GroupLayout.PREFERRED_SIZE, 159,
+										Short.MAX_VALUE)
+								.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+								.addComponent(panel_output_directory, javax.swing.GroupLayout.DEFAULT_SIZE, 69,
+										Short.MAX_VALUE)
+								.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+								.addComponent(panel_transfer_settings, javax.swing.GroupLayout.DEFAULT_SIZE,
+										javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+								.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+								.addComponent(panel_transfer_progress, javax.swing.GroupLayout.PREFERRED_SIZE, 181,
+										Short.MAX_VALUE)
+								.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+								.addGroup(
+										layout
+												.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+												.addGroup(
+														layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+																.addComponent(button_close).addComponent(button_cancel)
+																.addComponent(button_map_view))
+												.addGroup(
+														javax.swing.GroupLayout.Alignment.TRAILING,
+														layout.createSequentialGroup().addComponent(button_download)
+																.addContainerGap()))));
+	}// </editor-fold>//GEN-END:initComponents
 
 	private void button_downloadMouseMoved(java.awt.event.MouseEvent evt)
 	{// GEN-FIRST:event_button_downloadMouseMoved
@@ -224,9 +236,9 @@ public class DownloadPanel extends javax.swing.JPanel
 						throw new Exception("failed to retrieve exnode for file name : " + file_selected);
 					}
 
-					panel_files.status_file(file_selected, ui_status.transfer_aborting);//"Cancelling"
+					panel_files.status_file(file_selected, ui_status.transfer_aborting);// "Cancelling"
 					exnode_to_cancel.transfer_cancel();
-					panel_files.status_file(file_selected, ui_status.transfer_aborted);//"Cancelled"
+					panel_files.status_file(file_selected, ui_status.transfer_aborted);// "Cancelled"
 					panel_files.deselect_file(file_selected);
 				} catch (Exception e) {
 				}
@@ -260,81 +272,76 @@ public class DownloadPanel extends javax.swing.JPanel
 		}
 		final String target_directory = panel_output_directory.directory();
 
-		Thread downloader = new Thread(new Runnable()
-		{
-			@Override
-			public void run()
-			{
-				panel_transfer_settings.disable();
-				panel_output_directory.disable();
-				button_download.setEnabled(false);
-				List<String> files_to_download = panel_files.files_selected();
-				int count_files_to_download = files_to_download.size();
+		/* start downloader thread */
+		new Thread(() -> {
+			panel_transfer_settings.disable();
+			panel_output_directory.disable();
+			button_download.setEnabled(false);
+			List<String> files_to_download = panel_files.files_selected();
+			int count_files_to_download = files_to_download.size();
 
-				for (String file_to_download : files_to_download) {
-					try {
-						Exnode exnode_to_download = map_filename_exnode.get(file_to_download);
-						if (exnode_to_download == null) {
-							log.severe("failed to retrieve exnode for : " + file_to_download);
-							panel_files.status_file(file_to_download, ui_status.transfer_aborted);//"Failed (Metadata)"
-							continue;
-						}
-
-						long bytes_to_download = exnode_to_download.length();
-						String target_file_absolute_path = DefaultOuputFileNameGenerater.getOuputFileName(
-								exnode_to_download, target_directory);
-						String target_file = file_to_download;
-						if (target_file_absolute_path.contains(")")) {
-							String[] components_path = target_file_absolute_path.split("\\(");
-
-							String file_extension = DefaultOuputFileNameGenerater.getExtension(file_to_download);
-							target_file = file_to_download.substring(0, file_to_download.length()
-									- file_extension.length());
-							target_file = target_file + "(" + components_path[components_path.length - 1];
-						}
-
-						// setTitle(Configuration.bd_ui_title + " (Downloading " +
-						// count_files_to_download + ")");
-
-						panel_transfer_progress.clear();
-						panel_transfer_progress.filename(target_file);
-						panel_transfer_progress.size(bytes_to_download);
-						exnode_to_download.add(panel_transfer_progress);
-
-						panel_files.status_file(file_to_download, ui_status.downloading);//"In Progress"
-						if (exnode_to_download.read(target_file_absolute_path,
-								(int) panel_transfer_settings.transfer_size(),
-								panel_transfer_settings.count_connections())) {
-							panel_files.status_file(file_to_download, ui_status.transfer_sucess);//"Done"
-						} else {
-							ui_status previousStatus = panel_files.status_file(file_to_download);
-							if (ui_status.downloading == previousStatus) {
-								panel_files.status_file(file_to_download, ui_status.transfer_failed);//"Failed"
-							} else if (ui_status.transfer_aborting == previousStatus || ui_status.transfer_aborted == previousStatus) {
-								panel_files.status_file(file_to_download, ui_status.transfer_aborted);//"Cancelled"
-							}
-						}
-					} catch (Exception e) {
-						log.warning("failed to download " + file_to_download + ". " + e.getMessage());
-						panel_files.status_file(file_to_download, ui_status.transfer_failed);//"Failed"
-					}
-
-					count_files_to_download--;
-					panel_files.deselect_file(file_to_download);
-				}
-
-				// setTitle(Configuration.bd_ui_title + " (Download)");
-
-				panel_files.deselect_files_all();
-				panel_transfer_settings.enable();
-				panel_output_directory.enable();
-				button_download.setEnabled(true);
-
-				Toolkit.getDefaultToolkit().beep();
+			for (String file_to_download : files_to_download) {
+				try {
+					Exnode exnode_to_download = map_filename_exnode.get(file_to_download);
+					if (exnode_to_download == null) {
+						log.severe("failed to retrieve exnode for : " + file_to_download);
+						panel_files.status_file(file_to_download, ui_status.transfer_aborted);// "Failed (Metadata)"
+				continue;
 			}
-		});
 
-		downloader.start();
+			long bytes_to_download = exnode_to_download.length();
+			String target_file_absolute_path = DefaultOuputFileNameGenerater.getOuputFileName(
+					exnode_to_download, target_directory);
+			String target_file = file_to_download;
+			if (target_file_absolute_path.contains(")")) {
+				String[] components_path = target_file_absolute_path.split("\\(");
+
+				String file_extension = DefaultOuputFileNameGenerater.getExtension(file_to_download);
+				target_file = file_to_download.substring(0,
+						file_to_download.length() - file_extension.length());
+				target_file = target_file + "(" + components_path[components_path.length - 1];
+			}
+
+			// setTitle(Configuration.bd_ui_title + " (Downloading " +
+			// count_files_to_download + ")");
+
+				panel_transfer_progress.clear();
+				panel_transfer_progress.filename(target_file);
+				panel_transfer_progress.size(bytes_to_download);
+				exnode_to_download.add(panel_transfer_progress);
+
+				panel_files.status_file(file_to_download, ui_status.downloading);// "In Progress"
+				if (exnode_to_download.read(target_file_absolute_path,
+						(int) panel_transfer_settings.transfer_size(),
+						panel_transfer_settings.count_connections())) {
+					panel_files.status_file(file_to_download, ui_status.transfer_sucess);// "Done"
+				} else {
+					ui_status previousStatus = panel_files.status_file(file_to_download);
+					if (ui_status.downloading == previousStatus) {
+						panel_files.status_file(file_to_download, ui_status.transfer_failed);// "Failed"
+					} else if (ui_status.transfer_aborting == previousStatus
+							|| ui_status.transfer_aborted == previousStatus) {
+						panel_files.status_file(file_to_download, ui_status.transfer_aborted);// "Cancelled"
+					}
+				}
+			} catch (Exception e) {
+				log.warning("failed to download " + file_to_download + ". " + e.getMessage());
+				panel_files.status_file(file_to_download, ui_status.transfer_failed);// "Failed"
+			}
+
+			count_files_to_download--;
+			panel_files.deselect_file(file_to_download);
+		}
+
+		// setTitle(Configuration.bd_ui_title + " (Download)");
+
+		panel_files.deselect_files_all();
+		panel_transfer_settings.enable();
+		panel_output_directory.enable();
+		button_download.setEnabled(true);
+
+		Toolkit.getDefaultToolkit().beep();
+	}	).start();
 	}// GEN-LAST:event_button_download_clicked
 
 	private Map<String, ArrayList<URL>> obtain_local_exnodes_get_urls()
@@ -492,7 +499,7 @@ public class DownloadPanel extends javax.swing.JPanel
 		for (Map.Entry<String, Exnode> entry : map_filename_exnode.entrySet()) {
 			if (entry.getValue() == null) {
 				/* if exnode not found, fail the file-"path" */
-				panel_files.add_file(entry.getKey(), ui_status.metadata_error);//"Metadata error");
+				panel_files.add_file(entry.getKey(), ui_status.metadata_error);// "Metadata error");
 			} else {
 				/* if exnode is not in ready state yet, */
 				if (!entry.getValue().accessible(service_exnode.read)) {
@@ -505,10 +512,10 @@ public class DownloadPanel extends javax.swing.JPanel
 				}
 				if (!entry.getValue().accessible(service_exnode.read)) {
 					/* if exnode is still not ready, fail the file-"name" */
-					panel_files.add_file(entry.getKey(), ui_status.mappings_inaccessible);//"Connect error");
+					panel_files.add_file(entry.getKey(), ui_status.mappings_inaccessible);// "Connect error");
 				} else {
 					/* else publish file-"name" for download */
-					panel_files.add_file(entry.getKey(), ui_status.download_ready);//"Ready");
+					panel_files.add_file(entry.getKey(), ui_status.download_ready);// "Ready");
 				}
 			}
 			// panel_files.add_file(entry.getKey(), (entry.getValue() != null ?
@@ -563,14 +570,14 @@ public class DownloadPanel extends javax.swing.JPanel
 		return panel_transfer_settings.count_connections();
 	}
 
-  // Variables declaration - do not modify//GEN-BEGIN:variables
-  private javax.swing.JButton button_cancel;
-  private javax.swing.JButton button_close;
-  private javax.swing.JButton button_download;
-  private javax.swing.JButton button_map_view;
-  private edu.crest.dlt.ui.down.FilesPanel panel_files;
-  private edu.crest.dlt.ui.down.DirectoryChooserPanel panel_output_directory;
-  private edu.crest.dlt.ui.utils.TransferProgressPanel panel_transfer_progress;
-  private edu.crest.dlt.ui.down.TransferSettingsPanel panel_transfer_settings;
-  // End of variables declaration//GEN-END:variables
+	// Variables declaration - do not modify//GEN-BEGIN:variables
+	private javax.swing.JButton button_cancel;
+	private javax.swing.JButton button_close;
+	private javax.swing.JButton button_download;
+	private javax.swing.JButton button_map_view;
+	private edu.crest.dlt.ui.down.FilesPanel panel_files;
+	private edu.crest.dlt.ui.down.DirectoryChooserPanel panel_output_directory;
+	private edu.crest.dlt.ui.utils.TransferProgressPanel panel_transfer_progress;
+	private edu.crest.dlt.ui.down.TransferSettingsPanel panel_transfer_settings;
+	// End of variables declaration//GEN-END:variables
 }

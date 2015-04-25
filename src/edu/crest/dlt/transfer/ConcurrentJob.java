@@ -47,7 +47,7 @@ public abstract class ConcurrentJob extends Job
 			return;
 		}
 
-		TransferStatistics old_try_statistics = try_statistics.get(try_id -1);
+		TransferStatistics old_try_statistics = try_statistics.get(try_id - 1);
 
 		synchronized (old_try_statistics) {
 			if (!old_try_statistics.try_started()) {

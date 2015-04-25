@@ -26,7 +26,8 @@ import edu.crest.dlt.ibp.DepotLocatorLbone;
 public class Configuration
 {
 	private static final Logger log = Logger.getLogger(Configuration.class.getClass().getName());
-	private static final InputStream dlt_configuration_file = Configuration.class.getResourceAsStream("config.properties");
+	private static final InputStream dlt_configuration_file = Configuration.class
+			.getResourceAsStream("config.properties");
 	private static Level dlt_log_console_level;
 
 	/* Define all your application-required properties here */
@@ -67,7 +68,7 @@ public class Configuration
 	public static String dlt_username;
 	public static String dlt_password;
 	public static List<String> dlt_file_paths;
-	
+
 	/*
 	 * static block for NetBeans to access Configuration objects for building its
 	 * components
@@ -129,10 +130,14 @@ public class Configuration
 					"dlt.exnode.transfer.log.interval"));
 			dlt_exnode_write_retries_max = Integer.parseInt(property(configuration,
 					"dlt.exnode.write.retries"));
-			dlt_exnode_registry_unis = new ExnodeRegistryUNIS(new URL(property(configuration, "dlt.exnode.registry.unis")));
-			dlt_exnode_registry_unis_content_type = property(configuration, "dlt.exnode.registry.unis.content_type");
-			dlt_exnode_registry_unis_request_timeout = Integer.parseInt(property(configuration, "dlt.exnode.registry.unis.request.timeout"));
-			dlt_exnode_date_formatter = new SimpleDateFormat(property(configuration, "dlt.exnode.date.format"));
+			dlt_exnode_registry_unis = new ExnodeRegistryUNIS(new URL(property(configuration,
+					"dlt.exnode.registry.unis")));
+			dlt_exnode_registry_unis_content_type = property(configuration,
+					"dlt.exnode.registry.unis.content_type");
+			dlt_exnode_registry_unis_request_timeout = Integer.parseInt(property(configuration,
+					"dlt.exnode.registry.unis.request.timeout"));
+			dlt_exnode_date_formatter = new SimpleDateFormat(property(configuration,
+					"dlt.exnode.date.format"));
 
 			dlt_depot_transfer_sockets_max = Integer.parseInt(property(configuration,
 					"dlt.depot.transfer.sockets.max"));
@@ -165,8 +170,8 @@ public class Configuration
 				}
 			}
 
-			dlt_file_write_retries_max = Integer
-					.parseInt(property(configuration, "dlt.file.write.retries"));
+			dlt_file_write_retries_max = Integer.parseInt(property(configuration,
+					"dlt.file.write.retries"));
 			dlt_file_read_buffer_size = Integer.parseInt(property(configuration,
 					"dlt.file.read.buffer.size.default"));
 		} catch (Exception e) {

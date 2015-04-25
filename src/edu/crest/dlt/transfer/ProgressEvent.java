@@ -11,10 +11,6 @@ package edu.crest.dlt.transfer;
 
 import edu.crest.dlt.ibp.Depot;
 
-/**
- * @author millar
- * @coauthor rkhapare 03/19/2015
- */
 public class ProgressEvent
 {
 	/* Instance variables */
@@ -29,7 +25,8 @@ public class ProgressEvent
 	public final double time_elapsed;
 
 	public ProgressEvent(Depot depot, String statusMsg, long transfer_offset, long transfer_length,
-			long total, double percentComplete, double throughput, double time_expected_arrival, double time_elapsed)
+			long total, double percentComplete, double throughput, double time_expected_arrival,
+			double time_elapsed)
 	{
 		this.depot = depot;
 		this.transfer_offset = transfer_offset;

@@ -8,16 +8,10 @@
  */
 package edu.crest.dlt.ui.utils;
 
-import java.text.NumberFormat;
-
 import edu.crest.dlt.transfer.Progress;
 import edu.crest.dlt.transfer.ProgressEvent;
 import edu.crest.dlt.transfer.ProgressListener;
 
-/**
- *
- * @author Rohit
- */
 public class TransferProgressPanel extends javax.swing.JPanel implements ProgressListener
 {
 
@@ -36,127 +30,181 @@ public class TransferProgressPanel extends javax.swing.JPanel implements Progres
 	 */
 	@SuppressWarnings("unchecked")
 	// <editor-fold defaultstate="collapsed"
-  // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-  private void initComponents() {
+	// <editor-fold defaultstate="collapsed"
+	// desc="Generated Code">//GEN-BEGIN:initComponents
+	private void initComponents()
+	{
 
-    label_filename = new javax.swing.JLabel();
-    label_size = new javax.swing.JLabel();
-    label_transferred = new javax.swing.JLabel();
-    label_speed = new javax.swing.JLabel();
-    label_time_expected = new javax.swing.JLabel();
-    label_time_elapsed = new javax.swing.JLabel();
-    output_filename = new javax.swing.JLabel();
-    output_size = new javax.swing.JLabel();
-    output_transferred = new javax.swing.JLabel();
-    output_speed = new javax.swing.JLabel();
-    output_time_expected = new javax.swing.JLabel();
-    output_time_elapsed = new javax.swing.JLabel();
-    output_progress_bar = new javax.swing.JProgressBar();
+		label_filename = new javax.swing.JLabel();
+		label_size = new javax.swing.JLabel();
+		label_transferred = new javax.swing.JLabel();
+		label_speed = new javax.swing.JLabel();
+		label_time_expected = new javax.swing.JLabel();
+		label_time_elapsed = new javax.swing.JLabel();
+		output_filename = new javax.swing.JLabel();
+		output_size = new javax.swing.JLabel();
+		output_transferred = new javax.swing.JLabel();
+		output_speed = new javax.swing.JLabel();
+		output_time_expected = new javax.swing.JLabel();
+		output_time_elapsed = new javax.swing.JLabel();
+		output_progress_bar = new javax.swing.JProgressBar();
 
-    setBorder(javax.swing.BorderFactory.createTitledBorder(null, "File Transfer Progress", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 12))); // NOI18N
-    setPreferredSize(new java.awt.Dimension(500, 154));
+		setBorder(javax.swing.BorderFactory.createTitledBorder(null, "File Transfer Progress",
+				javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION,
+				javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 12))); // NOI18N
+		setPreferredSize(new java.awt.Dimension(500, 154));
 
-    label_filename.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-    label_filename.setText("File Name");
+		label_filename.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+		label_filename.setText("File Name");
 
-    label_size.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-    label_size.setText("File Size (MB)");
+		label_size.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+		label_size.setText("File Size (MB)");
 
-    label_transferred.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-    label_transferred.setText("Transferred (MB)");
+		label_transferred.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+		label_transferred.setText("Transferred (MB)");
 
-    label_speed.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-    label_speed.setText("Speed (MB/s)");
+		label_speed.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+		label_speed.setText("Speed (MB/s)");
 
-    label_time_expected.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-    label_time_expected.setText("Expected (hh:mm:ss)");
+		label_time_expected.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+		label_time_expected.setText("Expected (hh:mm:ss)");
 
-    label_time_elapsed.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-    label_time_elapsed.setText("Elapsed (hh:mm:ss)");
+		label_time_elapsed.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+		label_time_elapsed.setText("Elapsed (hh:mm:ss)");
 
-    output_filename.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
-    output_filename.setText("-");
+		output_filename.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
+		output_filename.setText("-");
 
-    output_size.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
-    output_size.setText("-");
+		output_size.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
+		output_size.setText("-");
 
-    output_transferred.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
-    output_transferred.setText("-");
+		output_transferred.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
+		output_transferred.setText("-");
 
-    output_speed.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
-    output_speed.setText("-");
+		output_speed.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
+		output_speed.setText("-");
 
-    output_time_expected.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
-    output_time_expected.setText("00:00:00");
+		output_time_expected.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
+		output_time_expected.setText("00:00:00");
 
-    output_time_elapsed.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
-    output_time_elapsed.setText("00:00:00");
+		output_time_elapsed.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
+		output_time_elapsed.setText("00:00:00");
 
-    output_progress_bar.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
-    output_progress_bar.setAlignmentX(0.0F);
-    output_progress_bar.setAlignmentY(0.0F);
-    output_progress_bar.setBorderPainted(false);
-    output_progress_bar.setFocusable(false);
-    output_progress_bar.setMaximumSize(new java.awt.Dimension(32767, 5));
-    output_progress_bar.setMinimumSize(new java.awt.Dimension(10, 5));
-    output_progress_bar.setPreferredSize(new java.awt.Dimension(146, 5));
+		output_progress_bar.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
+		output_progress_bar.setAlignmentX(0.0F);
+		output_progress_bar.setAlignmentY(0.0F);
+		output_progress_bar.setBorderPainted(false);
+		output_progress_bar.setFocusable(false);
+		output_progress_bar.setMaximumSize(new java.awt.Dimension(32767, 5));
+		output_progress_bar.setMinimumSize(new java.awt.Dimension(10, 5));
+		output_progress_bar.setPreferredSize(new java.awt.Dimension(146, 5));
 
-    javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-    this.setLayout(layout);
-    layout.setHorizontalGroup(
-      layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-      .addGroup(layout.createSequentialGroup()
-        .addGap(0, 0, 0)
-        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-          .addComponent(output_progress_bar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-          .addGroup(layout.createSequentialGroup()
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-              .addComponent(label_time_expected, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-              .addComponent(label_speed, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-              .addComponent(label_transferred, javax.swing.GroupLayout.DEFAULT_SIZE, 249, Short.MAX_VALUE)
-              .addComponent(label_size, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-              .addComponent(label_filename, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-              .addComponent(label_time_elapsed, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGap(6, 6, 6)
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-              .addComponent(output_size, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-              .addComponent(output_transferred, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-              .addComponent(output_speed, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-              .addComponent(output_time_expected, javax.swing.GroupLayout.DEFAULT_SIZE, 233, Short.MAX_VALUE)
-              .addComponent(output_time_elapsed, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-              .addComponent(output_filename, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
-    );
-    layout.setVerticalGroup(
-      layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-      .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-        .addGap(0, 0, Short.MAX_VALUE)
-        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-          .addComponent(label_filename)
-          .addComponent(output_filename))
-        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-          .addComponent(label_size)
-          .addComponent(output_size))
-        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-          .addComponent(label_transferred)
-          .addComponent(output_transferred))
-        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-          .addComponent(label_speed)
-          .addComponent(output_speed))
-        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-          .addComponent(label_time_expected)
-          .addComponent(output_time_expected))
-        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-          .addComponent(label_time_elapsed)
-          .addComponent(output_time_elapsed))
-        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-        .addComponent(output_progress_bar, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE))
-    );
-  }// </editor-fold>//GEN-END:initComponents
+		javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
+		this.setLayout(layout);
+		layout
+				.setHorizontalGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+						.addGroup(
+								layout
+										.createSequentialGroup()
+										.addGap(0, 0, 0)
+										.addGroup(
+												layout
+														.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+														.addComponent(output_progress_bar,
+																javax.swing.GroupLayout.DEFAULT_SIZE,
+																javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+														.addGroup(
+																layout
+																		.createSequentialGroup()
+																		.addGroup(
+																				layout
+																						.createParallelGroup(
+																								javax.swing.GroupLayout.Alignment.LEADING)
+																						.addComponent(label_time_expected,
+																								javax.swing.GroupLayout.DEFAULT_SIZE,
+																								javax.swing.GroupLayout.DEFAULT_SIZE,
+																								Short.MAX_VALUE)
+																						.addComponent(label_speed,
+																								javax.swing.GroupLayout.DEFAULT_SIZE,
+																								javax.swing.GroupLayout.DEFAULT_SIZE,
+																								Short.MAX_VALUE)
+																						.addComponent(label_transferred,
+																								javax.swing.GroupLayout.DEFAULT_SIZE, 249,
+																								Short.MAX_VALUE)
+																						.addComponent(label_size,
+																								javax.swing.GroupLayout.DEFAULT_SIZE,
+																								javax.swing.GroupLayout.DEFAULT_SIZE,
+																								Short.MAX_VALUE)
+																						.addComponent(label_filename,
+																								javax.swing.GroupLayout.DEFAULT_SIZE,
+																								javax.swing.GroupLayout.DEFAULT_SIZE,
+																								Short.MAX_VALUE)
+																						.addComponent(label_time_elapsed,
+																								javax.swing.GroupLayout.Alignment.TRAILING,
+																								javax.swing.GroupLayout.DEFAULT_SIZE,
+																								javax.swing.GroupLayout.DEFAULT_SIZE,
+																								Short.MAX_VALUE))
+																		.addGap(6, 6, 6)
+																		.addGroup(
+																				layout
+																						.createParallelGroup(
+																								javax.swing.GroupLayout.Alignment.LEADING)
+																						.addComponent(output_size,
+																								javax.swing.GroupLayout.DEFAULT_SIZE,
+																								javax.swing.GroupLayout.DEFAULT_SIZE,
+																								Short.MAX_VALUE)
+																						.addComponent(output_transferred,
+																								javax.swing.GroupLayout.DEFAULT_SIZE,
+																								javax.swing.GroupLayout.DEFAULT_SIZE,
+																								Short.MAX_VALUE)
+																						.addComponent(output_speed,
+																								javax.swing.GroupLayout.DEFAULT_SIZE,
+																								javax.swing.GroupLayout.DEFAULT_SIZE,
+																								Short.MAX_VALUE)
+																						.addComponent(output_time_expected,
+																								javax.swing.GroupLayout.DEFAULT_SIZE, 233,
+																								Short.MAX_VALUE)
+																						.addComponent(output_time_elapsed,
+																								javax.swing.GroupLayout.DEFAULT_SIZE,
+																								javax.swing.GroupLayout.DEFAULT_SIZE,
+																								Short.MAX_VALUE)
+																						.addComponent(output_filename,
+																								javax.swing.GroupLayout.DEFAULT_SIZE,
+																								javax.swing.GroupLayout.DEFAULT_SIZE,
+																								Short.MAX_VALUE))))));
+		layout.setVerticalGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+				.addGroup(
+						javax.swing.GroupLayout.Alignment.TRAILING,
+						layout
+								.createSequentialGroup()
+								.addGap(0, 0, Short.MAX_VALUE)
+								.addGroup(
+										layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+												.addComponent(label_filename).addComponent(output_filename))
+								.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+								.addGroup(
+										layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+												.addComponent(label_size).addComponent(output_size))
+								.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+								.addGroup(
+										layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+												.addComponent(label_transferred).addComponent(output_transferred))
+								.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+								.addGroup(
+										layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+												.addComponent(label_speed).addComponent(output_speed))
+								.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+								.addGroup(
+										layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+												.addComponent(label_time_expected).addComponent(output_time_expected))
+								.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+								.addGroup(
+										layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+												.addComponent(label_time_elapsed).addComponent(output_time_elapsed))
+								.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+								.addComponent(output_progress_bar, javax.swing.GroupLayout.PREFERRED_SIZE, 10,
+										javax.swing.GroupLayout.PREFERRED_SIZE)));
+	}// </editor-fold>//GEN-END:initComponents
 
 	@Override
 	public void progressUpdated(ProgressEvent evt)
@@ -177,7 +225,7 @@ public class TransferProgressPanel extends javax.swing.JPanel implements Progres
 		output_time_expected.setText(Progress.format_date((int) evt.time_expected_arrival));
 		output_time_elapsed.setText(Progress.format_date((int) evt.time_elapsed));
 		output_progress_bar.setIndeterminate(false);
-		output_progress_bar.setValue( output_progress_bar.getMaximum() );
+		output_progress_bar.setValue(output_progress_bar.getMaximum());
 	}
 
 	@Override
@@ -185,8 +233,9 @@ public class TransferProgressPanel extends javax.swing.JPanel implements Progres
 	{
 		// TODO Auto-generated method stub
 	}
-	
-	public void clear() {
+
+	public void clear()
+	{
 		output_filename.setText("-");
 		output_size.setText("-");
 		output_transferred.setText("-");
@@ -195,29 +244,31 @@ public class TransferProgressPanel extends javax.swing.JPanel implements Progres
 		output_time_elapsed.setText("00:00:00");
 		output_progress_bar.setValue(0);
 	}
-	
-	public void filename(String filename) {
+
+	public void filename(String filename)
+	{
 		output_filename.setText(filename);
 	}
-	
-	public void size(long bytes) {
+
+	public void size(long bytes)
+	{
 		double megabytes = (double) bytes / 1024.0 / 1024.0;
 		output_size.setText(Progress.format_double(megabytes));
 	}
 
-  // Variables declaration - do not modify//GEN-BEGIN:variables
-  private javax.swing.JLabel label_filename;
-  private javax.swing.JLabel label_size;
-  private javax.swing.JLabel label_speed;
-  private javax.swing.JLabel label_time_elapsed;
-  private javax.swing.JLabel label_time_expected;
-  private javax.swing.JLabel label_transferred;
-  private javax.swing.JLabel output_filename;
-  private javax.swing.JProgressBar output_progress_bar;
-  private javax.swing.JLabel output_size;
-  private javax.swing.JLabel output_speed;
-  private javax.swing.JLabel output_time_elapsed;
-  private javax.swing.JLabel output_time_expected;
-  private javax.swing.JLabel output_transferred;
-  // End of variables declaration//GEN-END:variables
+	// Variables declaration - do not modify//GEN-BEGIN:variables
+	private javax.swing.JLabel label_filename;
+	private javax.swing.JLabel label_size;
+	private javax.swing.JLabel label_speed;
+	private javax.swing.JLabel label_time_elapsed;
+	private javax.swing.JLabel label_time_expected;
+	private javax.swing.JLabel label_transferred;
+	private javax.swing.JLabel output_filename;
+	private javax.swing.JProgressBar output_progress_bar;
+	private javax.swing.JLabel output_size;
+	private javax.swing.JLabel output_speed;
+	private javax.swing.JLabel output_time_elapsed;
+	private javax.swing.JLabel output_time_expected;
+	private javax.swing.JLabel output_transferred;
+	// End of variables declaration//GEN-END:variables
 }

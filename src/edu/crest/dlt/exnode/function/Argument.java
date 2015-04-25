@@ -15,79 +15,89 @@ import org.w3c.dom.Element;
 
 import edu.crest.dlt.exception.DeserializeException;
 
-/**
- * @author millar
- *
- *         To change the template for this generated type comment go to
- *         Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
- */
 public abstract class Argument
 {
 	public static Logger log = Logger.getLogger(Argument.class.getName());
 
 	public String name;
 
-	public Function getFunction() throws UnsupportedOperationException {
+	public Function getFunction() throws UnsupportedOperationException
+	{
 		throw (new UnsupportedOperationException());
 	}
 
-	public Integer getInteger() throws UnsupportedOperationException {
+	public Integer getInteger() throws UnsupportedOperationException
+	{
 		throw (new UnsupportedOperationException());
 	}
 
-	public Integer getInteger(int i) throws UnsupportedOperationException {
+	public Integer getInteger(int i) throws UnsupportedOperationException
+	{
 		throw (new UnsupportedOperationException());
 	}
 
-	public Integer getInteger(int i, int j) throws UnsupportedOperationException {
+	public Integer getInteger(int i, int j) throws UnsupportedOperationException
+	{
 		throw (new UnsupportedOperationException());
 	}
 
-	public Double getDouble() throws UnsupportedOperationException {
+	public Double getDouble() throws UnsupportedOperationException
+	{
 		throw (new UnsupportedOperationException());
 	}
 
-	public Double getDouble(int i) throws UnsupportedOperationException {
+	public Double getDouble(int i) throws UnsupportedOperationException
+	{
 		throw (new UnsupportedOperationException());
 	}
 
-	public Double getDouble(int i, int j) throws UnsupportedOperationException {
+	public Double getDouble(int i, int j) throws UnsupportedOperationException
+	{
 		throw (new UnsupportedOperationException());
 	}
 
-	public String getString() throws UnsupportedOperationException {
+	public String getString() throws UnsupportedOperationException
+	{
 		throw (new UnsupportedOperationException());
 	}
 
-	public String getString(int i) throws UnsupportedOperationException {
+	public String getString(int i) throws UnsupportedOperationException
+	{
 		throw (new UnsupportedOperationException());
 	}
 
-	public String getString(int i, int j) throws UnsupportedOperationException {
+	public String getString(int i, int j) throws UnsupportedOperationException
+	{
 		throw (new UnsupportedOperationException());
 	}
 
-	public void insertInteger(int i, ArgumentInteger arg) throws UnsupportedOperationException {
+	public void insertInteger(int i, ArgumentInteger arg) throws UnsupportedOperationException
+	{
 		throw (new UnsupportedOperationException());
 	}
 
-	public void insertInteger(int i, int j, ArgumentInteger arg) throws UnsupportedOperationException {
+	public void insertInteger(int i, int j, ArgumentInteger arg) throws UnsupportedOperationException
+	{
 		throw (new UnsupportedOperationException());
 	}
 
-	public void insertDouble(int i, ArgumentDouble arg) throws UnsupportedOperationException {
+	public void insertDouble(int i, ArgumentDouble arg) throws UnsupportedOperationException
+	{
 		throw (new UnsupportedOperationException());
 	}
 
-	public void insertDouble(int i, int j, ArgumentDouble arg) throws UnsupportedOperationException	{
+	public void insertDouble(int i, int j, ArgumentDouble arg) throws UnsupportedOperationException
+	{
 		throw (new UnsupportedOperationException());
 	}
 
-	public void insertString(int i, ArgumentString arg) throws UnsupportedOperationException {
+	public void insertString(int i, ArgumentString arg) throws UnsupportedOperationException
+	{
 		throw (new UnsupportedOperationException());
 	}
 
-	public void insertString(int i, int j, ArgumentString arg) throws UnsupportedOperationException	{
+	public void insertString(int i, int j, ArgumentString arg) throws UnsupportedOperationException
+	{
 		throw (new UnsupportedOperationException());
 	}
 

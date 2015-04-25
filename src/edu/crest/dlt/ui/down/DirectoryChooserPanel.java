@@ -12,9 +12,6 @@ import javax.swing.JFileChooser;
 
 import edu.crest.dlt.ui.utils.img.Icons;
 
-/**
- * @author Rohit
- */
 public class DirectoryChooserPanel extends javax.swing.JPanel
 {
 
@@ -33,41 +30,48 @@ public class DirectoryChooserPanel extends javax.swing.JPanel
 	 */
 	@SuppressWarnings("unchecked")
 	// <editor-fold defaultstate="collapsed"
-  // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-  private void initComponents() {
+	// <editor-fold defaultstate="collapsed"
+	// desc="Generated Code">//GEN-BEGIN:initComponents
+	private void initComponents()
+	{
 
-    input_directory = new javax.swing.JLabel();
-    button_browse_directory = new javax.swing.JButton();
+		input_directory = new javax.swing.JLabel();
+		button_browse_directory = new javax.swing.JButton();
 
-    setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Output Directory", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 12))); // NOI18N
-    setPreferredSize(new java.awt.Dimension(500, 47));
+		setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Output Directory",
+				javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION,
+				javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 12))); // NOI18N
+		setPreferredSize(new java.awt.Dimension(500, 47));
 
-    input_directory.setText(System.getProperty("user.home"));
+		input_directory.setText(System.getProperty("user.home"));
 
-    button_browse_directory.setIcon(Icons.icon_directory_empty);
-    button_browse_directory.setText("Browse");
-    button_browse_directory.addMouseListener(new java.awt.event.MouseAdapter() {
-      public void mouseClicked(java.awt.event.MouseEvent evt) {
-        button_browse_directory_clicked(evt);
-      }
-    });
+		button_browse_directory.setIcon(Icons.icon_directory_empty);
+		button_browse_directory.setText("Browse");
+		button_browse_directory.addMouseListener(new java.awt.event.MouseAdapter()
+		{
+			public void mouseClicked(java.awt.event.MouseEvent evt)
+			{
+				button_browse_directory_clicked(evt);
+			}
+		});
 
-    javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-    this.setLayout(layout);
-    layout.setHorizontalGroup(
-      layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-      .addGroup(layout.createSequentialGroup()
-        .addComponent(input_directory, javax.swing.GroupLayout.DEFAULT_SIZE, 417, Short.MAX_VALUE)
-        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-        .addComponent(button_browse_directory))
-    );
-    layout.setVerticalGroup(
-      layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-      .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-        .addComponent(input_directory, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
-        .addComponent(button_browse_directory))
-    );
-  }// </editor-fold>//GEN-END:initComponents
+		javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
+		this.setLayout(layout);
+		layout.setHorizontalGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+				.addGroup(
+						layout
+								.createSequentialGroup()
+								.addComponent(input_directory, javax.swing.GroupLayout.DEFAULT_SIZE, 417,
+										Short.MAX_VALUE)
+								.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+								.addComponent(button_browse_directory)));
+		layout.setVerticalGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+				.addGroup(
+						layout
+								.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+								.addComponent(input_directory, javax.swing.GroupLayout.PREFERRED_SIZE, 23,
+										javax.swing.GroupLayout.PREFERRED_SIZE).addComponent(button_browse_directory)));
+	}// </editor-fold>//GEN-END:initComponents
 
 	private void button_browse_directory_clicked(java.awt.event.MouseEvent evt)
 	{// GEN-FIRST:event_button_browse_output_directory_clicked
@@ -84,22 +88,24 @@ public class DirectoryChooserPanel extends javax.swing.JPanel
 	{
 		return input_directory.getText();
 	}
-	
+
 	public void directory(String output_directory)
 	{
 		input_directory.setText(output_directory);
 	}
-	
-	public void disable() {
+
+	public void disable()
+	{
 		button_browse_directory.setEnabled(false);
 	}
-	
-	public void enable() {
+
+	public void enable()
+	{
 		button_browse_directory.setEnabled(true);
 	}
 
-  // Variables declaration - do not modify//GEN-BEGIN:variables
-  private javax.swing.JButton button_browse_directory;
-  private javax.swing.JLabel input_directory;
-  // End of variables declaration//GEN-END:variables
+	// Variables declaration - do not modify//GEN-BEGIN:variables
+	private javax.swing.JButton button_browse_directory;
+	private javax.swing.JLabel input_directory;
+	// End of variables declaration//GEN-END:variables
 }

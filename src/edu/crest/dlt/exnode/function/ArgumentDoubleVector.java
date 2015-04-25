@@ -11,12 +11,6 @@ package edu.crest.dlt.exnode.function;
 
 import java.util.Vector;
 
-/**
- * @author millar
- *
- *         To change the template for this generated type comment go to
- *         Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
- */
 public class ArgumentDoubleVector extends ArgumentVector
 {
 	public ArgumentDoubleVector(String name)

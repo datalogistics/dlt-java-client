@@ -21,7 +21,7 @@ public class DepotLocatorLbone
 	private static final int LENGTH_FIELD = 10;
 
 	private static final int SUCCESS = 1;
-//	private static final int FAILURE = 2;
+	// private static final int FAILURE = 2;
 
 	private String host;
 	private int port;

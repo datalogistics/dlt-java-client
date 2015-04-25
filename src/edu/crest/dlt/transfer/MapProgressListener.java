@@ -3,12 +3,6 @@
  *******************************************************************************/
 package edu.crest.dlt.transfer;
 
-/**
- * @author rkhapare
- * @created 2/22/2015
- */
-
-//import java.net.Socket;
 import java.util.logging.Logger;
 
 import javax.json.JsonException;
@@ -28,7 +22,7 @@ import edu.crest.dlt.utils.Configuration;
 public class MapProgressListener implements ProgressListener
 {
 	private static Logger log = Logger.getLogger(MapProgressListener.class.getName());
-	
+
 	private final String session_id;
 	private final String filename;
 	private final Exnode exnode;
@@ -43,8 +37,7 @@ public class MapProgressListener implements ProgressListener
 		this.exnode = exnode;
 		this.client = downloadPanel;
 
-		try
-		{
+		try {
 			IO.Options opts = new IO.Options();
 			opts.forceNew = true;
 			this.mapSocket = IO.socket(Configuration.dlt_ui_progress_map_view_url, opts);
@@ -60,9 +53,7 @@ public class MapProgressListener implements ProgressListener
 			});
 
 			mapSocket.connect();
-		}
-		catch (Exception e)
-		{
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
@@ -81,58 +72,46 @@ public class MapProgressListener implements ProgressListener
 			}
 		});
 	}
-	
+
 	private void sendIdentity()
 	{
-		try
-		{
+		try {
 			/* Create the message */
 			JSONObject registerMessage = new JSONObject();
-			registerMessage.put("sessionId", session_id)
-						   .put("filename", filename)
-						   .put("size", exnode.length())
-						   .put("connections", client.transfer_settings_connections())
-						   .put("timestamp", System.currentTimeMillis());
-			
+			registerMessage.put("sessionId", session_id).put("filename", filename)
+					.put("size", exnode.length()).put("connections", client.transfer_settings_connections())
+					.put("timestamp", System.currentTimeMillis());
+
 			sendMessage("peri_download_register", registerMessage);
-		}
-		catch (JsonException e)
-		{
+		} catch (JsonException e) {
 			e.printStackTrace();
 		}
 	}
 
-	private void sendTransfer(Depot depot, long offset, long amtRead)//, String speed, String depotSpeed)
+	private void sendTransfer(Depot depot, long offset, long amtRead)// , String
+																																		// speed,
+																																		// String
+																																		// depotSpeed)
 	{
-		try
-		{
+		try {
 			JSONObject transferMessage = new JSONObject();
-			transferMessage.put("sessionId", session_id)
-						   .put("host", depot.host)
-						   .put("offset", offset)
-						   .put("length", amtRead)
-						   .put("timestamp", System.currentTimeMillis());
+			transferMessage.put("sessionId", session_id).put("host", depot.host).put("offset", offset)
+					.put("length", amtRead).put("timestamp", System.currentTimeMillis());
 
 			sendMessage("peri_download_pushdata", transferMessage);
-		}
-		catch (JsonException e)
-		{
+		} catch (JsonException e) {
 			e.printStackTrace();
 		}
 	}
 
 	private void sendClear()
 	{
-		try
-		{
+		try {
 			JSONObject clearMessage = new JSONObject();
-			clearMessage.put("sessionId", session_id)
-						.put("timestamp", System.currentTimeMillis());
+			clearMessage.put("sessionId", session_id).put("timestamp", System.currentTimeMillis());
 
 			sendMessage("peri_download_clear", clearMessage);
-		}
-		catch (JsonException e)
-		{
+		} catch (JsonException e) {
 			e.printStackTrace();
 		}
 	}
@@ -154,8 +133,9 @@ public class MapProgressListener implements ProgressListener
 	{
 		sendTransfer(update.depot, update.transfer_offset, update.transfer_length);
 	}
-	
-	public String toString() {
+
+	public String toString()
+	{
 		return "Map Visualizer #" + session_id;
 	}
 }

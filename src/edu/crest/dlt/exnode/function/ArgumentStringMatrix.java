@@ -9,9 +9,6 @@
  */
 package edu.crest.dlt.exnode.function;
 
-/**
- * @author millar
- */
 public class ArgumentStringMatrix extends ArgumentMatrix
 {
 	public ArgumentStringMatrix(String name)

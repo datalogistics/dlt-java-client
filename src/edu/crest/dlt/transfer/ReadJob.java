@@ -105,9 +105,10 @@ public class ReadJob extends ConcurrentJob
 						+ "](" + bytes_to_read + "B) written to " + exnode_to_read.output_filename();
 
 			case failed:
-				return this + " [FAILED " + count_failed() + "/" + Configuration.dlt_exnode_read_retries_max
-						+ "] [" + offset_to_read + " - " + (offset_to_read + bytes_to_read - 1)
-						+ "](" + bytes_to_read + "B) of " + exnode_to_read.filename();
+				return this + " [FAILED " + count_failed() + "/"
+						+ Configuration.dlt_exnode_read_retries_max + "] [" + offset_to_read + " - "
+						+ (offset_to_read + bytes_to_read - 1) + "](" + bytes_to_read + "B) of "
+						+ exnode_to_read.filename();
 
 			default:
 				return this + " [UNKNOWN-STATE]";
@@ -134,21 +135,6 @@ public class ReadJob extends ConcurrentJob
 		transfer_threads.remove((TransferThread) Thread.currentThread());
 	}
 
-	// public Mapping mapping(Depot depot)
-	// {
-	// for (Mapping mapping : mappings_to_read) {
-	// if (mapping.allocation.depot.equals(depot)) {
-	// return mapping;
-	// }
-	// }
-	// return null;
-	// }
-
-	// public List<Mapping> mappings()
-	// {
-	// return mappings_to_read;
-	// }
-
 	public List<Mapping> mappings()
 	{
 		return mappings_to_read;
@@ -163,10 +149,9 @@ public class ReadJob extends ConcurrentJob
 		Socket socket_to_read = exnode_to_read.try_start(mapping_to_read);
 
 		/* if free socket is found, start the try */
-		// if (socket_to_read != null) {
 		super.try_start(); // count this try
 		transfer_thread_register();
-		// }
+
 		return socket_to_read;
 	}
 
@@ -202,10 +187,6 @@ public class ReadJob extends ConcurrentJob
 		 * output-file-contains the data, succeed
 		 */
 		if (state == state_readjob.read_data_buffered) {
-			// if (exnode_to_read.output_file_contains(offset_to_read, bytes_to_read))
-			// {
-			// state = state_readjob.done;
-			// }
 			if (exnode_to_read.output_file_contains(this)) {
 				state = state_readjob.done;
 			}
@@ -285,7 +266,7 @@ public class ReadJob extends ConcurrentJob
 		bytes_to_write = buffer_to_write;
 		// exnode_to_read.output_file_write(buffer_to_write, offset_to_read,
 		// bytes_to_read);
-//		System.out.println(this + " read data buffered.");
+		// System.out.println(this + " read data buffered.");
 		try_end(try_id, mapping_to_read, socket_to_read, bytes_to_read);
 	}
 

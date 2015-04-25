@@ -85,6 +85,7 @@ public class Exnode extends MetadataContainer
 	private FileWriteThread output_file_writer;
 
 	public Directory directory = null;
+
 	public Exnode()
 	{
 		mappings_sorted = new TreeMap<MappedOffsets, List<Mapping>>();
@@ -95,7 +96,7 @@ public class Exnode extends MetadataContainer
 		long time_now = new Date().getTime();
 		add(new MetadataInteger("created", time_now));
 		add(new MetadataInteger("modified", time_now));
-		
+
 		depots = new HashSet<Depot>();
 		state = state_exnode.nascent;
 	}
@@ -106,22 +107,23 @@ public class Exnode extends MetadataContainer
 
 		String path = FilenameUtils.getFullPath(path_and_filename);
 		String filename = path_and_filename.substring(path.length());
-//		add(new MetadataString("filename", filename));
+		// add(new MetadataString("filename", filename));
 		add(new MetadataString("name", filename));
 		input_file(path_and_filename);
-//		add(new MetadataInteger("original_filesize", length()));
+		// add(new MetadataInteger("original_filesize", length()));
 		add(new MetadataInteger("size", length()));
 	}
-	
-//	public Exnode(Directory remote_directory, String path_and_filename) throws FileNotFoundException
-//	{
-//		this(path_and_filename);
-//
-//		this.directory = remote_directory; 
-//		if (remote_directory != null) {
-//			add(new MetadataString("parent", remote_directory.id()));
-//		}
-//	}
+
+	// public Exnode(Directory remote_directory, String path_and_filename) throws
+	// FileNotFoundException
+	// {
+	// this(path_and_filename);
+	//
+	// this.directory = remote_directory;
+	// if (remote_directory != null) {
+	// add(new MetadataString("parent", remote_directory.id()));
+	// }
+	// }
 
 	/**
 	 * @return whether or not the exnode is accessible enough to begin
@@ -241,7 +243,8 @@ public class Exnode extends MetadataContainer
 		calender.add(Calendar.SECOND, (int) allocation_duration);
 		Date end = calender.getTime();
 
-		mapping_new.add(new MetadataString("start", Configuration.dlt_exnode_date_formatter.format(start)));
+		mapping_new.add(new MetadataString("start", Configuration.dlt_exnode_date_formatter
+				.format(start)));
 		mapping_new.add(new MetadataString("end", Configuration.dlt_exnode_date_formatter.format(end)));
 
 		mapping_new.add(new MetadataInteger("exnode_offset", exnode_offset));
@@ -330,10 +333,10 @@ public class Exnode extends MetadataContainer
 		}
 		return length;
 	}
-	
+
 	public String filename()
 	{
-//		return get("filename").getString();
+		// return get("filename").getString();
 		return get("name").getString();
 	}
 
@@ -1045,9 +1048,9 @@ public class Exnode extends MetadataContainer
 		exnode.add(json, "$schema", MetadataString.class);
 		exnode.add(json, "id", MetadataString.class);
 		exnode.add(json, "size", MetadataInteger.class);
-		
-//		Metadata metadata = Metadata.json(json, "name");
-//		exnode.add(metadata);
+
+		// Metadata metadata = Metadata.json(json, "name");
+		// exnode.add(metadata);
 
 		/* process extents */
 		JsonArray extents = json.getJsonArray("extents");
@@ -1073,12 +1076,12 @@ public class Exnode extends MetadataContainer
 	public JsonObject json()
 	{
 		JsonObjectBuilder json_builder = Json.createObjectBuilder();
-		
+
 		if (directory != null && directory.id() != null) {
 			add(new MetadataString("parent", directory.id()));
 			System.out.println(directory + "/" + this);
 		}
-		
+
 		Iterator<?> i = iterator();
 		while (i.hasNext()) {
 			Metadata metadata = (Metadata) i.next();
@@ -1088,16 +1091,16 @@ public class Exnode extends MetadataContainer
 				json_builder.add(metadata.name, metadata.getInteger());
 			}
 		}
-		
+
 		if (get("parent") == null) {
-		  json_builder.add("parent", JsonValue.NULL);
+			json_builder.add("parent", JsonValue.NULL);
 		}
-		
+
 		if (get("size") == null || get("size").getInteger() != length()) {
 			add(new MetadataInteger("size", length));
-		  json_builder.add("size", length);
+			json_builder.add("size", length);
 		}
-		
+
 		json_builder.add("extents", mappings_json());
 		return json_builder.build();
 	}

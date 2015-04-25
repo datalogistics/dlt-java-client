@@ -20,10 +20,10 @@ public class StopWatch
 	{
 		stoptime = running ? System.currentTimeMillis() : stoptime;
 		runtime += stoptime - starttime;
-		
+
 		starttime = 0;
 		stoptime = 0;
-		
+
 		running = false;
 	}
 
@@ -31,9 +31,9 @@ public class StopWatch
 	{
 		stoptime = running ? System.currentTimeMillis() : stoptime;
 		runtime += stoptime - starttime;
-		
+
 		starttime = stoptime;
-		
+
 		running = false;
 	}
 
@@ -41,8 +41,9 @@ public class StopWatch
 	{
 		return !running ? runtime : runtime + System.currentTimeMillis() - starttime;
 	}
-	
-	public synchronized long time_elapsed() {
+
+	public synchronized long time_elapsed()
+	{
 		return System.currentTimeMillis() - starttime;
 	}
 }

@@ -18,13 +18,9 @@ import javax.swing.WindowConstants;
 
 import org.apache.commons.cli.ParseException;
 
-import edu.crest.dlt.exnode.Directory;
 import edu.crest.dlt.ui.utils.CommandLineOptionParser;
 import edu.crest.dlt.utils.Configuration;
 
-/**
- * @author Rohit
- */
 public class UploadDownloadFrame extends javax.swing.JFrame
 {
 	private static final Logger log = Logger.getLogger(UploadDownloadFrame.class.getName());
@@ -50,38 +46,40 @@ public class UploadDownloadFrame extends javax.swing.JFrame
 	@SuppressWarnings("unchecked")
 	// <editor-fold defaultstate="collapsed"
 	// <editor-fold defaultstate="collapsed"
-  // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-  private void initComponents() {
+	// <editor-fold defaultstate="collapsed"
+	// desc="Generated Code">//GEN-BEGIN:initComponents
+	private void initComponents()
+	{
 
-    pane_tabs = new javax.swing.JTabbedPane();
-    panel_download = new edu.crest.dlt.ui.down.DownloadPanel();
-    panel_upload = new edu.crest.dlt.ui.up.UploadPanel();
+		pane_tabs = new javax.swing.JTabbedPane();
+		panel_download = new edu.crest.dlt.ui.down.DownloadPanel();
+		panel_upload = new edu.crest.dlt.ui.up.UploadPanel();
 
-    setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-    addWindowListener(new java.awt.event.WindowAdapter() {
-      public void windowClosing(java.awt.event.WindowEvent evt) {
-        formWindowClosing(evt);
-      }
-    });
+		setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+		addWindowListener(new java.awt.event.WindowAdapter()
+		{
+			public void windowClosing(java.awt.event.WindowEvent evt)
+			{
+				formWindowClosing(evt);
+			}
+		});
 
-    pane_tabs.addTab("Download", panel_download);
-    pane_tabs.addTab("Upload", panel_upload);
+		pane_tabs.addTab("Download", panel_download);
+		pane_tabs.addTab("Upload", panel_upload);
 
-    javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-    getContentPane().setLayout(layout);
-    layout.setHorizontalGroup(
-      layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-      .addComponent(pane_tabs)
-    );
-    layout.setVerticalGroup(
-      layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-      .addGroup(layout.createSequentialGroup()
-        .addComponent(pane_tabs, javax.swing.GroupLayout.PREFERRED_SIZE, 680, javax.swing.GroupLayout.PREFERRED_SIZE)
-        .addGap(0, 0, Short.MAX_VALUE))
-    );
+		javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+		getContentPane().setLayout(layout);
+		layout.setHorizontalGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+				.addComponent(pane_tabs));
+		layout.setVerticalGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+				.addGroup(
+						layout
+								.createSequentialGroup()
+								.addComponent(pane_tabs, javax.swing.GroupLayout.PREFERRED_SIZE, 680,
+										javax.swing.GroupLayout.PREFERRED_SIZE).addGap(0, 0, Short.MAX_VALUE)));
 
-    pack();
-  }// </editor-fold>//GEN-END:initComponents
+		pack();
+	}// </editor-fold>//GEN-END:initComponents
 
 	private void formWindowClosing(java.awt.event.WindowEvent evt)
 	{// GEN-FIRST:event_formWindowClosing
@@ -122,7 +120,7 @@ public class UploadDownloadFrame extends javax.swing.JFrame
 	{
 		Configuration.load();
 		loadCommandLineConfiguration(args);
-		
+
 		/* Set the Nimbus look and feel */
 		// <editor-fold defaultstate="collapsed"
 		// desc=" Look and feel setting code (optional) ">
@@ -159,18 +157,14 @@ public class UploadDownloadFrame extends javax.swing.JFrame
 		UIManager.getLookAndFeelDefaults().put("List[Selected].textForeground", Color.WHITE);
 
 		/* Create and display the form */
-		java.awt.EventQueue.invokeLater(new Runnable()
-		{
-			public void run()
-			{
-				new UploadDownloadFrame().setVisible(true);
-			}
+		java.awt.EventQueue.invokeLater(() -> {
+			new UploadDownloadFrame().setVisible(true);
 		});
 	}
 
-  // Variables declaration - do not modify//GEN-BEGIN:variables
-  private javax.swing.JTabbedPane pane_tabs;
-  private edu.crest.dlt.ui.down.DownloadPanel panel_download;
-  private edu.crest.dlt.ui.up.UploadPanel panel_upload;
-  // End of variables declaration//GEN-END:variables
+	// Variables declaration - do not modify//GEN-BEGIN:variables
+	private javax.swing.JTabbedPane pane_tabs;
+	private edu.crest.dlt.ui.down.DownloadPanel panel_download;
+	private edu.crest.dlt.ui.up.UploadPanel panel_upload;
+	// End of variables declaration//GEN-END:variables
 }

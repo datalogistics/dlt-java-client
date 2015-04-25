@@ -144,19 +144,19 @@ public class TransferStatistics
 	{
 		return ((double) timer.time_run()) / 1000.0;
 	}
-	
+
 	/* throughput in B/s */
 	public double bytes_per_second()
 	{
 		return (bytes_transferred) / elapsed_seconds();
 	}
-	
+
 	/* throughput in KB/s */
 	public double kilobytes_per_second()
 	{
 		return (bytes_transferred) / 1024.0 / elapsed_seconds();
 	}
-	
+
 	/* throughput in MB/s */
 	public double megabytes_per_second()
 	{

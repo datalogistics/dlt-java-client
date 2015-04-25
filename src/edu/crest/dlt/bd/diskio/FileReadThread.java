@@ -12,7 +12,6 @@ import java.util.logging.Logger;
 import edu.crest.dlt.transfer.Job;
 import edu.crest.dlt.transfer.JobQueue;
 import edu.crest.dlt.transfer.WriteJob;
-import edu.crest.dlt.transfer.WriteJob.state_writejob;
 import edu.crest.dlt.utils.Configuration;
 
 public class FileReadThread extends Thread
@@ -39,7 +38,7 @@ public class FileReadThread extends Thread
 		this.read_jobs = new JobQueue();
 		state = reader_state.idle;
 	}
-	
+
 	public void finalize()
 	{
 		close();

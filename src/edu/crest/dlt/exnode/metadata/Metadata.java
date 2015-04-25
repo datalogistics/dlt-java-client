@@ -17,12 +17,6 @@ import org.w3c.dom.Element;
 
 import edu.crest.dlt.exception.DeserializeException;
 
-/**
- * @author millar
- *
- *         To change the template for this generated type comment go to
- *         Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
- */
 public abstract class Metadata
 {
 	Object value;
@@ -113,13 +107,14 @@ public abstract class Metadata
 		}
 		return md;
 	}
-	
-	public static Metadata json(JsonObject json, String key, Class type) {
+
+	public static Metadata json(JsonObject json, String key, Class type)
+	{
 		if (json != null && key != null && type != null) {
 			if (type.equals(MetadataString.class)) {
 				return new MetadataString(key, json.getString(key));
 			} else if (type.equals(MetadataInteger.class)) {
-				return new MetadataInteger(key, json.getJsonNumber(key).longValue());		
+				return new MetadataInteger(key, json.getJsonNumber(key).longValue());
 			}
 		}
 		return null;

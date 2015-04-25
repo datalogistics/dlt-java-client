@@ -31,8 +31,7 @@ public class ExnodeRegistryUNIS
 
 	/**
 	 * @param exnode
-	 * @algorithm connect to the UNIS instance;
-	 * 						HTTP POST the exnode's json;
+	 * @algorithm connect to the UNIS instance; HTTP POST the exnode's json;
 	 * @return selfRef of the newly registered exnode
 	 * @throws CreateResourceException
 	 */
@@ -42,21 +41,22 @@ public class ExnodeRegistryUNIS
 		try {
 			HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 			log.info(this + ": [CONNECTED]");
-			
+
 			connection.setConnectTimeout(Configuration.dlt_exnode_registry_unis_request_timeout);
 			connection.setRequestMethod(REQUEST_TYPE);
-			connection.setRequestProperty("Content-Type", Configuration.dlt_exnode_registry_unis_content_type);
+			connection.setRequestProperty("Content-Type",
+					Configuration.dlt_exnode_registry_unis_content_type);
 			connection.setDoOutput(true);
-			
+
 			writer_stream_out = new OutputStreamWriter(connection.getOutputStream());
 			writer_stream_out.write(exnode.json().toString());
 			writer_stream_out.flush();
 			log.info(this + ": [WRITTEN] " + exnode);
-			
+
 			if (connection.getResponseCode() == HttpURLConnection.HTTP_CREATED) {
 				JsonReader reader_json = Json.createReader(connection.getInputStream());
 				JsonObject response_json = reader_json.readObject();
-				
+
 				String exnode_reference = response_json.get("selfRef").toString();
 				log.info(this + ": [DONE] registered " + exnode + " as " + exnode_reference);
 				return exnode_reference;
@@ -76,11 +76,10 @@ public class ExnodeRegistryUNIS
 			}
 		}
 	}
-	
+
 	/**
 	 * @param directory
-	 * @algorithm connect to the UNIS instance;
-	 * 						HTTP POST the directory's json;
+	 * @algorithm connect to the UNIS instance; HTTP POST the directory's json;
 	 * @return id of the newly registered directory
 	 * @throws CreateResourceException
 	 */
@@ -90,21 +89,22 @@ public class ExnodeRegistryUNIS
 		try {
 			HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 			log.info(this + ": [CONNECTED]");
-			
+
 			connection.setConnectTimeout(Configuration.dlt_exnode_registry_unis_request_timeout);
 			connection.setRequestMethod(REQUEST_TYPE);
-			connection.setRequestProperty("Content-Type", Configuration.dlt_exnode_registry_unis_content_type);
+			connection.setRequestProperty("Content-Type",
+					Configuration.dlt_exnode_registry_unis_content_type);
 			connection.setDoOutput(true);
-			
+
 			writer_stream_out = new OutputStreamWriter(connection.getOutputStream());
 			writer_stream_out.write(directory.json().toString());
 			writer_stream_out.flush();
 			log.info(this + ": [WRITTEN] " + directory);
-			
+
 			if (connection.getResponseCode() == HttpURLConnection.HTTP_CREATED) {
 				JsonReader reader_json = Json.createReader(connection.getInputStream());
 				JsonObject response_json = reader_json.readObject();
-				
+
 				String directory_reference = response_json.get("selfRef").toString();
 				log.info(this + ": [DONE] registered/found " + directory + " as " + directory_reference);
 				return response_json;
@@ -124,7 +124,7 @@ public class ExnodeRegistryUNIS
 			}
 		}
 	}
-	
+
 	public String toString()
 	{
 		return "UNIS [" + url.toString() + "]";

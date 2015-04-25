@@ -17,11 +17,6 @@ import java.util.Set;
 
 import javax.json.JsonObject;
 
-import edu.crest.dlt.exnode.metadata.Metadata;
-
-/**
- * @author millar
- */
 public abstract class MetadataContainer
 {
 	private Map<String, Metadata> metadata;

@@ -41,8 +41,9 @@ public class Mapping extends MetadataContainer
 		add(new MetadataInteger("exnode_offset", -1));
 		add(new MetadataInteger("logical_length", -1));
 	}
-	
-	public boolean accessible() {
+
+	public boolean accessible()
+	{
 		return allocation.accessible();
 	}
 
@@ -191,8 +192,8 @@ public class Mapping extends MetadataContainer
 		return mapping;
 	}
 
-	public byte[] read(Socket socket_to_read, long size, long readOffset,
-			int offset_write) throws ReadException
+	public byte[] read(Socket socket_to_read, long size, long readOffset, int offset_write)
+			throws ReadException
 	{
 		long offset_load = -1;
 		long length_load = size;
@@ -223,8 +224,8 @@ public class Mapping extends MetadataContainer
 			log.info(this + ": requesting load [" + readOffset + " - " + (readOffset + length_load - 1)
 					+ "] (" + length_load + " bytes)");
 			byte[] bytes_raw = new byte[(int) length_load];
-			int count_bytes_read = allocation.load(socket_to_read, bytes_raw, length_load,
-					offset_load, offset_write);
+			int count_bytes_read = allocation.load(socket_to_read, bytes_raw, length_load, offset_load,
+					offset_write);
 
 			log.info(this + ": received " + bytes_raw.length + " bytes of raw-data.");
 			TransferThread transferThread = (TransferThread) Thread.currentThread();

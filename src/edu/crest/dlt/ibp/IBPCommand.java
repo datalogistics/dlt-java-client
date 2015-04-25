@@ -252,7 +252,7 @@ final class IBPCommand
 		try {
 			String ibp_command = PROTOCOL_VERSION + " " + LOAD + " " + allocation.capability_read.key
 					+ " " + allocation.capability_read.key_wrm + " " + readOffset + " " + size + " "
-					+ (timeout/1000) + "\n";
+					+ (timeout / 1000) + "\n";
 
 			log.info(ibp_server + ": outgoing command [" + ibp_command + "]");
 			transfer_thread.transfer_status = ibp_server + ": requesting [" + readOffset + " - "
@@ -292,16 +292,19 @@ final class IBPCommand
 
 			int count_bytes_read = stream_in.read(buffer_out, offset_write, count_bytes_response);
 			while (count_bytes_read < count_bytes_response) {
-//				if (!socket.isClosed()) {
-					count_bytes_read += stream_in.read(buffer_out, offset_write + count_bytes_read,
-							count_bytes_response - count_bytes_read);
-//				} else {
-//					log.info(ibp_server + ": failed to read [" + readOffset + " - "
-//							+ (readOffset + count_bytes_response - 1) + "] (" + count_bytes_response + " bytes)");
-//					transfer_thread.transfer_status = ibp_server + ": failed to read [" + readOffset + " - "
-//							+ (readOffset + count_bytes_response - 1) + "] (" + count_bytes_response + " bytes)";
-//					break;
-//				}
+				// if (!socket.isClosed()) {
+				count_bytes_read += stream_in.read(buffer_out, offset_write + count_bytes_read,
+						count_bytes_response - count_bytes_read);
+				// } else {
+				// log.info(ibp_server + ": failed to read [" + readOffset + " - "
+				// + (readOffset + count_bytes_response - 1) + "] (" +
+				// count_bytes_response + " bytes)");
+				// transfer_thread.transfer_status = ibp_server + ": failed to read [" +
+				// readOffset + " - "
+				// + (readOffset + count_bytes_response - 1) + "] (" +
+				// count_bytes_response + " bytes)";
+				// break;
+				// }
 			}
 
 			log.info(ibp_server + ": read [" + readOffset + " - "

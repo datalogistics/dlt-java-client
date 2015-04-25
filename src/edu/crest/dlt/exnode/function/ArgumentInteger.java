@@ -14,12 +14,6 @@ import java.util.logging.Logger;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
-/**
- * @author millar
- *
- *         To change the template for this generated type comment go to
- *         Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
- */
 public class ArgumentInteger extends Argument
 {
 	private static final Logger log = Logger.getLogger(ArgumentInteger.class.getName());

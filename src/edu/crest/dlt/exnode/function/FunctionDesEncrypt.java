@@ -29,7 +29,7 @@ public class FunctionDesEncrypt extends Function
 	public String key_gen() throws Exception
 	{
 		key = super.key_gen(); // TODO: Currently use the default key (provided
-								// by class Function)
+		// by class Function)
 		mode = Cipher.ENCRYPT_MODE;
 		key(key);
 
@@ -43,7 +43,8 @@ public class FunctionDesEncrypt extends Function
 		SecretKeyFactory keyFac;
 
 		// Salt
-		byte[] salt = { (byte) 0xc7, (byte) 0x73, (byte) 0x21, (byte) 0x8c, (byte) 0x7e, (byte) 0xc8, (byte) 0xee, (byte) 0x99 };
+		byte[] salt = { (byte) 0xc7, (byte) 0x73, (byte) 0x21, (byte) 0x8c, (byte) 0x7e, (byte) 0xc8,
+				(byte) 0xee, (byte) 0x99 };
 
 		// Iteration count
 		int count = 20;

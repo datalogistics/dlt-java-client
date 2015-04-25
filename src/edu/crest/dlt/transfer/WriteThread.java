@@ -5,14 +5,10 @@ package edu.crest.dlt.transfer;
 
 import java.util.logging.Logger;
 
-import edu.crest.dlt.bd.diskio.FileWriteThread.writer_state;
-import edu.crest.dlt.transfer.TransferThread;
-import edu.crest.dlt.transfer.ReadJob.state_readjob;
 import edu.crest.dlt.transfer.WriteJob.state_writejob;
 import edu.crest.dlt.utils.Configuration;
 
 /**
- * @author Rohit
  * @description WriteThread is a special TransferThread that understands a
  *              WriteJob's states and acts as a manager of WriteJobs
  */
@@ -91,16 +87,16 @@ public class WriteThread extends TransferThread
 			if (write_job == null) {
 				log.warning(this + " [IDLE] no job found for writing.");
 				continue;
-//				synchronized (queued_write_jobs) {
-//					try {
-//						queued_write_jobs.wait();
-//					} catch (InterruptedException e) {
-//						if (queued_write_jobs.size() > 0) {
-//							continue;
-//						}
-//					}
-//					break;
-//				}
+				// synchronized (queued_write_jobs) {
+				// try {
+				// queued_write_jobs.wait();
+				// } catch (InterruptedException e) {
+				// if (queued_write_jobs.size() > 0) {
+				// continue;
+				// }
+				// }
+				// break;
+				// }
 			}
 
 			log.info(this + " [EXECUTING] " + write_job.status());

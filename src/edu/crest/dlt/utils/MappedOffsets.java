@@ -30,7 +30,7 @@ public class MappedOffsets implements Comparable<MappedOffsets>
 	{
 		return (o instanceof MappedOffsets) && (0 == compareTo((MappedOffsets) o));
 	}
-	
+
 	@Override
 	public int hashCode()
 	{

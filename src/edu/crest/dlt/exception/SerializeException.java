@@ -9,26 +9,17 @@
  */
 package edu.crest.dlt.exception;
 
-/**
- * @author millar
- *
- * To change the template for this generated type comment go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
- */
 public class SerializeException extends Exception
 {
-    /**
-	 * 
-	 */
 	private static final long serialVersionUID = -4977976928128638669L;
 
 	public SerializeException()
-    {
-        super();
-    }
+	{
+		super();
+	}
 
-    public SerializeException( String msg )
-    {
-        super( msg );
-    }
+	public SerializeException(String msg)
+	{
+		super(msg);
+	}
 }
