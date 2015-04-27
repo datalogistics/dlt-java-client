@@ -68,8 +68,8 @@ public class WriteJob extends ConcurrentJob
 			/* check whether the data has been copied into memory */
 			return exnode_to_write.input_file_buffer_contains(this);
 		}
-		/* if not; it is not ready anyways */
-		return false;
+		/* if not; it is not ready unless it is already writing */
+		return state == state_writejob.writing_data;
 	}
 
 	public int count_ready()
@@ -246,17 +246,22 @@ public class WriteJob extends ConcurrentJob
 		if (state != state_writejob.writing_data) {
 			state = state_writejob.preparing_mappings;
 
-			synchronized (depots_to_write) {
-				// Collections.shuffle(depots_to_write);
-				/* request a set of mappings to write to */
-				for (int i = 0; i < (depots_to_write.size() / exnode_to_write.copies() + 1); i++) {
-					if (mappings_to_write.size() == exnode_to_write.copies()) {
-						break;
-					}
+			// Collections.shuffle(depots_to_write);
+			/* request a set of mappings to write to */
+			for (int i = 0; i < (depots_to_write.size() / exnode_to_write.copies() + 1); i++) {
+				if (mappings_to_write.size() == exnode_to_write.copies()) {
+					break;
+				}
 
-					List<Depot> depots_best = exnode_to_write.depots_best(depots_to_write,
-							exnode_to_write.copies() - mappings_to_write.size());
-					for (Depot depot_to_write : depots_best) {
+				List<Depot> depots_best = null;
+				synchronized (depots_to_write) {
+					depots_best = exnode_to_write.depots_best(depots_to_write, exnode_to_write.copies()
+							- mappings_to_write.size());
+				}
+				List<TransferThread> allocation_requestors = new ArrayList<TransferThread>(
+						depots_best.size());
+				for (Depot depot_to_write : depots_best) {
+					allocation_requestors.add(new TransferThread(() -> {
 						Mapping mapping_to_write = exnode_to_write.add(depot_to_write, offset_to_write,
 								bytes_to_write, 0, bytes_to_write, 0, time_allocation);
 
@@ -264,14 +269,25 @@ public class WriteJob extends ConcurrentJob
 								+ (mapping_to_write != null ? ": allocated" : ": cannot allocate"));
 
 						if (mapping_to_write != null) {
-							mappings_to_write.add(mapping_to_write);
+							synchronized (mapping_to_write) {
+								mappings_to_write.add(mapping_to_write);
+							}
 						}
-					}
+					}));
+					allocation_requestors.get(allocation_requestors.size() - 1).start();
 				}
+
+				allocation_requestors.forEach((allocation_requestor) -> {
+					try {
+						allocation_requestor.join();
+					} catch (Exception e) {
+					}
+				});
 			}
 		}
 
-		if (mappings_to_write.size() != exnode_to_write.copies()) {
+		if (state == state_writejob.preparing_mappings
+				&& mappings_to_write.size() != exnode_to_write.copies()) {
 			log.warning(status() + "; waiting for "
 					+ (exnode_to_write.copies() - mappings_to_write.size()) + " more depots.");
 			return;

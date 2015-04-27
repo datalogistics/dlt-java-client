@@ -39,6 +39,14 @@ public class TransferThread extends Thread
 
 		this.setPriority(TransferThread.TRANSFER_THREAD_PRIORITY);
 	}
+	
+	public TransferThread (Runnable target)
+	{
+		super(target);
+		this.id = 0;
+		
+		this.setPriority(TransferThread.TRANSFER_THREAD_PRIORITY);
+	}
 
 	public long id()
 	{
