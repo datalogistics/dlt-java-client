@@ -130,10 +130,10 @@ public class TransferStatistics
 		}
 	}
 
-	public synchronized double transfer_speed()
-	{
-		return (double) bytes_transferred / timer.time_run();
-	}
+//	public synchronized double transfer_speed()
+//	{
+//		return (double) bytes_transferred / timer.time_run();
+//	}
 
 	public long time_elapsed()
 	{

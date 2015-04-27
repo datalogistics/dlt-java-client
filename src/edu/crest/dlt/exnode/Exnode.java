@@ -41,7 +41,9 @@ import edu.crest.dlt.exception.IBPException;
 import edu.crest.dlt.exception.SerializeException;
 import edu.crest.dlt.exnode.metadata.Metadata;
 import edu.crest.dlt.exnode.metadata.MetadataContainer;
+import edu.crest.dlt.exnode.metadata.MetadataDouble;
 import edu.crest.dlt.exnode.metadata.MetadataInteger;
+import edu.crest.dlt.exnode.metadata.MetadataList;
 import edu.crest.dlt.exnode.metadata.MetadataString;
 import edu.crest.dlt.ibp.Depot;
 import edu.crest.dlt.transfer.ConcurrentJob;
@@ -77,7 +79,7 @@ public class Exnode extends MetadataContainer
 	private JobQueue transfer_jobs;
 	private Set<Depot> depots;
 	private int copies = -1;
-	private TransferThread[] transfer_threads;
+	private List<TransferThread> transfer_threads;
 	private Scoreboard transfer_monitor;
 	private Thread transfer_thread_monitor;
 
@@ -270,10 +272,10 @@ public class Exnode extends MetadataContainer
 		return 0;
 	}
 
-	public Set<Depot> depots()
-	{
-		return depots;
-	}
+//	public Set<Depot> depots()
+//	{
+//		return depots;
+//	}
 
 	public void add(ProgressListener progress_listener)
 	{
@@ -285,6 +287,12 @@ public class Exnode extends MetadataContainer
 	public Mapping mapping_best(List<Mapping> target_mappings)
 	{
 		return transfer_monitor.mapping_best(target_mappings);
+	}
+	
+	public List<Depot> depots_best(List<Depot> target_depots, int count_depots)
+	{
+		List<Depot> depots_best = transfer_monitor.depots_best(target_depots, count_depots);
+		return depots_best == null ? new ArrayList<Depot>() : depots_best;
 	}
 
 	/**
@@ -333,7 +341,7 @@ public class Exnode extends MetadataContainer
 		}
 		return length;
 	}
-	
+
 	public String id()
 	{
 		return get("id").getString();
@@ -651,14 +659,13 @@ public class Exnode extends MetadataContainer
 
 		/* spawn (and start) the required number of ReadThreads */
 		log.info(this + ": spawning " + count_transfer_threads + " read-thread(s).");
-		transfer_threads = new ReadThread[count_transfer_threads];
+		transfer_threads = new ArrayList<TransferThread>(count_transfer_threads);
 		while (0 < count_transfer_threads) {
-			transfer_threads[transfer_threads.length - count_transfer_threads] = new ReadThread(
-					transfer_threads.length - count_transfer_threads, transfer_jobs);
-			transfer_threads[transfer_threads.length - count_transfer_threads].start();
+			ReadThread read_thread = new ReadThread(transfer_threads.size(), transfer_jobs);
+			transfer_threads.add(read_thread);
+			read_thread.start();
 
-			log.info(this + ": started read-thread #"
-					+ (transfer_threads.length - count_transfer_threads + 1));
+			log.info(this + ": started " + read_thread);
 			count_transfer_threads--;
 		}
 
@@ -718,8 +725,14 @@ public class Exnode extends MetadataContainer
 		/* else, update the target depots, allocation-duration ... */
 		this.depots.clear();
 		if (depots != null && !depots.isEmpty()) {
-			this.depots.addAll(depots);
+			for (Depot depot : depots) {
+				if (depot.connected()) {
+					this.depots.add(depot);
+				}
+			}
 		}
+		List<Depot> depots_to_write = new ArrayList<Depot>();
+		depots_to_write.addAll(this.depots);
 		this.copies = copies;
 
 		/* if the exnode is not ready, discourage setup */
@@ -728,29 +741,41 @@ public class Exnode extends MetadataContainer
 		}
 
 		/*
-		 * and, if same transfer-size and allocation-time is requested, the exnode
+		 * and, if same transfer-size is requested, the exnode
 		 * is already setup
 		 */
 		if (transfer_jobs != null && transfer_jobs.size() >= 0) {
 			if (transfer_jobs.peek() instanceof WriteJob) {
 				WriteJob firstJob = (WriteJob) transfer_jobs.peek();
 				if (firstJob.bytes_to_write() == transfer_size_max) {
-					if (firstJob.time_allocation == time_allocation) {
-						return;
-					}
+//					if (firstJob.time_allocation == time_allocation) {
+//						return;
+//					}
 
-					/* else, just update the allocation-times */
+					/* just update the allocation-times and target depots */
 					synchronized (transfer_jobs) {
 						int count_jobs = transfer_jobs.size();
 						while (count_jobs > 0) {
 							WriteJob write_job = (WriteJob) transfer_jobs.remove();
 							write_job.time_allocation = time_allocation;
+							write_job.depots_to_write = depots_to_write;
 							transfer_jobs.add(write_job);
+							count_jobs--;
 						}
 					}
+					return;
 				}
 			}
 		}
+
+		add(new MetadataDouble(Configuration.dlt_ui_title + " Publisher Client", 0.0));
+		add(new MetadataInteger("original_filesize", length()));
+		add(new MetadataInteger("size", length));
+		add(new MetadataString("status", "NEW"));
+		Metadata metadata_filetype = new MetadataList("Type");
+		metadata_filetype.add(new MetadataString("Name", "logistical_file"));
+		metadata_filetype.add(new MetadataString("Version", "0"));
+		add(metadata_filetype);
 
 		if (transfer_size_max == 0 || transfer_size_max > Integer.MAX_VALUE) {
 			throw new RuntimeException(this
@@ -764,7 +789,7 @@ public class Exnode extends MetadataContainer
 			long write_offset = b * (long) transfer_size_max;
 			int write_length = (int) ((write_offset + transfer_size_max <= length()) ? transfer_size_max
 					: length() - write_offset);
-			WriteJob write_job = new WriteJob(b, this, write_offset, write_length, time_allocation);
+			WriteJob write_job = new WriteJob(b, this, depots_to_write, write_offset, write_length, time_allocation);
 			transfer_jobs.add(write_job);
 		}
 	}
@@ -799,39 +824,35 @@ public class Exnode extends MetadataContainer
 			log.severe(status());
 			return false;
 		}
-
+		
 		/* start the input file reader */
 		input_file_reader.start();
 
-		/* prepare to transfer the exnode data of precomputed # of bytes */
-		transfer_monitor.progress_start(length());
+		/* prepare to transfer the exnode data of precomputed # of bytes and requested copies */
+		transfer_monitor.progress_start(copies * length());
 		state = state_exnode.transit;
 
-		/* save current thread as the monitor of current read operation */
+		/* save current thread as the monitor of current write operation */
 		transfer_thread_monitor = Thread.currentThread();
 
 		/* spawn (and start) the required number of WriteThreads */
 		log.info(this + ": spawning " + count_transfer_threads + " write-thread(s).");
-		transfer_threads = new WriteThread[count_transfer_threads];
+		transfer_threads = new ArrayList<TransferThread>(count_transfer_threads);
 		JobQueue transit_write_jobs = new JobQueue();
 		while (0 < count_transfer_threads) {
-			transfer_threads[transfer_threads.length - count_transfer_threads] = new WriteThread(
-					transfer_threads.length - count_transfer_threads, transfer_jobs, transit_write_jobs);
-			transfer_threads[transfer_threads.length - count_transfer_threads].start();
+			WriteThread write_thread = new WriteThread(transfer_threads.size(), transfer_jobs,
+					transit_write_jobs);
+			transfer_threads.add(write_thread);
+			write_thread.start();
 
-			log.info(this + ": started write-thread #"
-					+ (transfer_threads.length - count_transfer_threads + 1));
+			log.info(this + ": started " + write_thread);
 			count_transfer_threads--;
 		}
 
 		double last_progress = 0.0;
 		long time_no_progress = 0;
 		while (!transfer_thread_monitor.isInterrupted()
-				&& transfer_monitor.percent_completed() < (double) 100) {// &&
-																																	// (transfer_jobs.size()
-																																	// +
-																																	// transit_write_jobs.size())
-																																	// > 0) {
+				&& transfer_monitor.percent_completed() < (double) 100) {
 			log.info(status());
 
 			try {
@@ -844,11 +865,10 @@ public class Exnode extends MetadataContainer
 					time_no_progress = 0;
 				}
 
-				// if (time_no_progress >= Configuration.bd_transfer_exhaust_timeout) {
-				// log.severe(this +
-				// " exhausted wait-time for further progress. Cancelling.");
-				// transfer_cancel();
-				// }
+//				if (time_no_progress >= Configuration.dlt_transfer_exhaust_timeout) {
+//					log.severe(this + " exhausted wait-time for further progress. Cancelling.");
+//					transfer_cancel();
+//				}
 			} catch (InterruptedException e) {
 				log.severe(this + ": interrupted.");
 				break;
@@ -870,18 +890,16 @@ public class Exnode extends MetadataContainer
 
 	public synchronized void transfer_threads_interrupt()
 	{
-		for (TransferThread transfer_thread : transfer_threads) {
-			transfer_thread.interrupt();
-		}
-		log.severe(this + " interrupted " + transfer_threads.length + " transfer threads.");
+		transfer_threads.forEach((t) -> t.interrupt());
+		log.severe(this + " interrupted " + transfer_threads.size() + " transfer threads.");
 
-		for (TransferThread transfer_thread : transfer_threads) {
+		transfer_threads.forEach((t) -> {
 			int count = 100;
-			while (count > 0 && transfer_thread.isAlive()) {
-				// log.warning(this + ": waiting for " + transfer_thread);
+			while (count > 0 && t.isAlive()) {
+				// log.warning(this + ": waiting for " + t);
 				count--;
 			}
-		}
+		});
 	}
 
 	public synchronized void transfer_jobs_clear()
@@ -1083,7 +1101,7 @@ public class Exnode extends MetadataContainer
 
 		if (directory != null && directory.id() != null) {
 			add(new MetadataString("parent", directory.id()));
-			System.out.println(directory + "/" + this);
+			log.info(directory + "/" + this);
 		}
 
 		Iterator<?> i = iterator();
@@ -1100,10 +1118,10 @@ public class Exnode extends MetadataContainer
 			json_builder.add("parent", JsonValue.NULL);
 		}
 
-		if (get("size") == null || get("size").getInteger() != length()) {
-			add(new MetadataInteger("size", length));
-			json_builder.add("size", length);
-		}
+		// if (get("size") == null || get("size").getInteger() != length()) {
+		// add(new MetadataInteger("size", length));
+		// json_builder.add("size", length);
+		// }
 
 		json_builder.add("extents", mappings_json());
 		return json_builder.build();
@@ -1123,7 +1141,7 @@ public class Exnode extends MetadataContainer
 			case transit:
 				return this + " [TRANSIT] : transferring [0 - " + (length() - 1) + "](" + length() + "B) "
 						+ (transfer_jobs == null ? 0 : transfer_jobs.size()) + " jobs; "
-						+ (transfer_threads == null ? 0 : transfer_threads.length) + " threads "
+						+ (transfer_threads == null ? 0 : transfer_threads.size()) + " threads "
 						+ transfer_monitor;
 
 			case done:

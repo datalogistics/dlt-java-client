@@ -21,7 +21,7 @@ public abstract class Metadata
 {
 	Object value;
 	public String name;
-
+	
 	public Long getInteger() throws UnsupportedOperationException
 	{
 		throw (new UnsupportedOperationException());

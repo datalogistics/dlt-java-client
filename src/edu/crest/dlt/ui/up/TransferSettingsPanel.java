@@ -44,17 +44,18 @@ public class TransferSettingsPanel extends javax.swing.JPanel
 				() -> {
 					for (DepotLocatorLbone lbone_server : Configuration.dlt_depot_locators_lbone) {
 						/* fetch location-wise depots */
-						for (String location : Configuration.dlt_depot_locations) {
-							for (int count_depots = 10; count_depots > 0; count_depots -= 2) {
-								try {
-									if (lbone_server.depots(10, 1, 0, 2 * 24 * 60 * 60, location).size() >= count_depots - 1) {
-										break; // break when the maximum number of depots are
-														// obtained
+						Configuration.dlt_depot_locations
+								.forEach((location) -> {
+									for (int count_depots = 10; count_depots > 0; count_depots -= 2) {
+										try {
+											if (lbone_server.depots(10, 1, 0, 2 * 24 * 60 * 60, location).size() >= count_depots - 1) {
+												break; // break when the maximum number of depots are
+																// obtained
+											}
+										} catch (Exception e) {
+										}
 									}
-								} catch (Exception e) {
-								}
-							}
-						}
+								});
 
 						/* fetch location irrelevant depots */
 						for (int count_depots = 10; count_depots > 0; count_depots -= 2) {
@@ -603,9 +604,7 @@ public class TransferSettingsPanel extends javax.swing.JPanel
 	private void button_reconnect_clicked(java.awt.event.MouseEvent evt)
 	{// GEN-FIRST:event_button_reconnect_clicked
 		button_reconnect.setEnabled(false);
-		for (Map.Entry<String, Depot> depot_entry : Depot.depots.entrySet()) {
-			depot_entry.getValue().setup();
-		}
+		Depot.depots.entrySet().forEach((depot_entry) -> depot_entry.getValue().setup());
 	}// GEN-LAST:event_button_reconnect_clicked
 
 	public void sync_depots()

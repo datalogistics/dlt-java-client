@@ -43,8 +43,8 @@
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="label_connection_count" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="input_connection_count" min="-2" pref="40" max="-2" attributes="0"/>
-                      <EmptySpace pref="46" max="32767" attributes="0"/>
+                      <Component id="input_connection_count" min="-2" pref="57" max="-2" attributes="0"/>
+                      <EmptySpace pref="29" max="32767" attributes="0"/>
                       <Component id="button_reconnect" min="-2" max="-2" attributes="0"/>
                   </Group>
               </Group>

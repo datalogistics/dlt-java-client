@@ -4,6 +4,7 @@
 package edu.crest.dlt.transfer;
 
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -140,6 +141,74 @@ public class Scoreboard
 				.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Depot Max Heap ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
 		for (int i = 0; i < mappings_max_heap.size(); i++) {
 			System.out.printf("[%s]", mappings_max_heap.get(i));
+
+			/* printing [Parent] [Left-Child] [Right-Child] triplets */
+			if ((i + 1) % 3 == 0) {
+				System.out.printf("\n");
+			}
+		}
+		System.out
+				.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+	}
+
+	public synchronized void add(List<Depot> depots_max_heap, Depot depot)
+	{
+		if (!depots_max_heap.contains(depot)) {
+			/* add new depot to end of the maxHeap */
+			depots_max_heap.add(depot);
+			int current = depots_max_heap.size() - 1;
+
+			/* heapify starting from the newly inserted depot */
+			while (parent(current) < current
+					&& depots_max_heap.get(current).is(Depot.BETTER, depots_max_heap.get(parent(current)))) {
+				Collections.swap(depots_max_heap, current, parent(current));
+				current = parent(current);
+			}
+		}
+		// mappings_max_heap_display(mappings_max_heap);
+	}
+
+	public synchronized Depot depot_best(List<Depot> depots_max_heap)
+	{
+		if (depots_max_heap.size() > 0) {
+			/* remove head of MaxHeap */
+			Depot depot_head = depots_max_heap.remove(0);
+			Depot depot_best = depot_head;
+
+			/* reinsert (so that the new depot gets re-heapified) */
+			add(depots_max_heap, depot_head);
+
+			return depot_best;
+		}
+		return null;
+	}
+
+	public synchronized List<Depot> depots_best(List<Depot> depots_max_heap, int count_wanted_depots)
+	{
+		if (depots_max_heap.size() >= count_wanted_depots) {
+			List<Depot> depots_best = new ArrayList<Depot>(count_wanted_depots);
+
+			/* remove count-max from MaxHeap */
+			for (int i = 0; i < count_wanted_depots; i++) {
+				depots_best.add(depots_max_heap.remove(0));
+			}
+
+			for (int i = 0; i < count_wanted_depots; i++) {
+				/* reinsert (so that the new depot gets re-heapified) */
+				add(depots_max_heap, depots_best.get(i));
+			}
+
+			return depots_best;
+		}
+		return null;
+	}
+
+	public synchronized void depots_max_heap_display(List<Depot> depots_max_heap)
+	{
+		System.out
+				.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Depot Max Heap ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+		for (int i = 0; i < depots_max_heap.size(); i++) {
+			System.out.printf("[%s]", depots_max_heap.get(i));
 
 			/* printing [Parent] [Left-Child] [Right-Child] triplets */
 			if ((i + 1) % 3 == 0) {

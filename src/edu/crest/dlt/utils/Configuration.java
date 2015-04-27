@@ -47,6 +47,7 @@ public class Configuration
 	public static long dlt_exnode_transfer_log_interval;
 	public static int dlt_exnode_read_retries_max;
 	public static int dlt_exnode_write_retries_max;
+	public static String dlt_exnode_write_directory_default;
 	public static ExnodeRegistryUNIS dlt_exnode_registry_unis;
 	public static String dlt_exnode_registry_unis_content_type;
 	public static int dlt_exnode_registry_unis_request_timeout;
@@ -82,8 +83,8 @@ public class Configuration
 	{
 		Logger root_logger = Logger.getLogger("");
 
-		Handler handlers[] = root_logger.getHandlers();
-		for (Handler handler : handlers) {
+		List<Handler> handlers = Arrays.asList(root_logger.getHandlers());
+		handlers.forEach((handler) -> {
 			Formatter formatter = new SimpleFormatter()
 			{
 				@Override
@@ -94,7 +95,7 @@ public class Configuration
 				}
 			};
 			handler.setFormatter(formatter);
-		}
+		});
 
 		Properties configuration = new Properties();
 		try {
@@ -102,11 +103,11 @@ public class Configuration
 
 			dlt_log_console_level = console_log_level(configuration, "dlt.log.console");
 
-			for (Handler handler : handlers) {
+			handlers.forEach((handler) -> {
 				if (handler instanceof ConsoleHandler) {
 					handler.setLevel(dlt_log_console_level);
 				}
-			}
+			});
 
 			dlt_ui_title = property(configuration, "dlt.title");
 			dlt_ui_progress_map_send_url = property(configuration, "dlt.progress.map.send.url");
@@ -130,6 +131,8 @@ public class Configuration
 					"dlt.exnode.transfer.log.interval"));
 			dlt_exnode_write_retries_max = Integer.parseInt(property(configuration,
 					"dlt.exnode.write.retries"));
+			dlt_exnode_write_directory_default = property(configuration,
+					"dlt.exnode.write.directory_default");
 			dlt_exnode_registry_unis = new ExnodeRegistryUNIS(new URL(property(configuration,
 					"dlt.exnode.registry.unis")));
 			dlt_exnode_registry_unis_content_type = property(configuration,
@@ -155,20 +158,20 @@ public class Configuration
 					"dlt.depot.transfer.sockets.reuse"));
 			List<String> lbone_servers = properties(configuration, "dlt.depot.locator.lbone");
 			dlt_depot_locators_lbone = new ArrayList<DepotLocatorLbone>();
-			for (String lbone_server : lbone_servers) {
+			lbone_servers.forEach((lbone_server) -> {
 				List<String> host_port = host_port_verified(lbone_server);
 				if (host_port != null) {
 					dlt_depot_locators_lbone.add(new DepotLocatorLbone(host_port.get(0), host_port.get(1)));
 				}
-			}
+			});
 			dlt_depot_locations = properties(configuration, "dlt.depot.locations");
 			List<String> dlt_depots = properties(configuration, "dlt.depot.list");
-			for (String dlt_depot : dlt_depots) {
+			dlt_depots.forEach((dlt_depot) -> {
 				List<String> host_port = host_port_verified(dlt_depot);
 				if (host_port != null) {
 					Depot.depot(host_port.get(0), host_port.get(1));
 				}
-			}
+			});
 
 			dlt_file_write_retries_max = Integer.parseInt(property(configuration,
 					"dlt.file.write.retries"));

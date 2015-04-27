@@ -88,7 +88,7 @@
                   <Title/>
                   <Editor/>
                   <Renderer editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-                    <Connection code="new FilesPanel.FileStatusRenderer()" type="code"/>
+                    <Connection code="new edu.crest.dlt.ui.down.FilesPanel.FileStatusRenderer()" type="code"/>
                   </Renderer>
                 </Column>
               </TableColumnModel>
@@ -143,6 +143,9 @@
     </Component>
     <Component class="javax.swing.JTextField" name="input_remote_directory">
       <Properties>
+        <Property name="text" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+          <Connection code="Configuration.dlt_exnode_write_directory_default" type="code"/>
+        </Property>
         <Property name="toolTipText" type="java.lang.String" value="remote directory eg. dlt/cloud/dir - use /, \u005c or . to delimit the path or leave blank to default to root directory /" containsInvalidXMLChars="true"/>
       </Properties>
     </Component>

@@ -87,16 +87,6 @@ public class WriteThread extends TransferThread
 			if (write_job == null) {
 				log.warning(this + " [IDLE] no job found for writing.");
 				continue;
-				// synchronized (queued_write_jobs) {
-				// try {
-				// queued_write_jobs.wait();
-				// } catch (InterruptedException e) {
-				// if (queued_write_jobs.size() > 0) {
-				// continue;
-				// }
-				// }
-				// break;
-				// }
 			}
 
 			log.info(this + " [EXECUTING] " + write_job.status());

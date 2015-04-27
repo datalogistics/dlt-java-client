@@ -28,11 +28,7 @@ import javax.swing.WindowConstants;
 import edu.crest.dlt.exnode.Directory;
 import edu.crest.dlt.exnode.Exnode;
 import edu.crest.dlt.exnode.Exnode.service_exnode;
-import edu.crest.dlt.exnode.metadata.Metadata;
-import edu.crest.dlt.exnode.metadata.MetadataDouble;
 import edu.crest.dlt.exnode.metadata.MetadataInteger;
-import edu.crest.dlt.exnode.metadata.MetadataList;
-import edu.crest.dlt.exnode.metadata.MetadataString;
 import edu.crest.dlt.ibp.Depot;
 import edu.crest.dlt.ui.down.DownloadPanel;
 import edu.crest.dlt.ui.utils.img.Icons;
@@ -66,15 +62,15 @@ public class UploadPanel extends javax.swing.JPanel
 						setup_exnodes();
 
 						/* publish ready exnodes for upload (by filename) */
-						publish_uploads();
-						panel_files.enable();
-					} catch (InterruptedException e) {
-					}
-				}
+						// publish_uploads();
+				panel_files.enable();
+			} catch (InterruptedException e) {
 			}
+		}
+	}
 
-			// panel_transfer_settings.enable();
-			}).start();
+	// panel_transfer_settings.enable();
+}		).start();
 		panel_files.enable();
 	}
 
@@ -234,7 +230,7 @@ public class UploadPanel extends javax.swing.JPanel
 
 							panel_transfer_progress.clear();
 							panel_transfer_progress.filename(file_to_upload);
-							panel_transfer_progress.size(bytes_to_upload);
+							panel_transfer_progress.size(copies * bytes_to_upload);
 							exnode_to_upload.add(panel_transfer_progress);
 
 							panel_files.status_file(file_to_upload, ui_status.uploading);
@@ -327,82 +323,127 @@ public class UploadPanel extends javax.swing.JPanel
 		}
 	}// GEN-LAST:event_button_close_clicked
 
-	private void publish_uploads()
-	{
-		panel_files.remove_files_all();
-
-		for (Map.Entry<String, Exnode> entry : map_filename_exnode.entrySet()) {
-			if (entry.getValue() == null) {
-				/* if exnode not found, fail the file-"path" */
-				panel_files.add_file(entry.getKey(), ui_status.file_not_found);// "I/O error");
-			} else {
-				/* if exnode is not in ready state yet, */
-				if (!entry.getValue().accessible(service_exnode.write)) {
-					try {
-						/* wait for connection-setup timeout */
-						Thread.sleep(Configuration.dlt_depot_connect_timeout);
-					} catch (InterruptedException e) {
-						e.printStackTrace();
-					}
-				}
-				if (!entry.getValue().accessible(service_exnode.write)) {
-					/*
-					 * if exnode is still not ready, declare the file-"name" waiting for
-					 * depots
-					 */
-					panel_files.add_file(entry.getKey(), ui_status.not_enough_depots);// "Waiting");
-				} else {
-					/* else publish file-"name" for download */
-					panel_files.add_file(entry.getKey(), ui_status.upload_ready);// "Ready");
-				}
-			}
-			// panel_files.add_file(entry.getKey(), (entry.getValue() != null ?
-			// "Ready" : "Failed"));
-		}
-	}
-
 	private void setup_exnodes()
 	{
+		boolean modified = false;
 		/* remove entries of files removed by user */
 		Set<String> files_published_old = map_filename_exnode.keySet();
 		Set<String> files_published_new = new HashSet<String>(panel_files.files());
 		for (String file_published_old : files_published_old) {
 			if (!files_published_new.contains(file_published_old)) {
 				map_filename_exnode.remove(file_published_old);
+				modified = true;
 			}
 		}
 
 		/* add and/or setup exnodes for the files chosen by user */
 		files_published_old = map_filename_exnode.keySet();
 		for (String file_published_new : files_published_new) {
-			Exnode exnode;
 			if (!files_published_old.contains(file_published_new)) {
 				try {
 					/* Initialize a new exnode */
 					Exnode exnode_to_upload = new Exnode(file_published_new);
-					exnode_to_upload.add(new MetadataDouble(Configuration.dlt_ui_title + " Publisher Client",
-							0.0));
-					exnode_to_upload.add(new MetadataInteger("original_filesize", exnode_to_upload.length()));
-					exnode_to_upload.add(new MetadataString("status", "NEW"));
-					Metadata metadata_filetype = new MetadataList("Type");
-					metadata_filetype.add(new MetadataString("Name", "logistical_file"));
-					metadata_filetype.add(new MetadataString("Version", "0"));
-					exnode_to_upload.add(metadata_filetype);
 
+					/* spawn a thread to setup the new exnode for write operation */
+					Thread thread = new Thread(() -> {
+						exnode_to_upload.setup_write(
+								new HashSet<Depot>(panel_transfer_settings.depots_selected()),
+								panel_transfer_settings.copies(), panel_transfer_settings.time_seconds(),
+								panel_transfer_settings.transfer_size(), null);
+					});
+					thread.start();
+					
 					/* get the filename without path as initialized by the exnode */
 					file_published_new = exnode_to_upload.filename();
 					map_filename_exnode.put(file_published_new, exnode_to_upload);
+					modified = true;
 				} catch (FileNotFoundException e) {
 					log.warning("failed to setup exnode for file " + files_published_new + ". " + e);
 					map_filename_exnode.put(file_published_new, null);
+					modified = true;
 				}
 			}
-			exnode = map_filename_exnode.get(file_published_new);
-			exnode.setup_write(new HashSet<Depot>(panel_transfer_settings.depots_selected()),
-					panel_transfer_settings.copies(), panel_transfer_settings.time_seconds(),
-					panel_transfer_settings.transfer_size(), null);
+		}
+
+		if (!modified) {
+			return;
+		}
+
+		panel_files.remove_files_all();
+
+		map_filename_exnode.entrySet().forEach((entry) -> {
+			Exnode exnode = map_filename_exnode.get(entry.getKey());
+			publish_upload(entry.getKey(), exnode);
+		});
+	}
+
+	private void publish_upload(String filename, Exnode exnode)
+	{
+		panel_files.add_file(filename, ui_status.processing);
+
+		/* start status-updater thread */
+		if (exnode == null) {
+			/* if exnode not found, fail the file-"path" */
+			panel_files.status_file(filename, ui_status.file_not_found);
+		} else {
+			/* if exnode is not in ready state yet, */
+			if (!exnode.accessible(service_exnode.write)) {
+				try {
+					/* wait for connection-setup timeout */
+					Thread.sleep(Configuration.dlt_depot_connect_timeout);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+			}
+			if (!exnode.accessible(service_exnode.write)) {
+				/*
+				 * if exnode is still not ready, declare the file-"name" waiting for
+				 * depots
+				 */
+				panel_files.status_file(filename, ui_status.not_enough_depots);
+			} else {
+				/* else publish file-"name" for download */
+				panel_files.status_file(filename, ui_status.upload_ready);
+			}
 		}
 	}
+
+	// private void publish_uploads()
+	// {
+	// panel_files.remove_files_all();
+	//
+	// for (Map.Entry<String, Exnode> entry : map_filename_exnode.entrySet()) {
+	// panel_files.add_file(entry.getKey(), ui_status.processing);
+	//
+	// /* start status-updater thread */
+	// new Thread(() -> {
+	// if (entry.getValue() == null) {
+	// /* if exnode not found, fail the file-"path" */
+	// panel_files.status_file(entry.getKey(), ui_status.file_not_found);
+	// } else {
+	// /* if exnode is not in ready state yet, */
+	// if (!entry.getValue().accessible(service_exnode.write)) {
+	// try {
+	// /* wait for connection-setup timeout */
+	// Thread.sleep(Configuration.dlt_depot_connect_timeout);
+	// } catch (InterruptedException e) {
+	// e.printStackTrace();
+	// }
+	// }
+	// if (!entry.getValue().accessible(service_exnode.write)) {
+	// /*
+	// * if exnode is still not ready, declare the file-"name" waiting for
+	// * depots
+	// */
+	// panel_files.status_file(entry.getKey(), ui_status.not_enough_depots);
+	// } else {
+	// /* else publish file-"name" for download */
+	// panel_files.status_file(entry.getKey(), ui_status.upload_ready);
+	// }
+	// }
+	// }).start();
+	// }
+	// }
 
 	// Variables declaration - do not modify//GEN-BEGIN:variables
 	private javax.swing.JButton button_cancel;

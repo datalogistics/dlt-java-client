@@ -72,7 +72,7 @@ public class DepotLocatorLbone
 			if (return_code == SUCCESS) {
 				return (parse_depots(response.substring(10), location));
 			} else {
-				System.out.println("LBone return code " + return_code);
+//				System.out.println("LBone return code " + return_code);
 				String error = response.substring(10, 20);
 				throw (new Exception("LBone Error: " + error));
 			}

@@ -7,11 +7,14 @@ package edu.crest.dlt.transfer;
 
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import java.util.logging.Logger;
+
+import javax.print.attribute.standard.Copies;
 
 import edu.crest.dlt.exception.WriteException;
 import edu.crest.dlt.exnode.Exnode;
@@ -30,6 +33,7 @@ public class WriteJob extends ConcurrentJob
 	public state_writejob state;
 
 	public final Exnode exnode_to_write;
+	public List<Depot> depots_to_write;
 	private Set<Mapping> mappings_to_write;
 
 	private final long offset_to_write;
@@ -39,11 +43,12 @@ public class WriteJob extends ConcurrentJob
 	private Set<TransferThread> transfer_threads;
 	public byte[] bytes_read;
 
-	public WriteJob(int id, Exnode exnode_to_write, long offset_to_write, long bytes_to_write,
-			long time_allocation)
+	public WriteJob(int id, Exnode exnode_to_write, List<Depot> depots_to_write,
+			long offset_to_write, long bytes_to_write, long time_allocation)
 	{
 		super(id);
 		this.exnode_to_write = exnode_to_write;
+		this.depots_to_write = depots_to_write;
 		this.offset_to_write = offset_to_write;
 		this.bytes_to_write = bytes_to_write;
 		this.time_allocation = time_allocation;
@@ -241,18 +246,26 @@ public class WriteJob extends ConcurrentJob
 		if (state != state_writejob.writing_data) {
 			state = state_writejob.preparing_mappings;
 
-			synchronized (exnode_to_write.depots()) {
+			synchronized (depots_to_write) {
+				// Collections.shuffle(depots_to_write);
 				/* request a set of mappings to write to */
-				for (Depot depot_to_write : exnode_to_write.depots()) {
+				for (int i = 0; i < (depots_to_write.size() / exnode_to_write.copies() + 1); i++) {
 					if (mappings_to_write.size() == exnode_to_write.copies()) {
 						break;
 					}
 
-					Mapping mapping_to_write = exnode_to_write.add(depot_to_write, offset_to_write,
-							bytes_to_write, 0, bytes_to_write, 0, time_allocation);
+					List<Depot> depots_best = exnode_to_write.depots_best(depots_to_write,
+							exnode_to_write.copies() - mappings_to_write.size());
+					for (Depot depot_to_write : depots_best) {
+						Mapping mapping_to_write = exnode_to_write.add(depot_to_write, offset_to_write,
+								bytes_to_write, 0, bytes_to_write, 0, time_allocation);
 
-					if (mapping_to_write != null) {
-						mappings_to_write.add(mapping_to_write);
+						System.out.println(depot_to_write.status()
+								+ (mapping_to_write != null ? ": allocated" : ": cannot allocate"));
+
+						if (mapping_to_write != null) {
+							mappings_to_write.add(mapping_to_write);
+						}
 					}
 				}
 			}

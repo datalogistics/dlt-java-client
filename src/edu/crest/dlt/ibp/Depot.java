@@ -165,8 +165,9 @@ public class Depot implements Comparable<Depot>
 		log.warning(this + ": adding " + more_connections + " connection(s).");
 
 		final int connect_timeout = Configuration.dlt_depot_connect_timeout;
+		List<Thread> threads = new ArrayList<Thread>(more_connections);
 		for (; more_connections > 0; more_connections--) {
-			new Thread(() -> {
+			threads.add(new Thread(() -> {
 				try {
 					Socket socket = new Socket();
 					socket.connect(new InetSocketAddress(host, port), connect_timeout);
@@ -187,9 +188,18 @@ public class Depot implements Comparable<Depot>
 				} catch (IOException e) {
 					log.warning(status());
 				}
-			}).start();
+			}));
+			threads.get(threads.size() -1).start();
 		}
 
+		for (Thread thread : threads) {
+			try {
+				thread.join(Configuration.dlt_depot_connect_timeout);
+			} catch (InterruptedException e) {
+				continue;
+			}			
+		}
+		
 		/* start inactive connections monitor-releaser */
 		monitor_connections();
 	}
@@ -217,7 +227,7 @@ public class Depot implements Comparable<Depot>
 								&& System.currentTimeMillis() - transfer_statistics.time_last_tried() >= timeout_inactivity) {
 							less_connections();
 						}
-					} while (state != depot_state.nascent);
+					} while (count_connections() > 0);
 					monitor_active = false;
 				}).start();
 	}
@@ -246,10 +256,6 @@ public class Depot implements Comparable<Depot>
 				}
 			} catch (IOException e) {
 			}
-		}
-
-		if (count_connections() == 0) {
-			state = depot_state.nascent;
 		}
 	}
 
@@ -298,9 +304,9 @@ public class Depot implements Comparable<Depot>
 		}
 
 		/* else try to add more connections */
-		if (count_connections() < Configuration.dlt_depot_transfer_sockets_max) {
+		if (state != depot_state.nascent && count_connections() < Configuration.dlt_depot_transfer_sockets_max) {
 			more_connections();
-			return connect();
+			return count_connections_ready() > 0 ? connect() : null;
 		}
 
 		/* else decline the connection request */
@@ -351,7 +357,7 @@ public class Depot implements Comparable<Depot>
 				+ transfer_statistics.count_tried() + " total");
 		log.info(" Wallclock: " + transfer_statistics.bytes_transferred() + " bytes / "
 				+ transfer_statistics.time_elapsed() + " ms= "
-				+ DoubleHelper.decimals_2(transfer_statistics.transfer_speed() / 1e3) + " MB/s");
+				+ DoubleHelper.decimals_2(transfer_statistics.megabytes_per_second()) + " MB/s");
 	}
 
 	/**
@@ -472,11 +478,11 @@ public class Depot implements Comparable<Depot>
 		return allocation;
 	}
 
-	public static final int FASTER = 1;
-	public static final int BETTER = 1;
+	public static final int FASTER = -1;
+	public static final int BETTER = -1;
 	public static final int EQUAL = 0;
-	public static final int SLOWER = -1;
-	public static final int WORSE = -1;
+	public static final int SLOWER = 1;
+	public static final int WORSE = 1;
 
 	/**
 	 * @param operator
