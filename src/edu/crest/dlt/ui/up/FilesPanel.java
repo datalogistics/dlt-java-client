@@ -21,6 +21,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 
 import edu.crest.dlt.exnode.Directory;
+import edu.crest.dlt.ui.utils.TableHeaderRenderer;
 import edu.crest.dlt.ui.utils.img.Icons;
 import edu.crest.dlt.utils.Configuration;
 import edu.crest.dlt.utils.Status;
@@ -105,6 +106,9 @@ public class FilesPanel extends javax.swing.JPanel
     table_files.setFillsViewportHeight(true);
     table_files.getTableHeader().setReorderingAllowed(false);
     scrollpane_files.setViewportView(table_files);
+    table_files.getTableHeader().getColumnModel().getColumn(column_index_checkbox).setHeaderRenderer(TableHeaderRenderer.header_checkbox);
+    table_files.getTableHeader().getColumnModel().getColumn(column_index_file).setHeaderRenderer(TableHeaderRenderer.header_file);
+    table_files.getTableHeader().getColumnModel().getColumn(column_index_status).setHeaderRenderer(TableHeaderRenderer.header_status);
     table_files.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
     if (table_files.getColumnModel().getColumnCount() > 0) {
       table_files.getColumnModel().getColumn(0).setMinWidth(20);

@@ -11,7 +11,6 @@ package edu.crest.dlt.ui.up;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.logging.Logger;
 
 import javax.swing.Icon;
@@ -25,6 +24,7 @@ import javax.swing.table.TableModel;
 
 import edu.crest.dlt.ibp.Depot;
 import edu.crest.dlt.ibp.DepotLocatorLbone;
+import edu.crest.dlt.ui.utils.TableHeaderRenderer;
 import edu.crest.dlt.ui.utils.img.Icons;
 import edu.crest.dlt.utils.Configuration;
 
@@ -124,422 +124,281 @@ public class TransferSettingsPanel extends javax.swing.JPanel
 	// <editor-fold defaultstate="collapsed"
 	// <editor-fold defaultstate="collapsed"
 	// <editor-fold defaultstate="collapsed"
-	// desc="Generated Code">//GEN-BEGIN:initComponents
-	private void initComponents()
-	{
+  // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+  private void initComponents() {
 
-		label_connection_type = new javax.swing.JLabel();
-		input_connection_type = new javax.swing.JSpinner();
-		label_block_size = new javax.swing.JLabel();
-		input_block_size = new javax.swing.JComboBox<Integer>();
-		input_block_unit = new javax.swing.JSpinner();
-		label_connection_count = new javax.swing.JLabel();
-		input_connection_count = new javax.swing.JComboBox<Integer>();
-		button_reconnect = new javax.swing.JButton();
-		label_copies_count = new javax.swing.JLabel();
-		input_copies_count = new javax.swing.JComboBox<Integer>();
-		label_duration = new javax.swing.JLabel();
-		input_time_days = new javax.swing.JComboBox<Integer>();
-		label_duration_days = new javax.swing.JLabel();
-		input_time_hours = new javax.swing.JComboBox<Integer>();
-		label_duration_hours = new javax.swing.JLabel();
-		input_depots_all = new javax.swing.JCheckBox();
-		label_depots = new javax.swing.JLabel();
-		input_location = new javax.swing.JSpinner(new SpinnerListModel(
-				Configuration.dlt_depot_locations.toArray()));
-		button_add_depot = new javax.swing.JLabel();
-		scrollpane_depots = new javax.swing.JScrollPane();
-		table_depots = new javax.swing.JTable()
-		{
-			// Implement table cell tool tips.
-			public String getToolTipText(MouseEvent e)
-			{
-				String tip = null;
-				java.awt.Point p = e.getPoint();
-				int row = rowAtPoint(p);
-				int column = columnAtPoint(p);
+    label_connection_type = new javax.swing.JLabel();
+    input_connection_type = new javax.swing.JSpinner();
+    label_block_size = new javax.swing.JLabel();
+    input_block_size = new javax.swing.JComboBox<Integer>();
+    input_block_unit = new javax.swing.JSpinner();
+    label_connection_count = new javax.swing.JLabel();
+    input_connection_count = new javax.swing.JComboBox<Integer>();
+    button_reconnect = new javax.swing.JButton();
+    label_copies_count = new javax.swing.JLabel();
+    input_copies_count = new javax.swing.JComboBox<Integer>();
+    label_duration = new javax.swing.JLabel();
+    input_time_days = new javax.swing.JComboBox<Integer>();
+    label_duration_days = new javax.swing.JLabel();
+    input_time_hours = new javax.swing.JComboBox<Integer>();
+    label_duration_hours = new javax.swing.JLabel();
+    input_depots_all = new javax.swing.JCheckBox();
+    label_depots = new javax.swing.JLabel();
+    input_location = new javax.swing.JSpinner(new SpinnerListModel(Configuration.dlt_depot_locations.toArray()));
+    button_add_depot = new javax.swing.JLabel();
+    scrollpane_depots = new javax.swing.JScrollPane();
+    table_depots = new javax.swing.JTable(){
+      //Implement table cell tool tips.
+      public String getToolTipText(MouseEvent e) {
+        String tip = null;
+        java.awt.Point p = e.getPoint();
+        int row = rowAtPoint(p);
+        int column = columnAtPoint(p);
 
-				try {
-					Depot depot = (Depot) getValueAt(row, column_index_depot);
-					tip = depot.connected() ? "connected" : "connection failed (try to refresh)";
-				} catch (RuntimeException e1) {
-					// catch null pointer exception if mouse is over an empty line
-				}
+        try {
+          Depot depot = (Depot) getValueAt(row, column_index_depot);
+          tip = depot.connected() ? "connected" : "connection failed (try to refresh)";
+        } catch (RuntimeException e1) {
+          //catch null pointer exception if mouse is over an empty line
+        }
 
-				return tip;
-			}
-		};
+        return tip;
+      }
+    };
 
-		setBorder(javax.swing.BorderFactory.createTitledBorder(null, "File Transfer Settings",
-				javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION,
-				javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 12))); // NOI18N
+    setBorder(javax.swing.BorderFactory.createTitledBorder(null, "File Transfer Settings", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 12))); // NOI18N
 
-		label_connection_type.setText("Connection Type");
+    label_connection_type.setText("Connection Type");
 
-		input_connection_type.setModel(new javax.swing.SpinnerListModel(new String[] { "Dial-Up/ISDN",
-				"DSL/Cable/T1", "< 100 Mbps", "> 100 Mbps" }));
-		input_connection_type.setToolTipText("select the type of connection");
-		input_connection_type.setEditor(new javax.swing.JSpinner.ListEditor(input_connection_type));
-		input_connection_type.addChangeListener(new javax.swing.event.ChangeListener()
-		{
-			public void stateChanged(javax.swing.event.ChangeEvent evt)
-			{
-				input_connection_type_changed(evt);
-			}
-		});
+    input_connection_type.setModel(new javax.swing.SpinnerListModel(new String[] {"Dial-Up/ISDN", "DSL/Cable/T1", "< 100 Mbps", "> 100 Mbps"}));
+    input_connection_type.setToolTipText("select the type of connection");
+    input_connection_type.setEditor(new javax.swing.JSpinner.ListEditor(input_connection_type));
+    input_connection_type.addChangeListener(new javax.swing.event.ChangeListener() {
+      public void stateChanged(javax.swing.event.ChangeEvent evt) {
+        input_connection_type_changed(evt);
+      }
+    });
 
-		label_block_size.setText("Block Size");
+    label_block_size.setText("Block Size");
 
-		input_block_size.setEditable(true);
-		input_block_size.setMaximumRowCount(15);
-		input_block_size.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "1", "2", "4",
-				"5", "8", "10", "16", "32", "64", "128", "256", "512", "1024" }));
-		input_block_size.setSelectedIndex(11);
-		input_block_size.setToolTipText("select block size in which to perform the transfer");
-		input_block_size.addActionListener(new java.awt.event.ActionListener()
-		{
-			public void actionPerformed(java.awt.event.ActionEvent evt)
-			{
-				input_block_size_changed(evt);
-			}
-		});
+    input_block_size.setEditable(true);
+    input_block_size.setMaximumRowCount(15);
+    input_block_size.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "1", "2", "4", "5", "8", "10", "16", "32", "64", "128", "256", "512", "1024" }));
+    input_block_size.setSelectedIndex(11);
+    input_block_size.setToolTipText("select block size in which to perform the transfer");
+    input_block_size.addActionListener(new java.awt.event.ActionListener() {
+      public void actionPerformed(java.awt.event.ActionEvent evt) {
+        input_block_size_changed(evt);
+      }
+    });
 
-		input_block_unit.setModel(new javax.swing.SpinnerListModel(new String[] { "KB", "MB" }));
-		input_block_unit.setToolTipText("specify block unit (KB=kilobytes; MB=megabytes)");
-		input_block_unit.addChangeListener(new javax.swing.event.ChangeListener()
-		{
-			public void stateChanged(javax.swing.event.ChangeEvent evt)
-			{
-				input_block_unit_changed(evt);
-			}
-		});
+    input_block_unit.setModel(new javax.swing.SpinnerListModel(new String[] {"KB", "MB"}));
+    input_block_unit.setToolTipText("specify block unit (KB=kilobytes; MB=megabytes)");
+    input_block_unit.addChangeListener(new javax.swing.event.ChangeListener() {
+      public void stateChanged(javax.swing.event.ChangeEvent evt) {
+        input_block_unit_changed(evt);
+      }
+    });
 
-		label_connection_count.setText("# of Connections");
+    label_connection_count.setText("# of Connections");
 
-		input_connection_count.setEditable(true);
-		input_connection_count.setMaximumRowCount(10);
-		input_connection_count.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "1", "2",
-				"3", "4", "5", "6", "7", "8", "9", "10" }));
-		input_connection_count.setToolTipText("select number of connections");
+    input_connection_count.setEditable(true);
+    input_connection_count.setMaximumRowCount(10);
+    input_connection_count.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10" }));
+    input_connection_count.setToolTipText("select number of connections");
 
-		button_reconnect.setIcon(Icons.icon_refresh);
-		button_reconnect.setText("Reconnect");
-		button_reconnect.addMouseListener(new java.awt.event.MouseAdapter()
-		{
-			public void mouseClicked(java.awt.event.MouseEvent evt)
-			{
-				button_reconnect_clicked(evt);
-			}
-		});
+    button_reconnect.setIcon(Icons.icon_refresh);
+    button_reconnect.setText("Reconnect");
+    button_reconnect.addMouseListener(new java.awt.event.MouseAdapter() {
+      public void mouseClicked(java.awt.event.MouseEvent evt) {
+        button_reconnect_clicked(evt);
+      }
+    });
 
-		label_copies_count.setText("# of Copies");
+    label_copies_count.setText("# of Copies");
 
-		input_copies_count.setEditable(true);
-		input_copies_count.setMaximumRowCount(10);
-		input_copies_count.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "1", "2", "3",
-				"4", "5" }));
-		input_copies_count.setToolTipText("select number of copies/replicas to create");
+    input_copies_count.setEditable(true);
+    input_copies_count.setMaximumRowCount(10);
+    input_copies_count.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "1", "2", "3", "4", "5" }));
+    input_copies_count.setToolTipText("select number of copies/replicas to create");
 
-		label_duration.setText("Duration");
+    label_duration.setText("Duration");
 
-		input_time_days.setEditable(true);
-		input_time_days.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "0", "1", "2",
-				"3", "4", "5", "6", "7" }));
-		input_time_days.setSelectedIndex(2);
-		input_time_days.setToolTipText("specify file lifetime (in days)");
+    input_time_days.setEditable(true);
+    input_time_days.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "0", "1", "2", "3", "4", "5", "6", "7" }));
+    input_time_days.setSelectedIndex(2);
+    input_time_days.setToolTipText("specify file lifetime (in days)");
 
-		label_duration_days.setText("day(s)");
+    label_duration_days.setText("day(s)");
 
-		input_time_hours.setEditable(true);
-		input_time_hours.setMaximumRowCount(15);
-		input_time_hours.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "0", "1", "2",
-				"3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18",
-				"19", "20", "21", "22", "23" }));
-		input_time_hours.setToolTipText("specify file lifetime (in hours)");
+    input_time_hours.setEditable(true);
+    input_time_hours.setMaximumRowCount(15);
+    input_time_hours.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23" }));
+    input_time_hours.setToolTipText("specify file lifetime (in hours)");
 
-		label_duration_hours.setText("hr");
+    label_duration_hours.setText("hr");
 
-		input_depots_all.setText("all");
-		input_depots_all.setToolTipText("select all available depots");
-		input_depots_all.addActionListener(new java.awt.event.ActionListener()
-		{
-			public void actionPerformed(java.awt.event.ActionEvent evt)
-			{
-				input_depots_all_clicked(evt);
-			}
-		});
+    input_depots_all.setText("all");
+    input_depots_all.setToolTipText("select all available depots");
+    input_depots_all.addActionListener(new java.awt.event.ActionListener() {
+      public void actionPerformed(java.awt.event.ActionEvent evt) {
+        input_depots_all_clicked(evt);
+      }
+    });
 
-		label_depots.setText("Depots");
+    label_depots.setText("Depots");
 
-		input_location.setModel(new javax.swing.SpinnerListModel(new String[] { "AL", "IN" }));
-		input_location.setToolTipText("select target depots by location");
-		input_location.addChangeListener(new javax.swing.event.ChangeListener()
-		{
-			public void stateChanged(javax.swing.event.ChangeEvent evt)
-			{
-				input_location_changed(evt);
-			}
-		});
+    input_location.setModel(new javax.swing.SpinnerListModel(new String[] {"AL", "IN"}));
+    input_location.setToolTipText("select target depots by location");
+    input_location.addChangeListener(new javax.swing.event.ChangeListener() {
+      public void stateChanged(javax.swing.event.ChangeEvent evt) {
+        input_location_changed(evt);
+      }
+    });
 
-		button_add_depot.setForeground(new java.awt.Color(255, 0, 0));
-		button_add_depot.setText("+");
-		button_add_depot.setToolTipText("add a depot (host:port)");
-		button_add_depot.addMouseListener(new java.awt.event.MouseAdapter()
-		{
-			public void mouseClicked(java.awt.event.MouseEvent evt)
-			{
-				button_add_depot_clicked(evt);
-			}
-		});
+    button_add_depot.setForeground(new java.awt.Color(255, 0, 0));
+    button_add_depot.setText("+");
+    button_add_depot.setToolTipText("add a depot (host:port)");
+    button_add_depot.addMouseListener(new java.awt.event.MouseAdapter() {
+      public void mouseClicked(java.awt.event.MouseEvent evt) {
+        button_add_depot_clicked(evt);
+      }
+    });
 
-		table_depots.setModel(new javax.swing.table.DefaultTableModel(new Object[][] {
+    table_depots.setModel(new javax.swing.table.DefaultTableModel(
+      new Object [][] {
 
-		}, new String[] { "[]", "Depot(s)", "Status" })
-		{
-			Class[] types = new Class[] { java.lang.Boolean.class, java.lang.Object.class,
-					java.lang.Object.class };
-			boolean[] canEdit = new boolean[] { true, false, false };
+      },
+      new String [] {
+        "[]", "Depot(s)", "Status"
+      }
+    ) {
+      Class[] types = new Class [] {
+        java.lang.Boolean.class, java.lang.Object.class, java.lang.Object.class
+      };
+      boolean[] canEdit = new boolean [] {
+        true, false, false
+      };
 
-			public Class getColumnClass(int columnIndex)
-			{
-				return types[columnIndex];
-			}
+      public Class getColumnClass(int columnIndex) {
+        return types [columnIndex];
+      }
 
-			public boolean isCellEditable(int rowIndex, int columnIndex)
-			{
-				return canEdit[columnIndex];
-			}
-		});
-		table_depots.setColumnSelectionAllowed(true);
-		table_depots.setFillsViewportHeight(true);
-		table_depots.getTableHeader().setReorderingAllowed(false);
-		scrollpane_depots.setViewportView(table_depots);
-		table_depots.getColumnModel().getSelectionModel()
-				.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_INTERVAL_SELECTION);
-		if (table_depots.getColumnModel().getColumnCount() > 0) {
-			table_depots.getColumnModel().getColumn(0).setMinWidth(20);
-			table_depots.getColumnModel().getColumn(0).setPreferredWidth(20);
-			table_depots.getColumnModel().getColumn(0).setMaxWidth(20);
-			table_depots.getColumnModel().getColumn(2).setMinWidth(50);
-			table_depots.getColumnModel().getColumn(2).setPreferredWidth(50);
-			table_depots.getColumnModel().getColumn(2).setMaxWidth(50);
-			table_depots.getColumnModel().getColumn(2).setCellRenderer(new ConnectionStatusRenderer());
-		}
+      public boolean isCellEditable(int rowIndex, int columnIndex) {
+        return canEdit [columnIndex];
+      }
+    });
+    table_depots.setColumnSelectionAllowed(true);
+    table_depots.setFillsViewportHeight(true);
+    table_depots.getTableHeader().setReorderingAllowed(false);
+    scrollpane_depots.setViewportView(table_depots);
+    table_depots.getTableHeader().getColumnModel().getColumn(column_index_status).setHeaderRenderer(TableHeaderRenderer.header_status);
+    table_depots.getTableHeader().getColumnModel().getColumn(column_index_depot).setHeaderRenderer(TableHeaderRenderer.header_depot);
+    table_depots.getTableHeader().getColumnModel().getColumn(column_index_checkbox).setHeaderRenderer(TableHeaderRenderer.header_checkbox);
+    table_depots.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_INTERVAL_SELECTION);
+    if (table_depots.getColumnModel().getColumnCount() > 0) {
+      table_depots.getColumnModel().getColumn(0).setMinWidth(20);
+      table_depots.getColumnModel().getColumn(0).setPreferredWidth(20);
+      table_depots.getColumnModel().getColumn(0).setMaxWidth(20);
+      table_depots.getColumnModel().getColumn(2).setMinWidth(50);
+      table_depots.getColumnModel().getColumn(2).setPreferredWidth(50);
+      table_depots.getColumnModel().getColumn(2).setMaxWidth(50);
+      table_depots.getColumnModel().getColumn(2).setCellRenderer(new ConnectionStatusRenderer());
+    }
 
-		javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-		this.setLayout(layout);
-		layout
-				.setHorizontalGroup(layout
-						.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-						.addGroup(
-								layout
-										.createSequentialGroup()
-										.addGroup(
-												layout
-														.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-														.addGroup(
-																layout
-																		.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-																		.addGroup(
-																				layout
-																						.createParallelGroup(
-																								javax.swing.GroupLayout.Alignment.LEADING)
-																						.addComponent(label_connection_type)
-																						.addComponent(label_block_size,
-																								javax.swing.GroupLayout.Alignment.TRAILING))
-																		.addComponent(input_location,
-																				javax.swing.GroupLayout.Alignment.TRAILING,
-																				javax.swing.GroupLayout.PREFERRED_SIZE, 53,
-																				javax.swing.GroupLayout.PREFERRED_SIZE))
-														.addGroup(
-																javax.swing.GroupLayout.Alignment.TRAILING,
-																layout
-																		.createSequentialGroup()
-																		.addComponent(label_depots)
-																		.addPreferredGap(
-																				javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-																		.addComponent(button_add_depot))
-														.addComponent(input_depots_all,
-																javax.swing.GroupLayout.Alignment.TRAILING))
-										.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-										.addGroup(
-												layout
-														.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-														.addGroup(
-																layout
-																		.createSequentialGroup()
-																		.addComponent(input_connection_type,
-																				javax.swing.GroupLayout.PREFERRED_SIZE, 200,
-																				javax.swing.GroupLayout.PREFERRED_SIZE)
-																		.addPreferredGap(
-																				javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-																		.addComponent(label_duration)
-																		.addPreferredGap(
-																				javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-																		.addGroup(
-																				layout
-																						.createParallelGroup(
-																								javax.swing.GroupLayout.Alignment.LEADING)
-																						.addComponent(input_time_days,
-																								javax.swing.GroupLayout.PREFERRED_SIZE, 45,
-																								javax.swing.GroupLayout.PREFERRED_SIZE)
-																						.addComponent(input_connection_count,
-																								javax.swing.GroupLayout.PREFERRED_SIZE, 57,
-																								javax.swing.GroupLayout.PREFERRED_SIZE))
-																		.addGap(6, 6, 6)
-																		.addGroup(
-																				layout
-																						.createParallelGroup(
-																								javax.swing.GroupLayout.Alignment.LEADING)
-																						.addGroup(
-																								javax.swing.GroupLayout.Alignment.TRAILING,
-																								layout
-																										.createSequentialGroup()
-																										.addComponent(label_copies_count)
-																										.addPreferredGap(
-																												javax.swing.LayoutStyle.ComponentPlacement.RELATED))
-																						.addGroup(
-																								layout.createSequentialGroup()
-																										.addComponent(label_duration_days)
-																										.addGap(29, 29, 29)))
-																		.addGroup(
-																				layout
-																						.createParallelGroup(
-																								javax.swing.GroupLayout.Alignment.LEADING, false)
-																						.addComponent(input_copies_count,
-																								javax.swing.GroupLayout.PREFERRED_SIZE, 45,
-																								javax.swing.GroupLayout.PREFERRED_SIZE)
-																						.addComponent(input_time_hours, 0, 1, Short.MAX_VALUE))
-																		.addPreferredGap(
-																				javax.swing.LayoutStyle.ComponentPlacement.RELATED,
-																				javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-																		.addComponent(label_duration_hours))
-														.addGroup(
-																layout
-																		.createSequentialGroup()
-																		.addGroup(
-																				layout
-																						.createParallelGroup(
-																								javax.swing.GroupLayout.Alignment.LEADING)
-																						.addGroup(
-																								layout
-																										.createSequentialGroup()
-																										.addComponent(input_block_size,
-																												javax.swing.GroupLayout.PREFERRED_SIZE, 58,
-																												javax.swing.GroupLayout.PREFERRED_SIZE)
-																										.addPreferredGap(
-																												javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-																										.addComponent(input_block_unit,
-																												javax.swing.GroupLayout.PREFERRED_SIZE, 53,
-																												javax.swing.GroupLayout.PREFERRED_SIZE)
-																										.addPreferredGap(
-																												javax.swing.LayoutStyle.ComponentPlacement.RELATED,
-																												javax.swing.GroupLayout.DEFAULT_SIZE,
-																												Short.MAX_VALUE)
-																										.addComponent(label_connection_count)
-																										.addGap(107, 107, 107))
-																						.addComponent(scrollpane_depots,
-																								javax.swing.GroupLayout.PREFERRED_SIZE, 0,
-																								Short.MAX_VALUE))
-																		.addPreferredGap(
-																				javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-																		.addComponent(button_reconnect))).addGap(2, 2, 2)));
-		layout
-				.setVerticalGroup(layout
-						.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-						.addGroup(
-								layout
-										.createSequentialGroup()
-										.addGroup(
-												layout
-														.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-														.addGroup(
-																layout
-																		.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-																		.addComponent(label_connection_type)
-																		.addComponent(input_connection_type,
-																				javax.swing.GroupLayout.PREFERRED_SIZE,
-																				javax.swing.GroupLayout.DEFAULT_SIZE,
-																				javax.swing.GroupLayout.PREFERRED_SIZE)
-																		.addComponent(label_duration))
-														.addGroup(
-																layout
-																		.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-																		.addComponent(input_time_days,
-																				javax.swing.GroupLayout.PREFERRED_SIZE,
-																				javax.swing.GroupLayout.DEFAULT_SIZE,
-																				javax.swing.GroupLayout.PREFERRED_SIZE)
-																		.addComponent(label_duration_days,
-																				javax.swing.GroupLayout.DEFAULT_SIZE,
-																				javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-																		.addComponent(input_time_hours,
-																				javax.swing.GroupLayout.PREFERRED_SIZE,
-																				javax.swing.GroupLayout.DEFAULT_SIZE,
-																				javax.swing.GroupLayout.PREFERRED_SIZE)
-																		.addComponent(label_duration_hours,
-																				javax.swing.GroupLayout.DEFAULT_SIZE,
-																				javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-										.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-										.addGroup(
-												layout
-														.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-														.addGroup(
-																layout
-																		.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-																		.addComponent(label_block_size,
-																				javax.swing.GroupLayout.DEFAULT_SIZE,
-																				javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-																		.addComponent(input_block_unit,
-																				javax.swing.GroupLayout.PREFERRED_SIZE,
-																				javax.swing.GroupLayout.DEFAULT_SIZE,
-																				javax.swing.GroupLayout.PREFERRED_SIZE)
-																		.addComponent(input_block_size,
-																				javax.swing.GroupLayout.PREFERRED_SIZE,
-																				javax.swing.GroupLayout.DEFAULT_SIZE,
-																				javax.swing.GroupLayout.PREFERRED_SIZE))
-														.addGroup(
-																layout
-																		.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-																		.addComponent(label_copies_count)
-																		.addComponent(input_copies_count,
-																				javax.swing.GroupLayout.PREFERRED_SIZE,
-																				javax.swing.GroupLayout.DEFAULT_SIZE,
-																				javax.swing.GroupLayout.PREFERRED_SIZE)
-																		.addComponent(input_connection_count,
-																				javax.swing.GroupLayout.PREFERRED_SIZE,
-																				javax.swing.GroupLayout.DEFAULT_SIZE,
-																				javax.swing.GroupLayout.PREFERRED_SIZE)
-																		.addComponent(label_connection_count,
-																				javax.swing.GroupLayout.DEFAULT_SIZE,
-																				javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-										.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-										.addGroup(
-												layout
-														.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-														.addGroup(
-																layout.createSequentialGroup().addGap(0, 0, Short.MAX_VALUE)
-																		.addComponent(button_reconnect))
-														.addGroup(
-																javax.swing.GroupLayout.Alignment.LEADING,
-																layout
-																		.createSequentialGroup()
-																		.addGroup(
-																				layout
-																						.createParallelGroup(
-																								javax.swing.GroupLayout.Alignment.BASELINE)
-																						.addComponent(label_depots)
-																						.addComponent(button_add_depot))
-																		.addGap(18, 18, 18)
-																		.addComponent(input_location,
-																				javax.swing.GroupLayout.PREFERRED_SIZE,
-																				javax.swing.GroupLayout.DEFAULT_SIZE,
-																				javax.swing.GroupLayout.PREFERRED_SIZE)
-																		.addPreferredGap(
-																				javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-																		.addComponent(input_depots_all))
-														.addComponent(scrollpane_depots,
-																javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))));
-	}// </editor-fold>//GEN-END:initComponents
+    javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
+    this.setLayout(layout);
+    layout.setHorizontalGroup(
+      layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+      .addGroup(layout.createSequentialGroup()
+        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+          .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+              .addComponent(label_connection_type)
+              .addComponent(label_block_size, javax.swing.GroupLayout.Alignment.TRAILING))
+            .addComponent(input_location, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE))
+          .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+            .addComponent(label_depots)
+            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+            .addComponent(button_add_depot))
+          .addComponent(input_depots_all, javax.swing.GroupLayout.Alignment.TRAILING))
+        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+          .addGroup(layout.createSequentialGroup()
+            .addComponent(input_connection_type, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+            .addComponent(label_duration)
+            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+              .addComponent(input_time_days, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+              .addComponent(input_connection_count, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGap(6, 6, 6)
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+              .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addComponent(label_copies_count)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
+              .addGroup(layout.createSequentialGroup()
+                .addComponent(label_duration_days)
+                .addGap(29, 29, 29)))
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+              .addComponent(input_copies_count, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+              .addComponent(input_time_hours, 0, 1, Short.MAX_VALUE))
+            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(label_duration_hours))
+          .addGroup(layout.createSequentialGroup()
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+              .addGroup(layout.createSequentialGroup()
+                .addComponent(input_block_size, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(input_block_unit, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(label_connection_count)
+                .addGap(107, 107, 107))
+              .addComponent(scrollpane_depots, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+            .addComponent(button_reconnect)))
+        .addGap(2, 2, 2))
+    );
+    layout.setVerticalGroup(
+      layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+      .addGroup(layout.createSequentialGroup()
+        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+          .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+            .addComponent(label_connection_type)
+            .addComponent(input_connection_type, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(label_duration))
+          .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+            .addComponent(input_time_days, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(label_duration_days, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(input_time_hours, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(label_duration_hours, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+          .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+            .addComponent(label_block_size, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(input_block_unit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(input_block_size, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+          .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+            .addComponent(label_copies_count)
+            .addComponent(input_copies_count, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(input_connection_count, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(label_connection_count, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+          .addGroup(layout.createSequentialGroup()
+            .addGap(0, 0, Short.MAX_VALUE)
+            .addComponent(button_reconnect))
+          .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+              .addComponent(label_depots)
+              .addComponent(button_add_depot))
+            .addGap(18, 18, 18)
+            .addComponent(input_location, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+            .addComponent(input_depots_all))
+          .addComponent(scrollpane_depots, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)))
+    );
+  }// </editor-fold>//GEN-END:initComponents
 
 	private void button_add_depot_clicked(java.awt.event.MouseEvent evt)
 	{// GEN-FIRST:event_button_add_depot_clicked
@@ -760,30 +619,29 @@ public class TransferSettingsPanel extends javax.swing.JPanel
 	private static final int column_index_depot = 1;
 	private static final int column_index_status = 2;
 
-	// Variables declaration - do not modify//GEN-BEGIN:variables
-	private javax.swing.JLabel button_add_depot;
-	private javax.swing.JButton button_reconnect;
-	private javax.swing.JComboBox<Integer> input_block_size;
-	private javax.swing.JSpinner input_block_unit;
-	private javax.swing.JComboBox<Integer> input_connection_count;
-	private javax.swing.JSpinner input_connection_type;
-	private javax.swing.JComboBox<Integer> input_copies_count;
-	private javax.swing.JCheckBox input_depots_all;
-	private javax.swing.JSpinner input_location;
-	private javax.swing.JComboBox<Integer> input_time_days;
-	private javax.swing.JComboBox<Integer> input_time_hours;
-	private javax.swing.JLabel label_block_size;
-	private javax.swing.JLabel label_connection_count;
-	private javax.swing.JLabel label_connection_type;
-	private javax.swing.JLabel label_copies_count;
-	private javax.swing.JLabel label_depots;
-	private javax.swing.JLabel label_duration;
-	private javax.swing.JLabel label_duration_days;
-	private javax.swing.JLabel label_duration_hours;
-	private javax.swing.JScrollPane scrollpane_depots;
-	public javax.swing.JTable table_depots;
-
-	// End of variables declaration//GEN-END:variables
+  // Variables declaration - do not modify//GEN-BEGIN:variables
+  private javax.swing.JLabel button_add_depot;
+  private javax.swing.JButton button_reconnect;
+  private javax.swing.JComboBox<Integer> input_block_size;
+  private javax.swing.JSpinner input_block_unit;
+  private javax.swing.JComboBox<Integer> input_connection_count;
+  private javax.swing.JSpinner input_connection_type;
+  private javax.swing.JComboBox<Integer> input_copies_count;
+  private javax.swing.JCheckBox input_depots_all;
+  private javax.swing.JSpinner input_location;
+  private javax.swing.JComboBox<Integer> input_time_days;
+  private javax.swing.JComboBox<Integer> input_time_hours;
+  private javax.swing.JLabel label_block_size;
+  private javax.swing.JLabel label_connection_count;
+  private javax.swing.JLabel label_connection_type;
+  private javax.swing.JLabel label_copies_count;
+  private javax.swing.JLabel label_depots;
+  private javax.swing.JLabel label_duration;
+  private javax.swing.JLabel label_duration_days;
+  private javax.swing.JLabel label_duration_hours;
+  private javax.swing.JScrollPane scrollpane_depots;
+  public javax.swing.JTable table_depots;
+  // End of variables declaration//GEN-END:variables
 
 	public static class ConnectionStatusRenderer extends DefaultTableCellRenderer
 	{

@@ -51,7 +51,7 @@
                 <Column editable="false" title="Status" type="java.lang.Object"/>
               </Table>
             </Property>
-            <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
+            <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor" preCode="table_files.getTableHeader().getColumnModel().getColumn(column_index_checkbox).setHeaderRenderer(TableHeaderRenderer.header_checkbox);&#xa;table_files.getTableHeader().getColumnModel().getColumn(column_index_file).setHeaderRenderer(TableHeaderRenderer.header_file);&#xa;table_files.getTableHeader().getColumnModel().getColumn(column_index_status).setHeaderRenderer(TableHeaderRenderer.header_status);">
               <TableColumnModel selectionModel="3">
                 <Column maxWidth="20" minWidth="20" prefWidth="20" resizable="true">
                   <Title/>
@@ -79,7 +79,7 @@
             </Property>
           </Properties>
           <AuxValues>
-            <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new javax.swing.JTable(){&#xa;  //Implement table cell tool tips.           &#xa;  public String getToolTipText(MouseEvent e) {&#xa;    String tip = null;&#xa;    java.awt.Point p = e.getPoint();&#xa;    int row = rowAtPoint(p);&#xa;    int column = columnAtPoint(p);&#xa;&#xa;    try {&#xa;&#x9;&#x9;  ui_status status_file = (ui_status) getValueAt(row, column_index_status);&#xa;&#x9;&#x9;  tip = Status.message(status_file);&#xa;&#x9;&#x9;} catch (Exception e1) {&#xa;&#x9;&#x9;}&#xa;&#xa;    return tip;&#xa;  }&#xa;}"/>
+            <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new javax.swing.JTable(){&#xa;  //Implement table cell tool tips.&#xa;  public String getToolTipText(MouseEvent e) {&#xa;    String tip = null;&#xa;    java.awt.Point p = e.getPoint();&#xa;    int row = rowAtPoint(p);&#xa;    int column = columnAtPoint(p);&#xa;&#xa;    try {&#xa;      ui_status status_file = (ui_status) getValueAt(row, column_index_status);&#xa;      tip = Status.message(status_file);&#xa;    } catch (Exception e1) {&#xa;    }&#xa;&#xa;    return tip;&#xa;  }&#xa;}"/>
             <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
           </AuxValues>
         </Component>

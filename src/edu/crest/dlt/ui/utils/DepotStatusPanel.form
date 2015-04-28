@@ -43,27 +43,27 @@
           <Properties>
             <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
               <Table columnCount="6" rowCount="0">
-                <Column editable="false" title="Depot(s)" type="java.lang.Object"/>
                 <Column editable="false" title="Status" type="java.lang.Object"/>
-                <Column editable="false" title="Success" type="java.lang.Integer"/>
-                <Column editable="false" title="Fail" type="java.lang.Integer"/>
+                <Column editable="false" title="Depot" type="java.lang.Object"/>
                 <Column editable="false" title="Connection(s)" type="java.lang.Integer"/>
-                <Column editable="false" title="Throughput" type="java.lang.Double"/>
+                <Column editable="false" title="Success" type="java.lang.Integer"/>
+                <Column editable="false" title="Failure" type="java.lang.Integer"/>
+                <Column editable="false" title="MB/s" type="java.lang.Double"/>
               </Table>
             </Property>
-            <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
+            <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor" preCode="table_depots.getTableHeader().getColumnModel().getColumn(column_index_status).setHeaderRenderer(TableHeaderRenderer.header_status);&#xa;table_depots.getTableHeader().getColumnModel().getColumn(column_index_depot).setHeaderRenderer(TableHeaderRenderer.header_depot);&#xa;table_depots.getTableHeader().getColumnModel().getColumn(column_index_connections).setHeaderRenderer(TableHeaderRenderer.header_depot_connections);&#xa;table_depots.getTableHeader().getColumnModel().getColumn(column_index_success).setHeaderRenderer(TableHeaderRenderer.header_success);&#xa;table_depots.getTableHeader().getColumnModel().getColumn(column_index_fail).setHeaderRenderer(TableHeaderRenderer.header_failure);&#xa;table_depots.getTableHeader().getColumnModel().getColumn(column_index_throughput).setHeaderRenderer(TableHeaderRenderer.header_speed);">
               <TableColumnModel selectionModel="2">
-                <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
-                  <Title/>
-                  <Editor/>
-                  <Renderer/>
-                </Column>
                 <Column maxWidth="40" minWidth="40" prefWidth="40" resizable="true">
                   <Title/>
                   <Editor/>
                   <Renderer editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
                     <Connection code="new edu.crest.dlt.ui.up.TransferSettingsPanel.ConnectionStatusRenderer()" type="code"/>
                   </Renderer>
+                </Column>
+                <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                  <Title/>
+                  <Editor/>
+                  <Renderer/>
                 </Column>
                 <Column maxWidth="40" minWidth="40" prefWidth="40" resizable="true">
                   <Title/>
@@ -94,7 +94,7 @@
             </Property>
           </Properties>
           <AuxValues>
-            <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new javax.swing.JTable(){&#xa;  //Implement table cell tool tips.           &#xa;  public String getToolTipText(MouseEvent e) {&#xa;    String tip = null;&#xa;    java.awt.Point p = e.getPoint();&#xa;    int row = rowAtPoint(p);&#xa;    int column = columnAtPoint(p);&#xa;&#xa;    try {&#xa;      Depot depot = (Depot) getValueAt(row, column_index_depot);&#xa;      tip = depot.connected() ? &quot;connected&quot; : &quot;connection failed (try to refresh)&quot;;&#xa;    } catch (RuntimeException e1) {&#xa;      //catch null pointer exception if mouse is over an empty line&#xa;    }&#xa;&#xa;    return tip;&#xa;  }&#xa;}"/>
+            <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new javax.swing.JTable(){&#xa;  //Implement table cell tool tips.&#xa;  public String getToolTipText(MouseEvent e) {&#xa;    String tip = null;&#xa;    java.awt.Point p = e.getPoint();&#xa;    int row = rowAtPoint(p);&#xa;    int column = columnAtPoint(p);&#xa;&#xa;    try {&#xa;      Depot depot = (Depot) getValueAt(row, column_index_depot);&#xa;      tip = depot.connected() ? &quot;connected&quot; : &quot;connection failed (try to refresh)&quot;;&#xa;    } catch (RuntimeException e1) {&#xa;      //catch null pointer exception if mouse is over an empty line&#xa;    }&#xa;&#xa;    return tip;&#xa;  }&#xa;}"/>
             <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
           </AuxValues>
         </Component>

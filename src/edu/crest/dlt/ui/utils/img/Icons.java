@@ -28,10 +28,14 @@ public class Icons
 	public static final Icon icon_deselect_all = Icons.load("uncheck-box.png");// none.png
 	public static final Icon icon_directory_empty = Icons.load("directory-empty.png");
 	public static final Icon icon_processing = Icons.load("time.png");
+	public static final Icon icon_file = Icons.load("file.png");
 	public static final Icon icon_file_upload = Icons.load("file-upload.png");
 	public static final Icon icon_file_download = Icons.load("file-download.png");
 	public static final Icon icon_file_error = Icons.load("file-error.png");
 	public static final Icon icon_file_write = Icons.load("file-write.png");
+	public static final Icon icon_depot = Icons.load("depot-cloud.png");
+	public static final Icon icon_info = Icons.load("information.png");
+	public static final Icon icon_speed = Icons.load("speedometer.png");
 
 	private static ImageIcon load(String path_to_icon)
 	{
