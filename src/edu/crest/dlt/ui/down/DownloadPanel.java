@@ -17,9 +17,11 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 import java.util.logging.Logger;
 
 import javax.json.Json;
@@ -71,13 +73,13 @@ public class DownloadPanel extends javax.swing.JPanel
 						panel_transfer_settings.wait();
 					}
 
-					panel_files.remove_files_all();
-					/* setup obtained exnodes using selected transfer-settings & publish */
-					setup_exnodes();
-				} catch (InterruptedException e) {
-				}
+					// panel_files.remove_files_all();
+				/* setup obtained exnodes using selected transfer-settings & publish */
+				setup_exnodes();
+			} catch (InterruptedException e) {
 			}
-		}).start();
+		}
+	}	).start();
 	}
 
 	/**
@@ -319,6 +321,7 @@ public class DownloadPanel extends javax.swing.JPanel
 						}
 					}
 				} catch (Exception e) {
+					e.printStackTrace();
 					log.warning("failed to download " + file_to_download + ". " + e.getMessage());
 					panel_files.status_file(file_to_download, ui_status.transfer_failed);
 				}
@@ -478,11 +481,20 @@ public class DownloadPanel extends javax.swing.JPanel
 
 	private void setup_exnodes()
 	{
+		boolean modified = false;
+		/* identify newly added files */
+		Set<String> files_published_old = new HashSet<String>(panel_files.files());
+
 		for (Map.Entry<String, Exnode> entry : map_filename_exnode.entrySet()) {
 			if (entry.getValue() != null) {
 				entry.getValue().setup_read(panel_transfer_settings.transfer_size());
 			}
-			publish_download(entry.getKey(), entry.getValue());
+
+			if (!files_published_old.contains(entry.getKey())) {
+				publish_download(entry.getKey(), entry.getValue());
+			}
+
+			update_file_statuses();
 		}
 	}
 
@@ -497,14 +509,14 @@ public class DownloadPanel extends javax.swing.JPanel
 				panel_files.status_file(filename, ui_status.metadata_error);
 			} else {
 				/* if exnode is not in ready state yet, */
-				if (!exnode.accessible(service_exnode.read)) {
-					try {
-						/* wait for connection-setup timeout */
-						Thread.sleep(Configuration.dlt_depot_connect_timeout);
-					} catch (InterruptedException e) {
-						e.printStackTrace();
-					}
-				}
+				// if (!exnode.accessible(service_exnode.read)) {
+				// try {
+				// /* wait for connection-setup timeout */
+				// Thread.sleep(Configuration.dlt_depot_connect_timeout);
+				// } catch (InterruptedException e) {
+				// e.printStackTrace();
+				// }
+				// }
 				if (!exnode.accessible(service_exnode.read)) {
 					/* if exnode is still not ready, fail the file-"name" */
 					panel_files.status_file(filename, ui_status.mappings_inaccessible);
@@ -514,6 +526,28 @@ public class DownloadPanel extends javax.swing.JPanel
 				}
 			}
 		}).start();
+	}
+
+	private void update_file_statuses()
+	{
+		for (Map.Entry<String, Exnode> entry : map_filename_exnode.entrySet()) {
+			if (entry.getValue() == null) {
+				/* if exnode not found, fail the file-"path" */
+				panel_files.status_file(entry.getKey(), ui_status.metadata_error);
+			} else {
+				if (panel_files.status_file(entry.getKey()) == ui_status.downloading) {
+					continue;
+				}
+
+				if (!entry.getValue().accessible(service_exnode.read)) {
+					/* if exnode is still not ready, fail the file-"name" */
+					panel_files.status_file(entry.getKey(), ui_status.mappings_inaccessible);
+				} else {
+					/* else publish file-"name" for download */
+					panel_files.status_file(entry.getKey(), ui_status.download_ready);
+				}
+			}
+		}
 	}
 
 	public List<Exnode> url(String url_string)
@@ -562,7 +596,7 @@ public class DownloadPanel extends javax.swing.JPanel
 	{
 		return panel_transfer_settings.count_connections();
 	}
-	
+
 	public edu.crest.dlt.ui.utils.DepotStatusPanel panel_depot_stats;
 
 	// Variables declaration - do not modify//GEN-BEGIN:variables

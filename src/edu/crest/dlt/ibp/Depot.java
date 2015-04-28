@@ -140,14 +140,17 @@ public class Depot implements Comparable<Depot>
 
 	public synchronized void setup()
 	{
-		new Thread(() -> {
-			try {
-				close();
-			} catch (Exception e) {
-				// ignore failures
-			}
-			more_connections();
-		}).start();
+		new Thread(() -> setup_synchronous()).start();
+	}
+	
+	private synchronized void setup_synchronous()
+	{
+		try {
+			close();
+		} catch (Exception e) {
+			// ignore failures
+		}
+		more_connections();
 	}
 
 	private synchronized void more_connections()
@@ -282,6 +285,9 @@ public class Depot implements Comparable<Depot>
 
 	public boolean connected()
 	{
+//		if(state == depot_state.nascent) {
+//			setup_synchronous();
+//		}
 		return state != depot_state.nascent;
 	}
 

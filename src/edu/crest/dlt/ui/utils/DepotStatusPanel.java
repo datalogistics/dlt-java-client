@@ -24,7 +24,6 @@ import javax.swing.table.TableRowSorter;
 import edu.crest.dlt.ibp.Depot;
 import edu.crest.dlt.transfer.Scoreboard;
 import edu.crest.dlt.ui.utils.img.Icons;
-import edu.crest.dlt.utils.Configuration;
 
 /**
  *

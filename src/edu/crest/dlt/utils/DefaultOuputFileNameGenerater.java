@@ -41,10 +41,7 @@ public class DefaultOuputFileNameGenerater
 
 	static public String getOuputFileName(Exnode exnode, String path)
 	{
-		MetadataString filenameMetadata = (MetadataString) exnode.get("filename");
-		String filename;
-
-		filename = filenameMetadata.getString();
+		String filename = exnode.filename();
 
 		if (path.charAt(path.length() - 1) == File.separatorChar) {
 			return generateUniqeName(path + filename);

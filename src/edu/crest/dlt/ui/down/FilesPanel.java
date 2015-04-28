@@ -330,6 +330,17 @@ public class FilesPanel extends javax.swing.JPanel
 			remove_file(file_selected);
 		}
 	}
+	
+	public List<String> files()
+	{
+		List<String> files_published = new ArrayList<String>();
+		TableModel table_files_model = table_files.getModel();
+		for (int row = 0; row < table_files_model.getRowCount(); row++) {
+			files_published.add((String) table_files_model.getValueAt(row, column_index_file));
+			log.info((String) table_files_model.getValueAt(row, column_index_file) + " is published.");
+		}
+		return files_published;
+	}
 
 	private static final int column_index_checkbox = 0;
 	private static final int column_index_file = 1;
