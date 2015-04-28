@@ -175,6 +175,7 @@ public class Exnode extends MetadataContainer
 				}
 
 				state = depots_servicable >= copies ? state_exnode.ready : state;
+				System.out.println(depots_servicable + " " + status());
 				break;
 
 			default:

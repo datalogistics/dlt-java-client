@@ -56,21 +56,15 @@ public class UploadPanel extends javax.swing.JPanel
 				synchronized (panel_files) {
 					try {
 						panel_files.wait();
-
 						panel_files.disable();
 						/* setup obtained exnodes for upload */
 						setup_exnodes();
-
-						/* publish ready exnodes for upload (by filename) */
-						// publish_uploads();
-				panel_files.enable();
-			} catch (InterruptedException e) {
+						panel_files.enable();
+					} catch (InterruptedException e) {
+					}
+				}
 			}
-		}
-	}
-
-	// panel_transfer_settings.enable();
-}		).start();
+		}).start();
 		panel_files.enable();
 	}
 
@@ -352,7 +346,7 @@ public class UploadPanel extends javax.swing.JPanel
 								panel_transfer_settings.transfer_size(), null);
 					});
 					thread.start();
-					
+
 					/* get the filename without path as initialized by the exnode */
 					file_published_new = exnode_to_upload.filename();
 					map_filename_exnode.put(file_published_new, exnode_to_upload);
@@ -365,16 +359,15 @@ public class UploadPanel extends javax.swing.JPanel
 			}
 		}
 
-		if (!modified) {
-			return;
+		if (modified) {
+			panel_files.remove_files_all();
+
+			map_filename_exnode.entrySet().forEach((entry) -> {
+				Exnode exnode = map_filename_exnode.get(entry.getKey());
+				publish_upload(entry.getKey(), exnode);
+			});
 		}
-
-		panel_files.remove_files_all();
-
-		map_filename_exnode.entrySet().forEach((entry) -> {
-			Exnode exnode = map_filename_exnode.get(entry.getKey());
-			publish_upload(entry.getKey(), exnode);
-		});
+		update_file_statuses();
 	}
 
 	private void publish_upload(String filename, Exnode exnode)
@@ -404,6 +397,37 @@ public class UploadPanel extends javax.swing.JPanel
 			} else {
 				/* else publish file-"name" for download */
 				panel_files.status_file(filename, ui_status.upload_ready);
+			}
+		}
+	}
+
+	private void update_file_statuses()
+	{
+		for (Map.Entry<String, Exnode> entry : map_filename_exnode.entrySet()) {
+			/* start status-updater thread */
+			if (entry.getValue() == null) {
+				/* if exnode not found, fail the file-"path" */
+				panel_files.status_file(entry.getKey(), ui_status.file_not_found);
+			} else {
+				/* if exnode is not in ready state yet, */
+				if (!entry.getValue().accessible(service_exnode.write)) {
+					try {
+						/* wait for connection-setup timeout */
+						Thread.sleep(Configuration.dlt_depot_connect_timeout);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+				}
+				if (!entry.getValue().accessible(service_exnode.write)) {
+					/*
+					 * if exnode is still not ready, declare the file-"name" waiting for
+					 * depots
+					 */
+					panel_files.status_file(entry.getKey(), ui_status.not_enough_depots);
+				} else {
+					/* else publish file-"name" for download */
+					panel_files.status_file(entry.getKey(), ui_status.upload_ready);
+				}
 			}
 		}
 	}
