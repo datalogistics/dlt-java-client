@@ -344,9 +344,9 @@ public class Depot implements Comparable<Depot>
 			transfer_statistics.try_end(0); // failure
 		}
 
-		if (transfer_statistics.is_last_failed()) {
-			less_connections();
-		}
+//		if (transfer_statistics.is_last_failed()) {
+//			less_connections();
+//		}
 	}
 
 	public synchronized void transfer_statistics_show()
@@ -396,8 +396,16 @@ public class Depot implements Comparable<Depot>
 		if (socket == null) {
 			return null;
 		}
-		Allocation allocation = IBPCommand.allocateSoftByteArray(socket, this, duration, size);
-		release(socket, allocation != null ? 1 : 0);
+		
+		Allocation allocation = null;
+		try {
+			allocation = IBPCommand.allocateSoftByteArray(socket, this, duration, size);
+		} catch (IBPException e) {
+			throw e;
+		} finally {
+			release(socket, allocation != null ? 1 : 0);	
+		}
+			
 		return allocation;
 	}
 
@@ -407,8 +415,16 @@ public class Depot implements Comparable<Depot>
 		if (socket == null) {
 			return null;
 		}
-		Allocation allocation = IBPCommand.allocateHardByteArray(socket, this, duration, size);
-		release(socket, allocation != null ? 1 : 0);
+		
+		Allocation allocation = null;
+		try {
+			allocation = IBPCommand.allocateHardByteArray(socket, this, duration, size);
+		} catch (IBPException e) {
+			throw e;
+		} finally {
+			release(socket, allocation != null ? 1 : 0);	
+		}
+			
 		return allocation;
 	}
 
@@ -418,8 +434,16 @@ public class Depot implements Comparable<Depot>
 		if (socket == null) {
 			return null;
 		}
-		Allocation allocation = IBPCommand.allocateSoftBuffer(socket, this, duration, size);
-		release(socket, allocation != null ? 1 : 0);
+		
+		Allocation allocation = null;
+		try {
+			allocation = IBPCommand.allocateSoftBuffer(socket, this, duration, size);
+		} catch (IBPException e) {
+			throw e;
+		} finally {
+			release(socket, allocation != null ? 1 : 0);	
+		}
+		
 		return allocation;
 	}
 
@@ -429,8 +453,16 @@ public class Depot implements Comparable<Depot>
 		if (socket == null) {
 			return null;
 		}
-		Allocation allocation = IBPCommand.allocateHardBuffer(socket, this, duration, size);
-		release(socket, allocation != null ? 1 : 0);
+
+		Allocation allocation = null;
+		try {
+			allocation = IBPCommand.allocateHardBuffer(socket, this, duration, size);
+		} catch (IBPException e) {
+			throw e;
+		} finally {
+			release(socket, allocation != null ? 1 : 0);	
+		}
+			
 		return allocation;
 	}
 
@@ -440,8 +472,16 @@ public class Depot implements Comparable<Depot>
 		if (socket == null) {
 			return null;
 		}
-		Allocation allocation = IBPCommand.allocateSoftFifo(socket, this, duration, size);
-		release(socket, allocation != null ? 1 : 0);
+
+		Allocation allocation = null;
+		try {
+			allocation = IBPCommand.allocateSoftFifo(socket, this, duration, size);
+		} catch (IBPException e) {
+			throw e;
+		} finally {
+			release(socket, allocation != null ? 1 : 0);	
+		}
+			
 		return allocation;
 	}
 
@@ -451,8 +491,16 @@ public class Depot implements Comparable<Depot>
 		if (socket == null) {
 			return null;
 		}
-		Allocation allocation = IBPCommand.allocateHardFifo(socket, this, duration, size);
-		release(socket, allocation != null ? 1 : 0);
+
+		Allocation allocation = null;
+		try {
+			allocation = IBPCommand.allocateHardFifo(socket, this, duration, size);
+		} catch (IBPException e) {
+			throw e;
+		} finally {
+			release(socket, allocation != null ? 1 : 0);	
+		}
+			
 		return allocation;
 	}
 
@@ -462,8 +510,16 @@ public class Depot implements Comparable<Depot>
 		if (socket == null) {
 			return null;
 		}
-		Allocation allocation = IBPCommand.allocateSoftCirq(socket, this, duration, size);
-		release(socket, allocation != null ? 1 : 0);
+
+		Allocation allocation = null;
+		try {
+			allocation = IBPCommand.allocateSoftCirq(socket, this, duration, size);
+		} catch (IBPException e) {
+			throw e;
+		} finally {
+			release(socket, allocation != null ? 1 : 0);	
+		}
+			
 		return allocation;
 	}
 
@@ -473,8 +529,16 @@ public class Depot implements Comparable<Depot>
 		if (socket == null) {
 			return null;
 		}
-		Allocation allocation = IBPCommand.allocateHardCirq(socket, this, duration, size);
-		release(socket, allocation != null ? 1 : 0);
+
+		Allocation allocation = null;
+		try {
+			allocation = IBPCommand.allocateHardCirq(socket, this, duration, size);
+		} catch (IBPException e) {
+			throw e;
+		} finally {
+			release(socket, allocation != null ? 1 : 0);	
+		}
+			
 		return allocation;
 	}
 

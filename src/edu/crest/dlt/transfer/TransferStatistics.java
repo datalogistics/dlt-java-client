@@ -160,6 +160,9 @@ public class TransferStatistics
 	/* throughput in MB/s */
 	public double megabytes_per_second()
 	{
+		if (bytes_transferred == 0 || elapsed_seconds() == 0) {
+			return 0;
+		}
 		return (bytes_transferred) / 1024.0 / 1024.0 / elapsed_seconds();
 	}
 }

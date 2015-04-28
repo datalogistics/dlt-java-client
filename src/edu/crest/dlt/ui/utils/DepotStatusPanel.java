@@ -7,17 +7,22 @@ package edu.crest.dlt.ui.utils;
 
 import java.awt.Component;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.Icon;
 import javax.swing.JLabel;
 import javax.swing.JTable;
+import javax.swing.RowSorter;
+import javax.swing.SortOrder;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
 
 import edu.crest.dlt.ibp.Depot;
+import edu.crest.dlt.transfer.Scoreboard;
 import edu.crest.dlt.ui.utils.img.Icons;
 import edu.crest.dlt.utils.Configuration;
 
@@ -44,108 +49,118 @@ public class DepotStatusPanel extends javax.swing.JPanel
 	@SuppressWarnings("unchecked")
 	// <editor-fold defaultstate="collapsed"
 	// <editor-fold defaultstate="collapsed"
-  // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-  private void initComponents() {
+	// <editor-fold defaultstate="collapsed"
+	// desc="Generated Code">//GEN-BEGIN:initComponents
+	private void initComponents()
+	{
 
-    scrollpane_depots = new javax.swing.JScrollPane();
-    table_depots = new javax.swing.JTable(){
-      //Implement table cell tool tips.
-      public String getToolTipText(MouseEvent e) {
-        String tip = null;
-        java.awt.Point p = e.getPoint();
-        int row = rowAtPoint(p);
-        int column = columnAtPoint(p);
+		scrollpane_depots = new javax.swing.JScrollPane();
+		table_depots = new javax.swing.JTable()
+		{
+			// Implement table cell tool tips.
+			public String getToolTipText(MouseEvent e)
+			{
+				String tip = null;
+				java.awt.Point p = e.getPoint();
+				int row = rowAtPoint(p);
+				int column = columnAtPoint(p);
 
-        try {
-          Depot depot = (Depot) getValueAt(row, column_index_depot);
-          tip = depot.connected() ? "connected" : "connection failed (try to refresh)";
-        } catch (RuntimeException e1) {
-          //catch null pointer exception if mouse is over an empty line
-        }
+				try {
+					Depot depot = (Depot) getValueAt(row, column_index_depot);
+					tip = depot.connected() ? "connected" : "connection failed (try to refresh)";
+				} catch (RuntimeException e1) {
+					// catch null pointer exception if mouse is over an empty line
+				}
 
-        return tip;
-      }
-    };
+				return tip;
+			}
+		};
 
-    table_depots.setModel(new javax.swing.table.DefaultTableModel(
-      new Object [][] {
+		table_depots.setModel(new javax.swing.table.DefaultTableModel(new Object[][] {
 
-      },
-      new String [] {
-        "Status", "Depot", "Connection(s)", "Success", "Failure", "MB/s"
-      }
-    ) {
-      Class[] types = new Class [] {
-        java.lang.Object.class, java.lang.Object.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Double.class
-      };
-      boolean[] canEdit = new boolean [] {
-        false, false, false, false, false, false
-      };
+		}, new String[] { "Status", "Depot", "Connection(s)", "Success", "Failure", "MB/s" })
+		{
+			Class[] types = new Class[] { java.lang.Object.class, java.lang.Object.class,
+					java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class,
+					java.lang.Double.class };
+			boolean[] canEdit = new boolean[] { false, false, false, false, false, false };
 
-      public Class getColumnClass(int columnIndex) {
-        return types [columnIndex];
-      }
+			public Class getColumnClass(int columnIndex)
+			{
+				return types[columnIndex];
+			}
 
-      public boolean isCellEditable(int rowIndex, int columnIndex) {
-        return canEdit [columnIndex];
-      }
-    });
-    table_depots.setColumnSelectionAllowed(true);
-    table_depots.setFillsViewportHeight(true);
-    table_depots.getTableHeader().setReorderingAllowed(false);
-    scrollpane_depots.setViewportView(table_depots);
-    table_depots.getTableHeader().getColumnModel().getColumn(column_index_status).setHeaderRenderer(TableHeaderRenderer.header_status);
-    table_depots.getTableHeader().getColumnModel().getColumn(column_index_depot).setHeaderRenderer(TableHeaderRenderer.header_depot);
-    table_depots.getTableHeader().getColumnModel().getColumn(column_index_connections).setHeaderRenderer(TableHeaderRenderer.header_depot_connections);
-    table_depots.getTableHeader().getColumnModel().getColumn(column_index_success).setHeaderRenderer(TableHeaderRenderer.header_success);
-    table_depots.getTableHeader().getColumnModel().getColumn(column_index_fail).setHeaderRenderer(TableHeaderRenderer.header_failure);
-    table_depots.getTableHeader().getColumnModel().getColumn(column_index_throughput).setHeaderRenderer(TableHeaderRenderer.header_speed);
-    table_depots.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_INTERVAL_SELECTION);
-    if (table_depots.getColumnModel().getColumnCount() > 0) {
-      table_depots.getColumnModel().getColumn(0).setMinWidth(40);
-      table_depots.getColumnModel().getColumn(0).setPreferredWidth(40);
-      table_depots.getColumnModel().getColumn(0).setMaxWidth(40);
-      table_depots.getColumnModel().getColumn(0).setCellRenderer(new edu.crest.dlt.ui.up.TransferSettingsPanel.ConnectionStatusRenderer());
-      table_depots.getColumnModel().getColumn(2).setMinWidth(40);
-      table_depots.getColumnModel().getColumn(2).setPreferredWidth(40);
-      table_depots.getColumnModel().getColumn(2).setMaxWidth(40);
-      table_depots.getColumnModel().getColumn(3).setMinWidth(40);
-      table_depots.getColumnModel().getColumn(3).setPreferredWidth(40);
-      table_depots.getColumnModel().getColumn(3).setMaxWidth(40);
-      table_depots.getColumnModel().getColumn(4).setMinWidth(40);
-      table_depots.getColumnModel().getColumn(4).setPreferredWidth(40);
-      table_depots.getColumnModel().getColumn(4).setMaxWidth(40);
-      table_depots.getColumnModel().getColumn(5).setMinWidth(80);
-      table_depots.getColumnModel().getColumn(5).setPreferredWidth(80);
-      table_depots.getColumnModel().getColumn(5).setMaxWidth(80);
-    }
+			public boolean isCellEditable(int rowIndex, int columnIndex)
+			{
+				return canEdit[columnIndex];
+			}
+		});
+		table_depots.setColumnSelectionAllowed(true);
+		table_depots.setFillsViewportHeight(true);
+		table_depots.getTableHeader().setReorderingAllowed(false);
+		scrollpane_depots.setViewportView(table_depots);
+		table_depots.getTableHeader().getColumnModel().getColumn(column_index_status)
+				.setHeaderRenderer(TableHeaderRenderer.header_status);
+		table_depots.getTableHeader().getColumnModel().getColumn(column_index_depot)
+				.setHeaderRenderer(TableHeaderRenderer.header_depot);
+		table_depots.getTableHeader().getColumnModel().getColumn(column_index_connections)
+				.setHeaderRenderer(TableHeaderRenderer.header_depot_connections);
+		table_depots.getTableHeader().getColumnModel().getColumn(column_index_success)
+				.setHeaderRenderer(TableHeaderRenderer.header_success);
+		table_depots.getTableHeader().getColumnModel().getColumn(column_index_fail)
+				.setHeaderRenderer(TableHeaderRenderer.header_failure);
+		table_depots.getTableHeader().getColumnModel().getColumn(column_index_throughput)
+				.setHeaderRenderer(TableHeaderRenderer.header_speed);
+		table_depots.getColumnModel().getSelectionModel()
+				.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_INTERVAL_SELECTION);
+		if (table_depots.getColumnModel().getColumnCount() > 0) {
+			table_depots.getColumnModel().getColumn(0).setMinWidth(40);
+			table_depots.getColumnModel().getColumn(0).setPreferredWidth(40);
+			table_depots.getColumnModel().getColumn(0).setMaxWidth(40);
+			table_depots
+					.getColumnModel()
+					.getColumn(0)
+					.setCellRenderer(new edu.crest.dlt.ui.up.TransferSettingsPanel.ConnectionStatusRenderer());
+			table_depots.getColumnModel().getColumn(2).setMinWidth(40);
+			table_depots.getColumnModel().getColumn(2).setPreferredWidth(40);
+			table_depots.getColumnModel().getColumn(2).setMaxWidth(40);
+			table_depots.getColumnModel().getColumn(3).setMinWidth(40);
+			table_depots.getColumnModel().getColumn(3).setPreferredWidth(40);
+			table_depots.getColumnModel().getColumn(3).setMaxWidth(40);
+			table_depots.getColumnModel().getColumn(4).setMinWidth(40);
+			table_depots.getColumnModel().getColumn(4).setPreferredWidth(40);
+			table_depots.getColumnModel().getColumn(4).setMaxWidth(40);
+			table_depots.getColumnModel().getColumn(5).setMinWidth(80);
+			table_depots.getColumnModel().getColumn(5).setPreferredWidth(80);
+			table_depots.getColumnModel().getColumn(5).setMaxWidth(80);
+		}
 
-    javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-    this.setLayout(layout);
-    layout.setHorizontalGroup(
-      layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-      .addGroup(layout.createSequentialGroup()
-        .addComponent(scrollpane_depots, javax.swing.GroupLayout.DEFAULT_SIZE, 580, Short.MAX_VALUE)
-        .addGap(0, 0, 0))
-    );
-    layout.setVerticalGroup(
-      layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-      .addGroup(layout.createSequentialGroup()
-        .addComponent(scrollpane_depots, javax.swing.GroupLayout.DEFAULT_SIZE, 680, Short.MAX_VALUE)
-        .addGap(0, 0, 0))
-    );
-  }// </editor-fold>//GEN-END:initComponents
+		javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
+		this.setLayout(layout);
+		layout.setHorizontalGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+				.addGroup(
+						layout
+								.createSequentialGroup()
+								.addComponent(scrollpane_depots, javax.swing.GroupLayout.DEFAULT_SIZE, 580,
+										Short.MAX_VALUE).addGap(0, 0, 0)));
+		layout.setVerticalGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+				.addGroup(
+						layout
+								.createSequentialGroup()
+								.addComponent(scrollpane_depots, javax.swing.GroupLayout.DEFAULT_SIZE, 680,
+										Short.MAX_VALUE).addGap(0, 0, 0)));
+	}// </editor-fold>//GEN-END:initComponents
 
 	public void start_sync_depots()
 	{
 		if (thread == null) {
 			thread = new Thread(() -> {
+				list_depots();
 				while (!thread.isInterrupted()) {
-					System.out.println("Syncing depots");
 					sync_depots();
 
 					try {
-						Thread.sleep(Configuration.dlt_exnode_transfer_log_interval);
+						Thread.sleep(500);//Configuration.dlt_exnode_transfer_log_interval);
 					} catch (Exception e) {
 						break;
 					}
@@ -159,28 +174,66 @@ public class DepotStatusPanel extends javax.swing.JPanel
 	{
 		if (thread != null) {
 			thread.interrupt();
-			System.out.println("Syncing depots interrupted");
 		}
 	}
 
-	private void sync_depots()
+	private void list_depots()
 	{
 		TableModel table_depots_model = table_depots.getModel();
 		DefaultTableModel table_depots_model_default = (DefaultTableModel) table_depots_model;
 		table_depots_model_default.setRowCount(0);
 
 		/* repopulate depot-list */
-		List<Depot> depots_sorted = Depot.depots();
+		List<Depot> depots_sorted = new ArrayList<Depot>();
+		Scoreboard scoreboard = new Scoreboard();
+		for (Depot depot : Depot.depots()) {
+			scoreboard.add(depots_sorted, depot);
+		}
 		// depots_sorted.sort(null);
 		for (Depot depot : depots_sorted) {
 			table_depots_model_default.addRow(new Object[] {
-					(depot.connected() ? Icons.icon_depot_connected : Icons.icon_depot_not_connected), 
-					depot,
-					depot.count_connections(), 
-					depot.transfer_statistics.count_succeeded(),
+					(depot.connected() ? Icons.icon_depot_connected : Icons.icon_depot_not_connected), depot,
+					depot.count_connections(), depot.transfer_statistics.count_succeeded(),
 					depot.transfer_statistics.count_failed(),
 					depot.transfer_statistics.megabytes_per_second() });
 		}
+	}
+
+	private void sync_depots()
+	{
+		TableModel table_depots_model = table_depots.getModel();
+
+		/* repopulate depot-list */
+		List<Depot> depots_sorted = new ArrayList<Depot>();
+		Scoreboard scoreboard = new Scoreboard();
+		for (Depot depot : Depot.depots()) {
+			scoreboard.add(depots_sorted, depot);
+		}
+		// depots_sorted.sort(null);
+		for (Depot depot : depots_sorted) {
+			for (int row = 0; row < depots_sorted.size(); row++) {
+				if (table_depots_model.getValueAt(row, column_index_depot).equals(depot)) {
+					table_depots_model.setValueAt((depot.connected() ? Icons.icon_depot_connected
+							: Icons.icon_depot_not_connected), row, column_index_status);
+					table_depots_model.setValueAt(depot.count_connections(), row, column_index_connections);
+					table_depots_model.setValueAt(depot.transfer_statistics.count_succeeded(), row,
+							column_index_success);
+					table_depots_model.setValueAt(depot.transfer_statistics.count_failed(), row,
+							column_index_fail);
+					table_depots_model.setValueAt(depot.transfer_statistics.megabytes_per_second(), row,
+							column_index_throughput);
+				}
+			}
+		}
+
+		TableRowSorter<TableModel> sorter = new TableRowSorter<>(table_depots_model);
+		table_depots.setRowSorter(sorter);
+		List<RowSorter.SortKey> sortKeys = new ArrayList<>();
+
+		sortKeys.add(new RowSorter.SortKey(column_index_depot, SortOrder.ASCENDING));
+
+		sorter.setSortKeys(sortKeys);
+		sorter.sort();
 	}
 
 	Thread thread = null;
@@ -192,10 +245,11 @@ public class DepotStatusPanel extends javax.swing.JPanel
 	private static final int column_index_fail = 4;
 	private static final int column_index_throughput = 5;
 
-  // Variables declaration - do not modify//GEN-BEGIN:variables
-  private javax.swing.JScrollPane scrollpane_depots;
-  public javax.swing.JTable table_depots;
-  // End of variables declaration//GEN-END:variables
+	// Variables declaration - do not modify//GEN-BEGIN:variables
+	private javax.swing.JScrollPane scrollpane_depots;
+	public javax.swing.JTable table_depots;
+
+	// End of variables declaration//GEN-END:variables
 
 	public static class HeaderIconRenderer extends DefaultTableCellRenderer
 	{
