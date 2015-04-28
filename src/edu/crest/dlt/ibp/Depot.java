@@ -37,7 +37,7 @@ public class Depot implements Comparable<Depot>
 	public depot_state state;
 
 	/* runtime properties */
-	private TransferStatistics transfer_statistics;
+	public TransferStatistics transfer_statistics;
 	private ArrayList<Socket> transfer_sockets_ready;
 	private ArrayList<Socket> transfer_sockets_active;
 

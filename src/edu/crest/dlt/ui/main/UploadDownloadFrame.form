@@ -61,6 +61,18 @@
             </Constraint>
           </Constraints>
         </Component>
+        <Component class="edu.crest.dlt.ui.utils.DepotStatusPanel" name="panel_depot_stats">
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
+          </AuxValues>
+          <Constraints>
+            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
+              <JTabbedPaneConstraints tabName="Depot Statistics">
+                <Property name="tabTitle" type="java.lang.String" value="Depot Statistics"/>
+              </JTabbedPaneConstraints>
+            </Constraint>
+          </Constraints>
+        </Component>
       </SubComponents>
     </Container>
   </SubComponents>

@@ -785,7 +785,7 @@ public class TransferSettingsPanel extends javax.swing.JPanel
 
 	// End of variables declaration//GEN-END:variables
 
-	private class ConnectionStatusRenderer extends DefaultTableCellRenderer
+	public static class ConnectionStatusRenderer extends DefaultTableCellRenderer
 	{
 		public ConnectionStatusRenderer()
 		{

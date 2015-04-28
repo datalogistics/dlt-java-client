@@ -200,6 +200,7 @@ public class UploadPanel extends javax.swing.JPanel
 	{// GEN-FIRST:event_button_upload_clicked
 		new Thread(
 				() -> {
+					panel_depot_stats.start_sync_depots();
 					panel_transfer_settings.disable();
 					button_upload.setEnabled(false);
 					Directory directory = panel_files.remote_directory();
@@ -258,6 +259,9 @@ public class UploadPanel extends javax.swing.JPanel
 
 					button_upload.setEnabled(true);
 					panel_transfer_settings.enable();
+					panel_depot_stats.stop_sync_depots();
+					
+					Toolkit.getDefaultToolkit().beep();
 				}).start();
 	}// GEN-LAST:event_button_upload_clicked
 
@@ -468,6 +472,8 @@ public class UploadPanel extends javax.swing.JPanel
 	// }).start();
 	// }
 	// }
+	
+	public edu.crest.dlt.ui.utils.DepotStatusPanel panel_depot_stats;
 
 	// Variables declaration - do not modify//GEN-BEGIN:variables
 	private javax.swing.JButton button_cancel;

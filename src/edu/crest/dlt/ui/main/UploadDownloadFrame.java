@@ -34,6 +34,9 @@ public class UploadDownloadFrame extends javax.swing.JFrame
 
 		initComponents();
 		setLocationRelativeTo(null); // for centering
+		
+		panel_upload.panel_depot_stats = panel_depot_stats;
+		panel_download.panel_depot_stats = panel_depot_stats;
 
 		log.info("started application. (says \"hola\" ^_^)");
 	}
@@ -47,39 +50,40 @@ public class UploadDownloadFrame extends javax.swing.JFrame
 	// <editor-fold defaultstate="collapsed"
 	// <editor-fold defaultstate="collapsed"
 	// <editor-fold defaultstate="collapsed"
-	// desc="Generated Code">//GEN-BEGIN:initComponents
-	private void initComponents()
-	{
+  // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+  private void initComponents() {
 
-		pane_tabs = new javax.swing.JTabbedPane();
-		panel_download = new edu.crest.dlt.ui.down.DownloadPanel();
-		panel_upload = new edu.crest.dlt.ui.up.UploadPanel();
+    pane_tabs = new javax.swing.JTabbedPane();
+    panel_download = new edu.crest.dlt.ui.down.DownloadPanel();
+    panel_upload = new edu.crest.dlt.ui.up.UploadPanel();
+    panel_depot_stats = new edu.crest.dlt.ui.utils.DepotStatusPanel();
 
-		setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-		addWindowListener(new java.awt.event.WindowAdapter()
-		{
-			public void windowClosing(java.awt.event.WindowEvent evt)
-			{
-				formWindowClosing(evt);
-			}
-		});
+    setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+    addWindowListener(new java.awt.event.WindowAdapter() {
+      public void windowClosing(java.awt.event.WindowEvent evt) {
+        formWindowClosing(evt);
+      }
+    });
 
-		pane_tabs.addTab("Download", panel_download);
-		pane_tabs.addTab("Upload", panel_upload);
+    pane_tabs.addTab("Download", panel_download);
+    pane_tabs.addTab("Upload", panel_upload);
+    pane_tabs.addTab("Depot Statistics", panel_depot_stats);
 
-		javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-		getContentPane().setLayout(layout);
-		layout.setHorizontalGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-				.addComponent(pane_tabs));
-		layout.setVerticalGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-				.addGroup(
-						layout
-								.createSequentialGroup()
-								.addComponent(pane_tabs, javax.swing.GroupLayout.PREFERRED_SIZE, 680,
-										javax.swing.GroupLayout.PREFERRED_SIZE).addGap(0, 0, Short.MAX_VALUE)));
+    javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+    getContentPane().setLayout(layout);
+    layout.setHorizontalGroup(
+      layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+      .addComponent(pane_tabs)
+    );
+    layout.setVerticalGroup(
+      layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+      .addGroup(layout.createSequentialGroup()
+        .addComponent(pane_tabs, javax.swing.GroupLayout.PREFERRED_SIZE, 680, javax.swing.GroupLayout.PREFERRED_SIZE)
+        .addGap(0, 0, Short.MAX_VALUE))
+    );
 
-		pack();
-	}// </editor-fold>//GEN-END:initComponents
+    pack();
+  }// </editor-fold>//GEN-END:initComponents
 
 	private void formWindowClosing(java.awt.event.WindowEvent evt)
 	{// GEN-FIRST:event_formWindowClosing
@@ -162,9 +166,10 @@ public class UploadDownloadFrame extends javax.swing.JFrame
 		});
 	}
 
-	// Variables declaration - do not modify//GEN-BEGIN:variables
-	private javax.swing.JTabbedPane pane_tabs;
-	private edu.crest.dlt.ui.down.DownloadPanel panel_download;
-	private edu.crest.dlt.ui.up.UploadPanel panel_upload;
-	// End of variables declaration//GEN-END:variables
+  // Variables declaration - do not modify//GEN-BEGIN:variables
+  private javax.swing.JTabbedPane pane_tabs;
+  public edu.crest.dlt.ui.utils.DepotStatusPanel panel_depot_stats;
+  private edu.crest.dlt.ui.down.DownloadPanel panel_download;
+  private edu.crest.dlt.ui.up.UploadPanel panel_upload;
+  // End of variables declaration//GEN-END:variables
 }

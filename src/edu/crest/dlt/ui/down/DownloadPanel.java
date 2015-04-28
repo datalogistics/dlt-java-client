@@ -270,6 +270,7 @@ public class DownloadPanel extends javax.swing.JPanel
 
 		/* start downloader thread */
 		new Thread(() -> {
+			panel_depot_stats.start_sync_depots();
 			panel_transfer_settings.disable();
 			panel_output_directory.disable();
 			button_download.setEnabled(false);
@@ -330,6 +331,7 @@ public class DownloadPanel extends javax.swing.JPanel
 			panel_transfer_settings.enable();
 			panel_output_directory.enable();
 			button_download.setEnabled(true);
+			panel_depot_stats.stop_sync_depots();
 
 			Toolkit.getDefaultToolkit().beep();
 		}).start();
@@ -560,6 +562,8 @@ public class DownloadPanel extends javax.swing.JPanel
 	{
 		return panel_transfer_settings.count_connections();
 	}
+	
+	public edu.crest.dlt.ui.utils.DepotStatusPanel panel_depot_stats;
 
 	// Variables declaration - do not modify//GEN-BEGIN:variables
 	private javax.swing.JButton button_cancel;
