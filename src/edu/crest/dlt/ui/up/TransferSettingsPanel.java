@@ -25,6 +25,7 @@ import javax.swing.table.TableModel;
 import edu.crest.dlt.ibp.Depot;
 import edu.crest.dlt.ibp.DepotLocatorLbone;
 import edu.crest.dlt.ui.utils.TableHeaderRenderer;
+import edu.crest.dlt.ui.utils.TableRowStatusRenderer;
 import edu.crest.dlt.ui.utils.img.Icons;
 import edu.crest.dlt.utils.Configuration;
 
@@ -248,7 +249,6 @@ public class TransferSettingsPanel extends javax.swing.JPanel
 
     label_depots.setText("Depots");
 
-    input_location.setModel(new javax.swing.SpinnerListModel(new String[] {"AL", "IN"}));
     input_location.setToolTipText("select target depots by location");
     input_location.addChangeListener(new javax.swing.event.ChangeListener() {
       public void stateChanged(javax.swing.event.ChangeEvent evt) {
@@ -303,7 +303,7 @@ public class TransferSettingsPanel extends javax.swing.JPanel
       table_depots.getColumnModel().getColumn(2).setMinWidth(50);
       table_depots.getColumnModel().getColumn(2).setPreferredWidth(50);
       table_depots.getColumnModel().getColumn(2).setMaxWidth(50);
-      table_depots.getColumnModel().getColumn(2).setCellRenderer(new ConnectionStatusRenderer());
+      table_depots.getColumnModel().getColumn(2).setCellRenderer(new TableRowStatusRenderer());
     }
 
     javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -466,7 +466,7 @@ public class TransferSettingsPanel extends javax.swing.JPanel
 		Depot.depots.entrySet().forEach((depot_entry) -> depot_entry.getValue().setup());
 	}// GEN-LAST:event_button_reconnect_clicked
 
-	public void sync_depots()
+	private void sync_depots()
 	{
 		/* remove all depots from table */
 		TableModel table_depots_model = table_depots.getModel();
@@ -642,22 +642,4 @@ public class TransferSettingsPanel extends javax.swing.JPanel
   private javax.swing.JScrollPane scrollpane_depots;
   public javax.swing.JTable table_depots;
   // End of variables declaration//GEN-END:variables
-
-	public static class ConnectionStatusRenderer extends DefaultTableCellRenderer
-	{
-		public ConnectionStatusRenderer()
-		{
-			setHorizontalAlignment(JLabel.CENTER);
-		}
-
-		@Override
-		protected void setValue(Object value)
-		{
-			if (value instanceof Icon) {
-				this.setIcon((Icon) value);
-			} else {
-				System.out.println(value);
-			}
-		}
-	}
 }

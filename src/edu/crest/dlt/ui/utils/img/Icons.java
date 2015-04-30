@@ -8,13 +8,14 @@ import java.util.logging.Logger;
 
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
+import javax.swing.JComponent;
 
 public class Icons
 {
 	private static final Logger log = Logger.getLogger(Icons.class.getClass().getName());
 
-	public static final Icon icon_depot_connected = Icons.load("connected.png");
-	public static final Icon icon_depot_not_connected = Icons.load("disconnected.png");
+	public static final Icon icon_depot_connected = Icons.load("dot-green.png");// ("connected.png");
+	public static final Icon icon_depot_not_connected = Icons.load("dot-red.png");// ("disconnected.png");
 	public static final Icon icon_success = Icons.load("check.png");
 	public static final Icon icon_failure = Icons.load("cross.png");
 	public static final Icon icon_download = Icons.load("download.png");
@@ -27,7 +28,9 @@ public class Icons
 	public static final Icon icon_select_all = Icons.load("check-box.png");// all.png
 	public static final Icon icon_deselect_all = Icons.load("uncheck-box.png");// none.png
 	public static final Icon icon_directory_empty = Icons.load("directory-empty.png");
-	public static final Icon icon_processing = Icons.load("time.png");
+	public static final Icon icon_processing = Icons.load("rotate-2.png");
+	private static final Icon icon_spinning = Icons.load("rotate.gif");
+	public static final Icon icon_ready = Icons.load("ready.png");
 	public static final Icon icon_file = Icons.load("file.png");
 	public static final Icon icon_file_upload = Icons.load("file-upload.png");
 	public static final Icon icon_file_download = Icons.load("file-download.png");
@@ -56,5 +59,10 @@ public class Icons
 			log.warning("failed to find/load image-icon " + name_package.toString() + path_to_icon);
 			return new ImageIcon();
 		}
+	}
+	
+	public static final Icon icon_processing(JComponent component)
+	{
+		return new RotatingIcon(icon_spinning, component);
 	}
 }

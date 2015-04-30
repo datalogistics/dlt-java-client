@@ -8,6 +8,7 @@ import java.util.Map;
 
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
+import javax.swing.JComponent;
 
 import edu.crest.dlt.ui.utils.img.Icons;
 
@@ -53,8 +54,8 @@ public class Status
 			put(ui_status.depot_connected, Icons.icon_depot_connected);
 			put(ui_status.depot_not_connected, Icons.icon_depot_not_connected);
 
-			put(ui_status.download_ready, Icons.icon_processing);
-			put(ui_status.upload_ready, Icons.icon_processing);
+			put(ui_status.download_ready, Icons.icon_ready);
+			put(ui_status.upload_ready, Icons.icon_ready);
 			put(ui_status.metadata_error, Icons.icon_failure);
 			put(ui_status.mappings_inaccessible, Icons.icon_depot_not_connected);
 			put(ui_status.not_enough_depots, Icons.icon_depot_not_connected);
@@ -74,7 +75,7 @@ public class Status
 			put(ui_status.file_registering, Icons.icon_file_write);
 		}
 	};
-
+	
 	public static String message(ui_status status)
 	{
 		return status_text.containsKey(status) ? status_text.get(status) : "";

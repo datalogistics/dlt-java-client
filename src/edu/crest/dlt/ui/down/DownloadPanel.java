@@ -66,20 +66,18 @@ public class DownloadPanel extends javax.swing.JPanel
 
 		new Thread(() -> {
 			while (true) {
-				try {
-					synchronized (panel_transfer_settings) {
+				synchronized (panel_transfer_settings) {
+					try {
 						/* wait on transfer-settings state-change */
-						log.info("transfer-settings listener waiting");
 						panel_transfer_settings.wait();
+					} catch (InterruptedException e) {
 					}
+				}
 
-					// panel_files.remove_files_all();
 				/* setup obtained exnodes using selected transfer-settings & publish */
 				setup_exnodes();
-			} catch (InterruptedException e) {
 			}
-		}
-	}	).start();
+		}).start();
 	}
 
 	/**
@@ -481,8 +479,6 @@ public class DownloadPanel extends javax.swing.JPanel
 
 	private void setup_exnodes()
 	{
-		boolean modified = false;
-		/* identify newly added files */
 		Set<String> files_published_old = new HashSet<String>(panel_files.files());
 
 		for (Map.Entry<String, Exnode> entry : map_filename_exnode.entrySet()) {

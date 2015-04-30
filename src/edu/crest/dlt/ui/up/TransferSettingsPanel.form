@@ -375,12 +375,6 @@
     </Component>
     <Component class="javax.swing.JSpinner" name="input_location">
       <Properties>
-        <Property name="model" type="javax.swing.SpinnerModel" editor="org.netbeans.modules.form.editors2.SpinnerModelEditor">
-          <SpinnerModel type="list">
-            <ListItem value="AL"/>
-            <ListItem value="IN"/>
-          </SpinnerModel>
-        </Property>
         <Property name="toolTipText" type="java.lang.String" value="select target depots by location"/>
       </Properties>
       <Events>
@@ -435,7 +429,7 @@
                   <Title/>
                   <Editor/>
                   <Renderer editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-                    <Connection code="new ConnectionStatusRenderer()" type="code"/>
+                    <Connection code="new TableRowStatusRenderer()" type="code"/>
                   </Renderer>
                 </Column>
               </TableColumnModel>

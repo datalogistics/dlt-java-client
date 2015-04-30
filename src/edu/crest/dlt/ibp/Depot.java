@@ -97,6 +97,7 @@ public class Depot implements Comparable<Depot>
 
 			if (location != null) {
 				depot.locations.add(location);
+//				System.out.println(depot + ": " + depot.locations);
 			}
 
 			if (added) {

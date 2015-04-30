@@ -11,7 +11,9 @@ package edu.crest.dlt.ui.up;
 import java.awt.event.MouseEvent;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Logger;
 
 import javax.swing.JFileChooser;
@@ -22,6 +24,7 @@ import javax.swing.table.TableModel;
 
 import edu.crest.dlt.exnode.Directory;
 import edu.crest.dlt.ui.utils.TableHeaderRenderer;
+import edu.crest.dlt.ui.utils.TableRowStatusRenderer;
 import edu.crest.dlt.ui.utils.img.Icons;
 import edu.crest.dlt.utils.Configuration;
 import edu.crest.dlt.utils.Status;
@@ -63,7 +66,7 @@ public class FilesPanel extends javax.swing.JPanel
         int column = columnAtPoint(p);
 
         try {
-          ui_status status_file = (ui_status) getValueAt(row, column_index_status);
+          ui_status status_file = status_map.get(row);
           tip = Status.message(status_file);
         } catch (Exception e1) {
         }
@@ -118,7 +121,7 @@ public class FilesPanel extends javax.swing.JPanel
       table_files.getColumnModel().getColumn(2).setMinWidth(50);
       table_files.getColumnModel().getColumn(2).setPreferredWidth(50);
       table_files.getColumnModel().getColumn(2).setMaxWidth(50);
-      table_files.getColumnModel().getColumn(2).setCellRenderer(new edu.crest.dlt.ui.down.FilesPanel.FileStatusRenderer());
+      table_files.getColumnModel().getColumn(2).setCellRenderer(new TableRowStatusRenderer());
     }
 
     button_add.setIcon(Icons.icon_plus);
@@ -271,7 +274,8 @@ public class FilesPanel extends javax.swing.JPanel
 	public void add_file(String filename, ui_status status)
 	{
 		DefaultTableModel table_files_model = (DefaultTableModel) table_files.getModel();
-		table_files_model.addRow(new Object[] { false, filename, status });
+		table_files_model.addRow(new Object[] { false, filename, status == ui_status.processing ? Icons.icon_processing(this) : Status.icon(status) });
+		status_map.put(table_files_model.getRowCount() -1, status);
 	}
 
 	public void add_files(List<String> files, ui_status status)
@@ -300,9 +304,10 @@ public class FilesPanel extends javax.swing.JPanel
 		if (index_file == -1) {
 			return null;
 		}
-		TableModel table_files_model = table_files.getModel();
+//		TableModel table_files_model = table_files.getModel();
 		try {
-			return (ui_status) table_files_model.getValueAt(index_file, column_index_status);
+//			return (ui_status) table_files_model.getValueAt(index_file, column_index_status);
+			return status_map.get(index_file);
 		} catch (Exception e) {
 			return null;
 		}
@@ -313,7 +318,8 @@ public class FilesPanel extends javax.swing.JPanel
 		int row_file = index_file(filename);
 		if (row_file != -1) {
 			TableModel table_files_model = table_files.getModel();
-			table_files_model.setValueAt(status, row_file, column_index_status);
+			table_files_model.setValueAt(status == ui_status.processing ? Icons.icon_processing(this) : Status.icon(status), row_file, column_index_status);
+			status_map.put(row_file, status);
 		}
 	}
 
@@ -510,6 +516,8 @@ public class FilesPanel extends javax.swing.JPanel
 	private static final int column_index_checkbox = 0;
 	private static final int column_index_file = 1;
 	private static final int column_index_status = 2;
+	
+	private Map<Integer, ui_status> status_map = new HashMap<Integer, Status.ui_status>();
 
   // Variables declaration - do not modify//GEN-BEGIN:variables
   private javax.swing.JButton button_add;
