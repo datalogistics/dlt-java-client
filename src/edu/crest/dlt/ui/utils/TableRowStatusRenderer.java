@@ -1,3 +1,6 @@
+/*******************************************************************************
+ * Copyright (c) : See the COPYRIGHT file in top-level/project directory
+ *******************************************************************************/
 package edu.crest.dlt.ui.utils;
 
 import java.util.logging.Logger;
@@ -8,9 +11,10 @@ import javax.swing.table.DefaultTableCellRenderer;
 
 public class TableRowStatusRenderer extends DefaultTableCellRenderer
 {
-	private static final Logger log = Logger.getLogger(TableRowStatusRenderer.class.getClass().getName());
-	
-	public TableRowStatusRenderer() 
+	private static final Logger log = Logger.getLogger(TableRowStatusRenderer.class.getClass()
+			.getName());
+
+	public TableRowStatusRenderer()
 	{
 		setHorizontalAlignment(JLabel.CENTER);
 	}

@@ -272,10 +272,10 @@ public class Exnode extends MetadataContainer
 		return 0;
 	}
 
-//	public Set<Depot> depots()
-//	{
-//		return depots;
-//	}
+	// public Set<Depot> depots()
+	// {
+	// return depots;
+	// }
 
 	public void add(ProgressListener progress_listener)
 	{
@@ -288,7 +288,7 @@ public class Exnode extends MetadataContainer
 	{
 		return transfer_monitor.mapping_best(target_mappings);
 	}
-	
+
 	public List<Depot> depots_best(List<Depot> target_depots, int count_depots)
 	{
 		List<Depot> depots_best = transfer_monitor.depots_best(target_depots, count_depots);
@@ -741,16 +741,15 @@ public class Exnode extends MetadataContainer
 		}
 
 		/*
-		 * and, if same transfer-size is requested, the exnode
-		 * is already setup
+		 * and, if same transfer-size is requested, the exnode is already setup
 		 */
 		if (transfer_jobs != null && transfer_jobs.size() >= 0) {
 			if (transfer_jobs.peek() instanceof WriteJob) {
 				WriteJob firstJob = (WriteJob) transfer_jobs.peek();
 				if (firstJob.bytes_to_write() == transfer_size_max) {
-//					if (firstJob.time_allocation == time_allocation) {
-//						return;
-//					}
+					// if (firstJob.time_allocation == time_allocation) {
+					// return;
+					// }
 
 					/* just update the allocation-times and target depots */
 					synchronized (transfer_jobs) {
@@ -789,7 +788,8 @@ public class Exnode extends MetadataContainer
 			long write_offset = b * (long) transfer_size_max;
 			int write_length = (int) ((write_offset + transfer_size_max <= length()) ? transfer_size_max
 					: length() - write_offset);
-			WriteJob write_job = new WriteJob(b, this, depots_to_write, write_offset, write_length, time_allocation);
+			WriteJob write_job = new WriteJob(b, this, depots_to_write, write_offset, write_length,
+					time_allocation);
 			transfer_jobs.add(write_job);
 		}
 	}
@@ -824,11 +824,14 @@ public class Exnode extends MetadataContainer
 			log.severe(status());
 			return false;
 		}
-		
+
 		/* start the input file reader */
 		input_file_reader.start();
 
-		/* prepare to transfer the exnode data of precomputed # of bytes and requested copies */
+		/*
+		 * prepare to transfer the exnode data of precomputed # of bytes and
+		 * requested copies
+		 */
 		transfer_monitor.progress_start(copies * length());
 		state = state_exnode.transit;
 
@@ -865,10 +868,11 @@ public class Exnode extends MetadataContainer
 					time_no_progress = 0;
 				}
 
-//				if (time_no_progress >= Configuration.dlt_transfer_exhaust_timeout) {
-//					log.severe(this + " exhausted wait-time for further progress. Cancelling.");
-//					transfer_cancel();
-//				}
+				// if (time_no_progress >= Configuration.dlt_transfer_exhaust_timeout) {
+				// log.severe(this +
+				// " exhausted wait-time for further progress. Cancelling.");
+				// transfer_cancel();
+				// }
 			} catch (InterruptedException e) {
 				log.severe(this + ": interrupted.");
 				break;

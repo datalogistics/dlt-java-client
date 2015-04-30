@@ -262,15 +262,16 @@ public class WriteJob extends ConcurrentJob
 						Mapping mapping_to_write = exnode_to_write.add(depot_to_write, offset_to_write,
 								bytes_to_write, 0, bytes_to_write, 0, time_allocation);
 
-//						System.out.println(depot_to_write.status()
-//								+ (mapping_to_write != null ? ": allocated" : ": cannot allocate"));
+						// System.out.println(depot_to_write.status()
+						// + (mapping_to_write != null ? ": allocated" :
+						// ": cannot allocate"));
 
-						if (mapping_to_write != null) {
-							synchronized (mapping_to_write) {
-								mappings_to_write.add(mapping_to_write);
+							if (mapping_to_write != null) {
+								synchronized (mapping_to_write) {
+									mappings_to_write.add(mapping_to_write);
+								}
 							}
-						}
-					}));
+						}));
 					allocation_requestors.get(allocation_requestors.size() - 1).start();
 				}
 

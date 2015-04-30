@@ -53,7 +53,7 @@ public class DownloadPanel extends javax.swing.JPanel
 	{
 		initComponents();
 
-		panel_transfer_settings.disable();
+		panel_transfer_settings.disable(true);
 		new Thread(() -> {
 			/* obtain exnodes for download */
 			obtain_exnodes();

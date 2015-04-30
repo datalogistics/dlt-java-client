@@ -1,3 +1,6 @@
+/*******************************************************************************
+ * Copyright (c) : See the COPYRIGHT file in top-level/project directory
+ *******************************************************************************/
 package edu.crest.dlt.ui.utils.img;
 
 import java.awt.Component;

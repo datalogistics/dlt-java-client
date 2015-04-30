@@ -67,7 +67,7 @@ public class MapProgressListener implements ProgressListener
 			@Override
 			public void call(Object... args)
 			{
-//				System.out.printf("Got an ack\n");
+				// System.out.printf("Got an ack\n");
 				System.exit(-1);
 			}
 		});

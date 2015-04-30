@@ -8,7 +8,6 @@ import java.util.Map;
 
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
-import javax.swing.JComponent;
 
 import edu.crest.dlt.ui.utils.img.Icons;
 
@@ -75,7 +74,7 @@ public class Status
 			put(ui_status.file_registering, Icons.icon_file_write);
 		}
 	};
-	
+
 	public static String message(ui_status status)
 	{
 		return status_text.containsKey(status) ? status_text.get(status) : "";

@@ -53,134 +53,153 @@ public class FilesPanel extends javax.swing.JPanel
 	// <editor-fold defaultstate="collapsed"
 	// <editor-fold defaultstate="collapsed"
 	// <editor-fold defaultstate="collapsed"
-  // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-  private void initComponents() {
+	// <editor-fold defaultstate="collapsed"
+	// desc="Generated Code">//GEN-BEGIN:initComponents
+	private void initComponents()
+	{
 
-    scrollpane_files = new javax.swing.JScrollPane();
-    table_files = new javax.swing.JTable(){
-      //Implement table cell tool tips.
-      public String getToolTipText(MouseEvent e) {
-        String tip = null;
-        java.awt.Point p = e.getPoint();
-        int row = rowAtPoint(p);
-        int column = columnAtPoint(p);
+		scrollpane_files = new javax.swing.JScrollPane();
+		table_files = new javax.swing.JTable()
+		{
+			// Implement table cell tool tips.
+			public String getToolTipText(MouseEvent e)
+			{
+				String tip = null;
+				java.awt.Point p = e.getPoint();
+				int row = rowAtPoint(p);
+				int column = columnAtPoint(p);
 
-        try {
-          ui_status status_file = status_map.get(row);
-          tip = Status.message(status_file);
-        } catch (Exception e1) {
-        }
+				try {
+					ui_status status_file = status_map.get(row);
+					tip = Status.message(status_file);
+				} catch (Exception e1) {
+				}
 
-        return tip;
-      }
-    };
-    button_add = new javax.swing.JButton();
-    button_remove = new javax.swing.JButton();
-    input_files_all = new javax.swing.JCheckBox();
-    label_remote_directory = new javax.swing.JLabel();
-    input_remote_directory = new javax.swing.JTextField();
+				return tip;
+			}
+		};
+		button_add = new javax.swing.JButton();
+		button_remove = new javax.swing.JButton();
+		input_files_all = new javax.swing.JCheckBox();
+		label_remote_directory = new javax.swing.JLabel();
+		input_remote_directory = new javax.swing.JTextField();
 
-    setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Files", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 12))); // NOI18N
+		setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Files",
+				javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION,
+				javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 12))); // NOI18N
 
-    table_files.setModel(new javax.swing.table.DefaultTableModel(
-      new Object [][] {
+		table_files.setModel(new javax.swing.table.DefaultTableModel(new Object[][] {
 
-      },
-      new String [] {
-        "[]", "File(s)", "Status"
-      }
-    ) {
-      Class[] types = new Class [] {
-        java.lang.Boolean.class, java.lang.String.class, java.lang.Object.class
-      };
-      boolean[] canEdit = new boolean [] {
-        true, false, false
-      };
+		}, new String[] { "[]", "File(s)", "Status" })
+		{
+			Class[] types = new Class[] { java.lang.Boolean.class, java.lang.String.class,
+					java.lang.Object.class };
+			boolean[] canEdit = new boolean[] { true, false, false };
 
-      public Class getColumnClass(int columnIndex) {
-        return types [columnIndex];
-      }
+			public Class getColumnClass(int columnIndex)
+			{
+				return types[columnIndex];
+			}
 
-      public boolean isCellEditable(int rowIndex, int columnIndex) {
-        return canEdit [columnIndex];
-      }
-    });
-    table_files.setColumnSelectionAllowed(true);
-    table_files.setFillsViewportHeight(true);
-    table_files.getTableHeader().setReorderingAllowed(false);
-    scrollpane_files.setViewportView(table_files);
-    table_files.getTableHeader().getColumnModel().getColumn(column_index_checkbox).setHeaderRenderer(TableHeaderRenderer.header_checkbox);
-    table_files.getTableHeader().getColumnModel().getColumn(column_index_file).setHeaderRenderer(TableHeaderRenderer.header_file);
-    table_files.getTableHeader().getColumnModel().getColumn(column_index_status).setHeaderRenderer(TableHeaderRenderer.header_status);
-    table_files.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
-    if (table_files.getColumnModel().getColumnCount() > 0) {
-      table_files.getColumnModel().getColumn(0).setMinWidth(20);
-      table_files.getColumnModel().getColumn(0).setPreferredWidth(20);
-      table_files.getColumnModel().getColumn(0).setMaxWidth(20);
-      table_files.getColumnModel().getColumn(1).setResizable(false);
-      table_files.getColumnModel().getColumn(2).setMinWidth(50);
-      table_files.getColumnModel().getColumn(2).setPreferredWidth(50);
-      table_files.getColumnModel().getColumn(2).setMaxWidth(50);
-      table_files.getColumnModel().getColumn(2).setCellRenderer(new TableRowStatusRenderer());
-    }
+			public boolean isCellEditable(int rowIndex, int columnIndex)
+			{
+				return canEdit[columnIndex];
+			}
+		});
+		table_files.setColumnSelectionAllowed(true);
+		table_files.setFillsViewportHeight(true);
+		table_files.getTableHeader().setReorderingAllowed(false);
+		scrollpane_files.setViewportView(table_files);
+		table_files.getTableHeader().getColumnModel().getColumn(column_index_checkbox)
+				.setHeaderRenderer(TableHeaderRenderer.header_checkbox);
+		table_files.getTableHeader().getColumnModel().getColumn(column_index_file)
+				.setHeaderRenderer(TableHeaderRenderer.header_file);
+		table_files.getTableHeader().getColumnModel().getColumn(column_index_status)
+				.setHeaderRenderer(TableHeaderRenderer.header_status);
+		table_files.getColumnModel().getSelectionModel()
+				.setSelectionMode(javax.swing.ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+		if (table_files.getColumnModel().getColumnCount() > 0) {
+			table_files.getColumnModel().getColumn(0).setMinWidth(20);
+			table_files.getColumnModel().getColumn(0).setPreferredWidth(20);
+			table_files.getColumnModel().getColumn(0).setMaxWidth(20);
+			table_files.getColumnModel().getColumn(1).setResizable(false);
+			table_files.getColumnModel().getColumn(2).setMinWidth(50);
+			table_files.getColumnModel().getColumn(2).setPreferredWidth(50);
+			table_files.getColumnModel().getColumn(2).setMaxWidth(50);
+			table_files.getColumnModel().getColumn(2).setCellRenderer(new TableRowStatusRenderer());
+		}
 
-    button_add.setIcon(Icons.icon_plus);
-    button_add.setText("Add");
-    button_add.addMouseListener(new java.awt.event.MouseAdapter() {
-      public void mouseClicked(java.awt.event.MouseEvent evt) {
-        button_add_clicked(evt);
-      }
-    });
+		button_add.setIcon(Icons.icon_plus);
+		button_add.setText("Add");
+		button_add.addMouseListener(new java.awt.event.MouseAdapter()
+		{
+			public void mouseClicked(java.awt.event.MouseEvent evt)
+			{
+				button_add_clicked(evt);
+			}
+		});
 
-    button_remove.setIcon(Icons.icon_minus);
-    button_remove.setText("Remove");
-    button_remove.addMouseListener(new java.awt.event.MouseAdapter() {
-      public void mouseClicked(java.awt.event.MouseEvent evt) {
-        button_remove_clicked(evt);
-      }
-    });
+		button_remove.setIcon(Icons.icon_minus);
+		button_remove.setText("Remove");
+		button_remove.addMouseListener(new java.awt.event.MouseAdapter()
+		{
+			public void mouseClicked(java.awt.event.MouseEvent evt)
+			{
+				button_remove_clicked(evt);
+			}
+		});
 
-    input_files_all.setText("all");
-    input_files_all.addActionListener(new java.awt.event.ActionListener() {
-      public void actionPerformed(java.awt.event.ActionEvent evt) {
-        input_files_all_clicked(evt);
-      }
-    });
+		input_files_all.setText("all");
+		input_files_all.addActionListener(new java.awt.event.ActionListener()
+		{
+			public void actionPerformed(java.awt.event.ActionEvent evt)
+			{
+				input_files_all_clicked(evt);
+			}
+		});
 
-    label_remote_directory.setText("Remote Directory: /");
+		label_remote_directory.setText("Remote Directory: /");
 
-    input_remote_directory.setText(Configuration.dlt_exnode_write_directory_default);
-    input_remote_directory.setToolTipText("remote directory eg. dlt/cloud/dir - use /, \\ or . to delimit the path or leave blank to default to root directory /");
+		input_remote_directory.setText(Configuration.dlt_exnode_write_directory_default);
+		input_remote_directory
+				.setToolTipText("remote directory eg. dlt/cloud/dir - use /, \\ or . to delimit the path or leave blank to default to root directory /");
 
-    javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-    this.setLayout(layout);
-    layout.setHorizontalGroup(
-      layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-      .addGroup(layout.createSequentialGroup()
-        .addComponent(input_files_all)
-        .addGap(18, 18, 18)
-        .addComponent(label_remote_directory)
-        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-        .addComponent(input_remote_directory)
-        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-        .addComponent(button_add)
-        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-        .addComponent(button_remove))
-      .addComponent(scrollpane_files, javax.swing.GroupLayout.DEFAULT_SIZE, 498, Short.MAX_VALUE)
-    );
-    layout.setVerticalGroup(
-      layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-      .addGroup(layout.createSequentialGroup()
-        .addComponent(scrollpane_files, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
-        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-          .addComponent(button_add)
-          .addComponent(button_remove)
-          .addComponent(input_files_all)
-          .addComponent(label_remote_directory)
-          .addComponent(input_remote_directory, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-    );
-  }// </editor-fold>//GEN-END:initComponents
+		javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
+		this.setLayout(layout);
+		layout
+				.setHorizontalGroup(layout
+						.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+						.addGroup(
+								layout.createSequentialGroup().addComponent(input_files_all).addGap(18, 18, 18)
+										.addComponent(label_remote_directory)
+										.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+										.addComponent(input_remote_directory)
+										.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+										.addComponent(button_add)
+										.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+										.addComponent(button_remove))
+						.addComponent(scrollpane_files, javax.swing.GroupLayout.DEFAULT_SIZE, 498,
+								Short.MAX_VALUE));
+		layout.setVerticalGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+				.addGroup(
+						layout
+								.createSequentialGroup()
+								.addComponent(scrollpane_files, javax.swing.GroupLayout.PREFERRED_SIZE, 123,
+										javax.swing.GroupLayout.PREFERRED_SIZE)
+								.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED,
+										javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+								.addGroup(
+										layout
+												.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+												.addComponent(button_add)
+												.addComponent(button_remove)
+												.addComponent(input_files_all)
+												.addComponent(label_remote_directory)
+												.addComponent(input_remote_directory,
+														javax.swing.GroupLayout.PREFERRED_SIZE,
+														javax.swing.GroupLayout.DEFAULT_SIZE,
+														javax.swing.GroupLayout.PREFERRED_SIZE))));
+	}// </editor-fold>//GEN-END:initComponents
 
 	private void input_files_all_clicked(java.awt.event.ActionEvent evt)
 	{// GEN-FIRST:event_input_files_all_clicked
@@ -216,7 +235,7 @@ public class FilesPanel extends javax.swing.JPanel
 				this.notify();
 			}
 		}
-		
+
 		input_files_all.setSelected(files().size() == files_selected().size());
 	}// GEN-LAST:event_button_add_clicked
 
@@ -237,7 +256,7 @@ public class FilesPanel extends javax.swing.JPanel
 				}
 			}
 		}
-		
+
 		input_files_all.setSelected(files().size() == files_selected().size());
 	}// GEN-LAST:event_button_remove_clicked
 
@@ -274,8 +293,9 @@ public class FilesPanel extends javax.swing.JPanel
 	public void add_file(String filename, ui_status status)
 	{
 		DefaultTableModel table_files_model = (DefaultTableModel) table_files.getModel();
-		table_files_model.addRow(new Object[] { false, filename, status == ui_status.processing ? Icons.icon_processing(this) : Status.icon(status) });
-		status_map.put(table_files_model.getRowCount() -1, status);
+		table_files_model.addRow(new Object[] { false, filename,
+				status == ui_status.processing ? Icons.icon_processing(this) : Status.icon(status) });
+		status_map.put(table_files_model.getRowCount() - 1, status);
 	}
 
 	public void add_files(List<String> files, ui_status status)
@@ -304,9 +324,10 @@ public class FilesPanel extends javax.swing.JPanel
 		if (index_file == -1) {
 			return null;
 		}
-//		TableModel table_files_model = table_files.getModel();
+		// TableModel table_files_model = table_files.getModel();
 		try {
-//			return (ui_status) table_files_model.getValueAt(index_file, column_index_status);
+			// return (ui_status) table_files_model.getValueAt(index_file,
+			// column_index_status);
 			return status_map.get(index_file);
 		} catch (Exception e) {
 			return null;
@@ -318,7 +339,8 @@ public class FilesPanel extends javax.swing.JPanel
 		int row_file = index_file(filename);
 		if (row_file != -1) {
 			TableModel table_files_model = table_files.getModel();
-			table_files_model.setValueAt(status == ui_status.processing ? Icons.icon_processing(this) : Status.icon(status), row_file, column_index_status);
+			table_files_model.setValueAt(status == ui_status.processing ? Icons.icon_processing(this)
+					: Status.icon(status), row_file, column_index_status);
 			status_map.put(row_file, status);
 		}
 	}
@@ -516,16 +538,16 @@ public class FilesPanel extends javax.swing.JPanel
 	private static final int column_index_checkbox = 0;
 	private static final int column_index_file = 1;
 	private static final int column_index_status = 2;
-	
+
 	private Map<Integer, ui_status> status_map = new HashMap<Integer, Status.ui_status>();
 
-  // Variables declaration - do not modify//GEN-BEGIN:variables
-  private javax.swing.JButton button_add;
-  private javax.swing.JButton button_remove;
-  private javax.swing.JCheckBox input_files_all;
-  private javax.swing.JTextField input_remote_directory;
-  private javax.swing.JLabel label_remote_directory;
-  private javax.swing.JScrollPane scrollpane_files;
-  public javax.swing.JTable table_files;
-  // End of variables declaration//GEN-END:variables
+	// Variables declaration - do not modify//GEN-BEGIN:variables
+	private javax.swing.JButton button_add;
+	private javax.swing.JButton button_remove;
+	private javax.swing.JCheckBox input_files_all;
+	private javax.swing.JTextField input_remote_directory;
+	private javax.swing.JLabel label_remote_directory;
+	private javax.swing.JScrollPane scrollpane_files;
+	public javax.swing.JTable table_files;
+	// End of variables declaration//GEN-END:variables
 }

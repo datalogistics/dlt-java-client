@@ -97,7 +97,7 @@ public class Depot implements Comparable<Depot>
 
 			if (location != null) {
 				depot.locations.add(location);
-//				System.out.println(depot + ": " + depot.locations);
+				// System.out.println(depot + ": " + depot.locations);
 			}
 
 			if (added) {
@@ -143,7 +143,7 @@ public class Depot implements Comparable<Depot>
 	{
 		new Thread(() -> setup_synchronous()).start();
 	}
-	
+
 	private synchronized void setup_synchronous()
 	{
 		try {
@@ -193,7 +193,7 @@ public class Depot implements Comparable<Depot>
 					log.warning(status());
 				}
 			}));
-			threads.get(threads.size() -1).start();
+			threads.get(threads.size() - 1).start();
 		}
 
 		for (Thread thread : threads) {
@@ -201,9 +201,9 @@ public class Depot implements Comparable<Depot>
 				thread.join(Configuration.dlt_depot_connect_timeout);
 			} catch (InterruptedException e) {
 				continue;
-			}			
+			}
 		}
-		
+
 		/* start inactive connections monitor-releaser */
 		monitor_connections();
 	}
@@ -286,9 +286,9 @@ public class Depot implements Comparable<Depot>
 
 	public boolean connected()
 	{
-//		if(state == depot_state.nascent) {
-//			setup_synchronous();
-//		}
+		// if(state == depot_state.nascent) {
+		// setup_synchronous();
+		// }
 		return state != depot_state.nascent;
 	}
 
@@ -311,7 +311,8 @@ public class Depot implements Comparable<Depot>
 		}
 
 		/* else try to add more connections */
-		if (state != depot_state.nascent && count_connections() < Configuration.dlt_depot_transfer_sockets_max) {
+		if (state != depot_state.nascent
+				&& count_connections() < Configuration.dlt_depot_transfer_sockets_max) {
 			more_connections();
 			return count_connections_ready() > 0 ? connect() : null;
 		}
@@ -351,9 +352,9 @@ public class Depot implements Comparable<Depot>
 			transfer_statistics.try_end(0); // failure
 		}
 
-//		if (transfer_statistics.is_last_failed()) {
-//			less_connections();
-//		}
+		// if (transfer_statistics.is_last_failed()) {
+		// less_connections();
+		// }
 	}
 
 	public synchronized void transfer_statistics_show()
@@ -403,16 +404,16 @@ public class Depot implements Comparable<Depot>
 		if (socket == null) {
 			return null;
 		}
-		
+
 		Allocation allocation = null;
 		try {
 			allocation = IBPCommand.allocateSoftByteArray(socket, this, duration, size);
 		} catch (IBPException e) {
 			throw e;
 		} finally {
-			release(socket, allocation != null ? 1 : 0);	
+			release(socket, allocation != null ? 1 : 0);
 		}
-			
+
 		return allocation;
 	}
 
@@ -422,16 +423,16 @@ public class Depot implements Comparable<Depot>
 		if (socket == null) {
 			return null;
 		}
-		
+
 		Allocation allocation = null;
 		try {
 			allocation = IBPCommand.allocateHardByteArray(socket, this, duration, size);
 		} catch (IBPException e) {
 			throw e;
 		} finally {
-			release(socket, allocation != null ? 1 : 0);	
+			release(socket, allocation != null ? 1 : 0);
 		}
-			
+
 		return allocation;
 	}
 
@@ -441,16 +442,16 @@ public class Depot implements Comparable<Depot>
 		if (socket == null) {
 			return null;
 		}
-		
+
 		Allocation allocation = null;
 		try {
 			allocation = IBPCommand.allocateSoftBuffer(socket, this, duration, size);
 		} catch (IBPException e) {
 			throw e;
 		} finally {
-			release(socket, allocation != null ? 1 : 0);	
+			release(socket, allocation != null ? 1 : 0);
 		}
-		
+
 		return allocation;
 	}
 
@@ -467,9 +468,9 @@ public class Depot implements Comparable<Depot>
 		} catch (IBPException e) {
 			throw e;
 		} finally {
-			release(socket, allocation != null ? 1 : 0);	
+			release(socket, allocation != null ? 1 : 0);
 		}
-			
+
 		return allocation;
 	}
 
@@ -486,9 +487,9 @@ public class Depot implements Comparable<Depot>
 		} catch (IBPException e) {
 			throw e;
 		} finally {
-			release(socket, allocation != null ? 1 : 0);	
+			release(socket, allocation != null ? 1 : 0);
 		}
-			
+
 		return allocation;
 	}
 
@@ -505,9 +506,9 @@ public class Depot implements Comparable<Depot>
 		} catch (IBPException e) {
 			throw e;
 		} finally {
-			release(socket, allocation != null ? 1 : 0);	
+			release(socket, allocation != null ? 1 : 0);
 		}
-			
+
 		return allocation;
 	}
 
@@ -524,9 +525,9 @@ public class Depot implements Comparable<Depot>
 		} catch (IBPException e) {
 			throw e;
 		} finally {
-			release(socket, allocation != null ? 1 : 0);	
+			release(socket, allocation != null ? 1 : 0);
 		}
-			
+
 		return allocation;
 	}
 
@@ -543,9 +544,9 @@ public class Depot implements Comparable<Depot>
 		} catch (IBPException e) {
 			throw e;
 		} finally {
-			release(socket, allocation != null ? 1 : 0);	
+			release(socket, allocation != null ? 1 : 0);
 		}
-			
+
 		return allocation;
 	}
 

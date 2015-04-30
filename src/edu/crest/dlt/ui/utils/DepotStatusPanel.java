@@ -1,3 +1,6 @@
+/*******************************************************************************
+ * Copyright (c) : See the COPYRIGHT file in top-level/project directory
+ *******************************************************************************/
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -49,97 +52,104 @@ public class DepotStatusPanel extends javax.swing.JPanel
 	// <editor-fold defaultstate="collapsed"
 	// <editor-fold defaultstate="collapsed"
 	// <editor-fold defaultstate="collapsed"
-  // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-  private void initComponents() {
+	// <editor-fold defaultstate="collapsed"
+	// desc="Generated Code">//GEN-BEGIN:initComponents
+	private void initComponents()
+	{
 
-    scrollpane_depots = new javax.swing.JScrollPane();
-    table_depots = new javax.swing.JTable(){
-      //Implement table cell tool tips.
-      public String getToolTipText(MouseEvent e) {
-        String tip = null;
-        java.awt.Point p = e.getPoint();
-        int row = rowAtPoint(p);
-        int column = columnAtPoint(p);
+		scrollpane_depots = new javax.swing.JScrollPane();
+		table_depots = new javax.swing.JTable()
+		{
+			// Implement table cell tool tips.
+			public String getToolTipText(MouseEvent e)
+			{
+				String tip = null;
+				java.awt.Point p = e.getPoint();
+				int row = rowAtPoint(p);
+				int column = columnAtPoint(p);
 
-        try {
-          Depot depot = (Depot) getValueAt(row, column_index_depot);
-          tip = depot.connected() ? "connected" : "connection failed (try to refresh)";
-        } catch (RuntimeException e1) {
-          //catch null pointer exception if mouse is over an empty line
-        }
+				try {
+					Depot depot = (Depot) getValueAt(row, column_index_depot);
+					tip = depot.connected() ? "connected" : "connection failed (try to refresh)";
+				} catch (RuntimeException e1) {
+					// catch null pointer exception if mouse is over an empty line
+				}
 
-        return tip;
-      }
-    };
+				return tip;
+			}
+		};
 
-    table_depots.setModel(new javax.swing.table.DefaultTableModel(
-      new Object [][] {
+		table_depots.setModel(new javax.swing.table.DefaultTableModel(new Object[][] {
 
-      },
-      new String [] {
-        "Status", "Depot", "Connection(s)", "Success", "Failure", "MB/s"
-      }
-    ) {
-      Class[] types = new Class [] {
-        java.lang.Object.class, java.lang.Object.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Double.class
-      };
-      boolean[] canEdit = new boolean [] {
-        false, false, false, false, false, false
-      };
+		}, new String[] { "Status", "Depot", "Connection(s)", "Success", "Failure", "MB/s" })
+		{
+			Class[] types = new Class[] { java.lang.Object.class, java.lang.Object.class,
+					java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class,
+					java.lang.Double.class };
+			boolean[] canEdit = new boolean[] { false, false, false, false, false, false };
 
-      public Class getColumnClass(int columnIndex) {
-        return types [columnIndex];
-      }
+			public Class getColumnClass(int columnIndex)
+			{
+				return types[columnIndex];
+			}
 
-      public boolean isCellEditable(int rowIndex, int columnIndex) {
-        return canEdit [columnIndex];
-      }
-    });
-    table_depots.setColumnSelectionAllowed(true);
-    table_depots.setFillsViewportHeight(true);
-    table_depots.getTableHeader().setReorderingAllowed(false);
-    scrollpane_depots.setViewportView(table_depots);
-    table_depots.getTableHeader().getColumnModel().getColumn(column_index_status).setHeaderRenderer(TableHeaderRenderer.header_status);
-    table_depots.getTableHeader().getColumnModel().getColumn(column_index_depot).setHeaderRenderer(TableHeaderRenderer.header_depot);
-    table_depots.getTableHeader().getColumnModel().getColumn(column_index_connections).setHeaderRenderer(TableHeaderRenderer.header_depot_connections);
-    table_depots.getTableHeader().getColumnModel().getColumn(column_index_success).setHeaderRenderer(TableHeaderRenderer.header_success);
-    table_depots.getTableHeader().getColumnModel().getColumn(column_index_fail).setHeaderRenderer(TableHeaderRenderer.header_failure);
-    table_depots.getTableHeader().getColumnModel().getColumn(column_index_throughput).setHeaderRenderer(TableHeaderRenderer.header_speed);
-    table_depots.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_INTERVAL_SELECTION);
-    if (table_depots.getColumnModel().getColumnCount() > 0) {
-      table_depots.getColumnModel().getColumn(0).setMinWidth(40);
-      table_depots.getColumnModel().getColumn(0).setPreferredWidth(40);
-      table_depots.getColumnModel().getColumn(0).setMaxWidth(40);
-      table_depots.getColumnModel().getColumn(0).setCellRenderer(new TableRowStatusRenderer());
-      table_depots.getColumnModel().getColumn(2).setMinWidth(40);
-      table_depots.getColumnModel().getColumn(2).setPreferredWidth(40);
-      table_depots.getColumnModel().getColumn(2).setMaxWidth(40);
-      table_depots.getColumnModel().getColumn(3).setMinWidth(40);
-      table_depots.getColumnModel().getColumn(3).setPreferredWidth(40);
-      table_depots.getColumnModel().getColumn(3).setMaxWidth(40);
-      table_depots.getColumnModel().getColumn(4).setMinWidth(40);
-      table_depots.getColumnModel().getColumn(4).setPreferredWidth(40);
-      table_depots.getColumnModel().getColumn(4).setMaxWidth(40);
-      table_depots.getColumnModel().getColumn(5).setMinWidth(80);
-      table_depots.getColumnModel().getColumn(5).setPreferredWidth(80);
-      table_depots.getColumnModel().getColumn(5).setMaxWidth(80);
-    }
+			public boolean isCellEditable(int rowIndex, int columnIndex)
+			{
+				return canEdit[columnIndex];
+			}
+		});
+		table_depots.setColumnSelectionAllowed(true);
+		table_depots.setFillsViewportHeight(true);
+		table_depots.getTableHeader().setReorderingAllowed(false);
+		scrollpane_depots.setViewportView(table_depots);
+		table_depots.getTableHeader().getColumnModel().getColumn(column_index_status)
+				.setHeaderRenderer(TableHeaderRenderer.header_status);
+		table_depots.getTableHeader().getColumnModel().getColumn(column_index_depot)
+				.setHeaderRenderer(TableHeaderRenderer.header_depot);
+		table_depots.getTableHeader().getColumnModel().getColumn(column_index_connections)
+				.setHeaderRenderer(TableHeaderRenderer.header_depot_connections);
+		table_depots.getTableHeader().getColumnModel().getColumn(column_index_success)
+				.setHeaderRenderer(TableHeaderRenderer.header_success);
+		table_depots.getTableHeader().getColumnModel().getColumn(column_index_fail)
+				.setHeaderRenderer(TableHeaderRenderer.header_failure);
+		table_depots.getTableHeader().getColumnModel().getColumn(column_index_throughput)
+				.setHeaderRenderer(TableHeaderRenderer.header_speed);
+		table_depots.getColumnModel().getSelectionModel()
+				.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_INTERVAL_SELECTION);
+		if (table_depots.getColumnModel().getColumnCount() > 0) {
+			table_depots.getColumnModel().getColumn(0).setMinWidth(40);
+			table_depots.getColumnModel().getColumn(0).setPreferredWidth(40);
+			table_depots.getColumnModel().getColumn(0).setMaxWidth(40);
+			table_depots.getColumnModel().getColumn(0).setCellRenderer(new TableRowStatusRenderer());
+			table_depots.getColumnModel().getColumn(2).setMinWidth(40);
+			table_depots.getColumnModel().getColumn(2).setPreferredWidth(40);
+			table_depots.getColumnModel().getColumn(2).setMaxWidth(40);
+			table_depots.getColumnModel().getColumn(3).setMinWidth(40);
+			table_depots.getColumnModel().getColumn(3).setPreferredWidth(40);
+			table_depots.getColumnModel().getColumn(3).setMaxWidth(40);
+			table_depots.getColumnModel().getColumn(4).setMinWidth(40);
+			table_depots.getColumnModel().getColumn(4).setPreferredWidth(40);
+			table_depots.getColumnModel().getColumn(4).setMaxWidth(40);
+			table_depots.getColumnModel().getColumn(5).setMinWidth(80);
+			table_depots.getColumnModel().getColumn(5).setPreferredWidth(80);
+			table_depots.getColumnModel().getColumn(5).setMaxWidth(80);
+		}
 
-    javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-    this.setLayout(layout);
-    layout.setHorizontalGroup(
-      layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-      .addGroup(layout.createSequentialGroup()
-        .addComponent(scrollpane_depots, javax.swing.GroupLayout.DEFAULT_SIZE, 580, Short.MAX_VALUE)
-        .addGap(0, 0, 0))
-    );
-    layout.setVerticalGroup(
-      layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-      .addGroup(layout.createSequentialGroup()
-        .addComponent(scrollpane_depots, javax.swing.GroupLayout.DEFAULT_SIZE, 680, Short.MAX_VALUE)
-        .addGap(0, 0, 0))
-    );
-  }// </editor-fold>//GEN-END:initComponents
+		javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
+		this.setLayout(layout);
+		layout.setHorizontalGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+				.addGroup(
+						layout
+								.createSequentialGroup()
+								.addComponent(scrollpane_depots, javax.swing.GroupLayout.DEFAULT_SIZE, 580,
+										Short.MAX_VALUE).addGap(0, 0, 0)));
+		layout.setVerticalGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+				.addGroup(
+						layout
+								.createSequentialGroup()
+								.addComponent(scrollpane_depots, javax.swing.GroupLayout.DEFAULT_SIZE, 680,
+										Short.MAX_VALUE).addGap(0, 0, 0)));
+	}// </editor-fold>//GEN-END:initComponents
 
 	public void start_sync_depots()
 	{
@@ -150,12 +160,12 @@ public class DepotStatusPanel extends javax.swing.JPanel
 					sync_depots();
 
 					try {
-						Thread.sleep(500);//Configuration.dlt_exnode_transfer_log_interval);
-					} catch (Exception e) {
-						break;
-					}
+						Thread.sleep(500);// Configuration.dlt_exnode_transfer_log_interval);
+				} catch (Exception e) {
+					break;
 				}
-			});
+			}
+		}	);
 			thread.start();
 		}
 	}
@@ -235,10 +245,11 @@ public class DepotStatusPanel extends javax.swing.JPanel
 	private static final int column_index_fail = 4;
 	private static final int column_index_throughput = 5;
 
-  // Variables declaration - do not modify//GEN-BEGIN:variables
-  private javax.swing.JScrollPane scrollpane_depots;
-  public javax.swing.JTable table_depots;
-  // End of variables declaration//GEN-END:variables
+	// Variables declaration - do not modify//GEN-BEGIN:variables
+	private javax.swing.JScrollPane scrollpane_depots;
+	public javax.swing.JTable table_depots;
+
+	// End of variables declaration//GEN-END:variables
 
 	public static class HeaderIconRenderer extends DefaultTableCellRenderer
 	{

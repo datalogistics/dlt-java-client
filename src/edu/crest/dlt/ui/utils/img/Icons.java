@@ -60,7 +60,7 @@ public class Icons
 			return new ImageIcon();
 		}
 	}
-	
+
 	public static final Icon icon_processing(JComponent component)
 	{
 		return new RotatingIcon(icon_spinning, component);

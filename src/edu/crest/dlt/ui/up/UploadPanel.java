@@ -260,7 +260,7 @@ public class UploadPanel extends javax.swing.JPanel
 					button_upload.setEnabled(true);
 					panel_transfer_settings.enable();
 					panel_depot_stats.stop_sync_depots();
-					
+
 					Toolkit.getDefaultToolkit().beep();
 				}).start();
 	}// GEN-LAST:event_button_upload_clicked
@@ -384,14 +384,14 @@ public class UploadPanel extends javax.swing.JPanel
 			panel_files.status_file(filename, ui_status.file_not_found);
 		} else {
 			/* if exnode is not in ready state yet, */
-//			if (!exnode.accessible(service_exnode.write)) {
-//				try {
-//					/* wait for connection-setup timeout */
-//					Thread.sleep(Configuration.dlt_depot_connect_timeout);
-//				} catch (InterruptedException e) {
-//					e.printStackTrace();
-//				}
-//			}
+			// if (!exnode.accessible(service_exnode.write)) {
+			// try {
+			// /* wait for connection-setup timeout */
+			// Thread.sleep(Configuration.dlt_depot_connect_timeout);
+			// } catch (InterruptedException e) {
+			// e.printStackTrace();
+			// }
+			// }
 			if (!exnode.accessible(service_exnode.write)) {
 				/*
 				 * if exnode is still not ready, declare the file-"name" waiting for
@@ -416,16 +416,16 @@ public class UploadPanel extends javax.swing.JPanel
 				if (panel_files.status_file(entry.getKey()) == ui_status.uploading) {
 					continue;
 				}
-				
+
 				/* if exnode is not in ready state yet, */
-//				if (!entry.getValue().accessible(service_exnode.write)) {
-//					try {
-//						/* wait for connection-setup timeout */
-//						Thread.sleep(Configuration.dlt_depot_connect_timeout);
-//					} catch (InterruptedException e) {
-//						e.printStackTrace();
-//					}
-//				}
+				// if (!entry.getValue().accessible(service_exnode.write)) {
+				// try {
+				// /* wait for connection-setup timeout */
+				// Thread.sleep(Configuration.dlt_depot_connect_timeout);
+				// } catch (InterruptedException e) {
+				// e.printStackTrace();
+				// }
+				// }
 				if (!entry.getValue().accessible(service_exnode.write)) {
 					/*
 					 * if exnode is still not ready, declare the file-"name" waiting for
@@ -476,7 +476,7 @@ public class UploadPanel extends javax.swing.JPanel
 	// }).start();
 	// }
 	// }
-	
+
 	public edu.crest.dlt.ui.utils.DepotStatusPanel panel_depot_stats;
 
 	// Variables declaration - do not modify//GEN-BEGIN:variables
