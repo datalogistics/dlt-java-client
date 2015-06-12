@@ -40,8 +40,7 @@ public class MapProgressListener implements ProgressListener
 		try {
 			IO.Options opts = new IO.Options();
 			opts.forceNew = true;
-			this.mapSocket = IO.socket(Configuration.dlt_ui_progress_map_view_url, opts);
-
+			this.mapSocket = IO.socket(Configuration.dlt_ui_progress_map_send_url, opts);		
 			mapSocket.on(Socket.EVENT_CONNECT, new Emitter.Listener()
 			{
 				@Override
