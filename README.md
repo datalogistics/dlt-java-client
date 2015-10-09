@@ -193,6 +193,22 @@ dlt.incntre.iu.edu:/var/www/webstart/lib/ (requires sudo access)
 
 4. Test the deployment by visiting the [web interface][DLT-web]; fill your shopping cart; click the download button to obtain the .jnlp; and execute it
 
+
+### Converting SSL keys to a java keystore 
+Taken from [Stackoverflow Creating Keystore](http://stackoverflow.com/questions/906402/importing-an-existing-x509-certificate-and-private-key-in-java-keystore-to-use-i)
+Also remember the CA should allow code signing for SSL keys -  [Code Signing cert?](http://security.stackexchange.com/questions/49543/java-applet-need-code-signing-certificate-vs-ssl-certificate)
+
+		openssl pkcs12 -export -in server.crt -inkey server.key \
+		               -out server.p12 -name [some-alias] \
+		               -CAfile ca.crt -caname root
+		
+		
+		keytool -importkeystore \
+		        -deststorepass [changeit] -destkeypass [changeit] -destkeystore server.keystore \
+		        -srckeystore server.p12 -srcstoretype PKCS12 -srcstorepass some-password \
+		        -alias [some-alias]
+
+
 [DLT]: http://www.data-logistics.org/ "Data Logistics Toolkit Homepage"
 [DLT-dev]: http://dev.incntre.iu.edu:8888/ "DLT development/testing server"
 [DLT-web]: http://dlt.incntre.iu.edu:42424/ "DLT web interface"
