@@ -34,9 +34,15 @@
 						<descriptorRef>jar-with-dependencies</descriptorRef>
 					</descriptorRefs>
 					<archive>
-						<manifest>
-							<mainClass>edu.crest.dlt.ui.main.UploadDownloadFrame</mainClass>
-						</manifest>
+						<manifestEntries>
+							<Manifest-Version>1.0</Manifest-Version>
+							<Codebase>*</Codebase>
+							<Permissions>all-permissions</Permissions>	
+							<Application-Library-Allowable-Codebase>*</Application-Library-Allowable-Codebase>
+							<Caller-Allowable-Codebase>*</Caller-Allowable-Codebase>
+							<Application-Name>DLT Client</Application-Name>
+							<Main-Class>edu.crest.dlt.ui.main.UploadDownloadFrame</Main-Class>
+						</manifestEntries>										
 					</archive>
 				</configuration>
 				<executions>
@@ -55,9 +61,8 @@
 					<source>1.8</source>
 					<target>1.8</target>
 				</configuration>
-			</plugin>
-			<!-- To use when we can actually make a keystore to use  
-			<plugin>
+			</plugin>			  
+			<!-- <plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-jarsigner-plugin</artifactId>
 				<version>1.4</version>
@@ -71,10 +76,11 @@
 					</execution>
 				</executions>
 				<configuration>
-					<keystore>server.keystore</keystore>
-					<alias>dlt.crest</alias>
-					<storepass>dlt.crest</storepass>
-					<keypass>dlt.crest</keypass>
+					<storetype>pkcs12</storetype>
+					<keystore>/home/el/kk.p12</keystore>
+					<alias>indiana university's internet2 id</alias>
+					<storepass>dlt@crest</storepass>
+					<keypass>dlt@crest</keypass>
 				</configuration>
 			</plugin> -->
 		</plugins>
