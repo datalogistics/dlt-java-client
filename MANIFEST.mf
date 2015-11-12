@@ -1,0 +1,7 @@
+Manifest-Version: 1.0  
+  Codebase: *
+  Permissions: all-permissions
+  Application-Library-Allowable-Codebase: *
+  Caller-Allowable-Codebase: *
+  Application-Name: DLT Client
+  Main-Class: edu.crest.dlt.ui.main.UploadDownloadFrame  
