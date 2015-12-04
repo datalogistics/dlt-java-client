@@ -908,10 +908,14 @@ public class Exnode extends MetadataContainer
 
 	public synchronized void transfer_jobs_clear()
 	{
-		synchronized (transfer_jobs) {
-			int count_transfer_jobs = transfer_jobs.size();
-			transfer_jobs = null;
-			log.severe(this + " cleared " + count_transfer_jobs + " transfer jobs.");
+		if (null != transfer_jobs)
+		{
+			synchronized (transfer_jobs) {
+				int count_transfer_jobs = 0;
+				count_transfer_jobs = transfer_jobs.size();
+				transfer_jobs = null;
+				log.severe(this + " cleared " + count_transfer_jobs + " transfer jobs.");
+			}
 		}
 	}
 

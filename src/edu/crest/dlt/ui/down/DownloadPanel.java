@@ -282,6 +282,7 @@ public class DownloadPanel extends javax.swing.JPanel
 					Exnode exnode_to_download = map_filename_exnode.get(file_to_download);
 					if (exnode_to_download == null) {
 						log.severe("failed to retrieve exnode for : " + file_to_download);
+						invalid_exnode_message(file_to_download);
 						panel_files.status_file(file_to_download, ui_status.transfer_aborted);
 						continue;
 					}
@@ -313,6 +314,14 @@ public class DownloadPanel extends javax.swing.JPanel
 						ui_status previousStatus = panel_files.status_file(file_to_download);
 						if (ui_status.downloading == previousStatus) {
 							panel_files.status_file(file_to_download, ui_status.transfer_failed);
+							exception_message(file_to_download);
+							panel_files.deselect_files_all();
+							panel_transfer_progress.clear();
+
+							panel_transfer_settings.enable();
+							panel_output_directory.enable();
+							button_download.setEnabled(true);
+
 						} else if (ui_status.transfer_aborting == previousStatus
 								|| ui_status.transfer_aborted == previousStatus) {
 							panel_files.status_file(file_to_download, ui_status.transfer_aborted);
@@ -322,6 +331,7 @@ public class DownloadPanel extends javax.swing.JPanel
 					e.printStackTrace();
 					log.warning("failed to download " + file_to_download + ". " + e.getMessage());
 					panel_files.status_file(file_to_download, ui_status.transfer_failed);
+					exception_message(file_to_download);
 				}
 
 				count_files_to_download--;
@@ -338,6 +348,19 @@ public class DownloadPanel extends javax.swing.JPanel
 		}).start();
 	}// GEN-LAST:event_button_download_clicked
 
+	/*SGS - 159*/
+	private void invalid_exnode_message(String path)
+	{
+		String Message = "Invalid exnode: " + path;
+		JOptionPane.showMessageDialog(new JFrame(), Message, "", JOptionPane.ERROR_MESSAGE);
+	}
+
+	private void exception_message(String filename)
+	{
+		String Message = "Exnode or Network Failure: Failed to download " + filename;
+		JOptionPane.showMessageDialog(new JFrame(), Message, "", JOptionPane.ERROR_MESSAGE);
+	}
+	
 	private Map<String, ArrayList<URL>> obtain_local_exnodes_get_urls()
 	{
 		Map<String, ArrayList<URL>> hostNRefIdDict = new HashMap<String, ArrayList<URL>>();
