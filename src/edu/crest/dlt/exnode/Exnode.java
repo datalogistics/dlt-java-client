@@ -894,16 +894,20 @@ public class Exnode extends MetadataContainer
 
 	public synchronized void transfer_threads_interrupt()
 	{
-		transfer_threads.forEach((t) -> t.interrupt());
-		log.severe(this + " interrupted " + transfer_threads.size() + " transfer threads.");
+		if (transfer_threads != null)
+		{
+			transfer_threads.forEach((t) -> t.interrupt());
+		
+			log.severe(this + " interrupted " + transfer_threads.size() + " transfer threads.");
 
-		transfer_threads.forEach((t) -> {
-			int count = 100;
-			while (count > 0 && t.isAlive()) {
-				// log.warning(this + ": waiting for " + t);
-				count--;
-			}
-		});
+			transfer_threads.forEach((t) -> {
+				int count = 100;
+				while (count > 0 && t.isAlive()) {
+					// log.warning(this + ": waiting for " + t);
+					count--;
+				}
+			});
+		}
 	}
 
 	public synchronized void transfer_jobs_clear()
@@ -982,7 +986,10 @@ public class Exnode extends MetadataContainer
 		input_file_reader_stop();
 		output_file_writer_stop();
 
-		transfer_thread_monitor.interrupt();
+		if (transfer_thread_monitor != null)
+		{
+			transfer_thread_monitor.interrupt();			
+		}
 		log.severe(status());
 	}
 
@@ -1006,7 +1013,7 @@ public class Exnode extends MetadataContainer
 		input_file_reader_stop();
 		output_file_writer_stop();
 
-		transfer_thread_monitor.interrupt();
+		//transfer_thread_monitor.interrupt();
 		log.warning(status());
 	}
 

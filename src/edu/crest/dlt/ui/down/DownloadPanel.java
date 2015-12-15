@@ -315,12 +315,6 @@ public class DownloadPanel extends javax.swing.JPanel
 						if (ui_status.downloading == previousStatus) {
 							panel_files.status_file(file_to_download, ui_status.transfer_failed);
 							exception_message(file_to_download);
-							panel_files.deselect_files_all();
-							panel_transfer_progress.clear();
-
-							panel_transfer_settings.enable();
-							panel_output_directory.enable();
-							button_download.setEnabled(true);
 
 						} else if (ui_status.transfer_aborting == previousStatus
 								|| ui_status.transfer_aborted == previousStatus) {
@@ -358,7 +352,7 @@ public class DownloadPanel extends javax.swing.JPanel
 	private void exception_message(String filename)
 	{
 		String Message = "Exnode or Network Failure: Failed to download " + filename;
-		JOptionPane.showMessageDialog(new JFrame(), Message, "", JOptionPane.ERROR_MESSAGE);
+		JOptionPane.showMessageDialog(null, Message, "", JOptionPane.ERROR_MESSAGE);
 	}
 	
 	private Map<String, ArrayList<URL>> obtain_local_exnodes_get_urls()
@@ -487,7 +481,8 @@ public class DownloadPanel extends javax.swing.JPanel
 				List<Exnode> exnodes = url(url.toString());
 
 				if (exnodes == null || exnodes.isEmpty()) {
-					map_filename_exnode.put(url.getPath(), null);
+					//map_filename_exnode.put(url.getPath(), null);
+					invalid_exnode_message(url.toString());
 					continue;
 				}
 
