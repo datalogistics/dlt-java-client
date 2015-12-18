@@ -240,7 +240,7 @@ public class DownloadPanel extends javax.swing.JPanel
 				}
 				// count--;
 			}
-			panel_files.deselect_files_all();
+			//panel_files.deselect_files_all();
 			panel_transfer_progress.clear();
 
 			panel_transfer_settings.enable();
@@ -305,20 +305,23 @@ public class DownloadPanel extends javax.swing.JPanel
 					panel_transfer_progress.size(bytes_to_download);
 					exnode_to_download.add(panel_transfer_progress);
 
-					panel_files.status_file(file_to_download, ui_status.downloading);
-					if (exnode_to_download.read(target_file_absolute_path,
-							(int) panel_transfer_settings.transfer_size(),
-							panel_transfer_settings.count_connections())) {
-						panel_files.status_file(file_to_download, ui_status.transfer_sucess);
-					} else {
-						ui_status previousStatus = panel_files.status_file(file_to_download);
-						if (ui_status.downloading == previousStatus) {
-							panel_files.status_file(file_to_download, ui_status.transfer_failed);
-							exception_message(file_to_download);
-
-						} else if (ui_status.transfer_aborting == previousStatus
-								|| ui_status.transfer_aborted == previousStatus) {
-							panel_files.status_file(file_to_download, ui_status.transfer_aborted);
+					if (!(ui_status.transfer_aborted == panel_files.status_file(file_to_download)))
+					{					
+						panel_files.status_file(file_to_download, ui_status.downloading);
+						if (exnode_to_download.read(target_file_absolute_path,
+								(int) panel_transfer_settings.transfer_size(),
+								panel_transfer_settings.count_connections())) {
+							panel_files.status_file(file_to_download, ui_status.transfer_sucess);
+						} else {
+							ui_status previousStatus = panel_files.status_file(file_to_download);
+							if (ui_status.downloading == previousStatus) {
+								panel_files.status_file(file_to_download, ui_status.transfer_failed);
+								exception_message(file_to_download);
+	
+							} else if (ui_status.transfer_aborting == previousStatus
+									|| ui_status.transfer_aborted == previousStatus) {
+								panel_files.status_file(file_to_download, ui_status.transfer_aborted);
+							}
 						}
 					}
 				} catch (Exception e) {
